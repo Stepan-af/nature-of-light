@@ -50,15 +50,16 @@ jobs:
       # Hosting isn't chosen yet: until the repository variable DEPLOY_ENABLED is
       # set to "true" (Settings → Secrets and variables → Actions → Variables),
       # pushes only build and check the site, so they don't fail on missing FTP secrets.
-      - name: Upload to hosting (FTPS)
+      - name: Upload to hosting (FTP)
         if: ${{ vars.DEPLOY_ENABLED == 'true' }}
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          # ftps (explicit TLS, recommended) | ftp | ftps-legacy
-          protocol: ftps
+          # Repository variable FTP_PROTOCOL: ftps (explicit TLS) | ftp | ftps-legacy.
+          # Timeweb shared hosting has no FTPS (AUTH TLS → "530 Please login with USER and PASS"), use ftp.
+          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
           local-dir: ./dist/
           # e.g. /public_html/ or /www/prirodasveta.ru/ — must end with a slash
           server-dir: ${{ secrets.FTP_SERVER_DIR }}

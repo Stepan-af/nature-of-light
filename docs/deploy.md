@@ -19,9 +19,9 @@ git push в main  ──►  GitHub Actions: npm ci → npm run build (astro che
 
 ## Timeweb (текущий хостинг)
 
-- **Тестовый домен:** `https://nature-of-lights.cc716168.tw1.ru` — переменные репозитория `SITE_URL=https://nature-of-lights.cc716168.tw1.ru`, `NOINDEX=true`, `DEPLOY_ENABLED=true`.
+- **Тестовый домен:** `https://nature-of-lights.cc716168.tw1.ru` — переменные репозитория `SITE_URL=https://nature-of-lights.cc716168.tw1.ru`, `NOINDEX=true`, `DEPLOY_ENABLED=true`, `FTP_PROTOCOL=ftp`.
 - **Папка сайта:** панель → «Сайты» → у сайта, к которому привязан поддомен, указана директория (обычно `nature-of-lights/public_html`). В `FTP_SERVER_DIR` — этот путь относительно домашней папки, со слешем в конце: `nature-of-lights/public_html/`. Удалите из папки стандартный `index.html` заглушки Timeweb.
-- **FTP:** хост и логин — панель → дашборд → блок «Доступ по FTP» (хост вида `vhXXX.timeweb.ru`). Лучше создать отдельного пользователя: «Пользователи ПУ/FTP» → доступ «Файлы по FTP», ограничить директорией сайта. Шифрование: `protocol: ftps` (explicit TLS); если загрузка падает на TLS — поставьте `ftp`.
+- **FTP:** хост и логин — панель → дашборд → блок «Доступ по FTP» (хост вида `vhXXX.timeweb.ru`). Лучше создать отдельного пользователя: «Пользователи ПУ/FTP» → доступ «Файлы по FTP», ограничить директорией сайта. FTPS на shared-хостинге Timeweb нет (ошибка `530 Please login with USER and PASS` сразу после подключения) — задайте переменную репозитория `FTP_PROTOCOL=ftp` или перейдите на SFTP (раздел ниже).
 - **PHP:** «Сайты» → настройки сайта → версия PHP 8.2+.
 - **SSL:** «SSL-сертификаты» → бесплатный Let's Encrypt для поддомена. Без HTTPS не работает вход в `/admin/`.
 - **Почта для форм:** `mail()` работает, но отправитель должен быть ящиком на домене аккаунта. На тестовом домене проще проверять формы через Telegram, e-mail — после подключения основного домена и создания ящика.
