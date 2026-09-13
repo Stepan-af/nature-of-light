@@ -42,9 +42,10 @@ jobs:
       - name: Build (astro check + astro build)
         run: npm run build
         env:
-          # Production domain (canonical URLs, sitemap, OG). Optional repository
-          # variable SITE_URL overrides the default; keep robots.txt in sync.
+          # Repository variables. Test domain: SITE_URL=https://nature-of-lights.cc716168.tw1.ru, NOINDEX=true.
+          # Production: SITE_URL=https://prirodasveta.ru (or unset), NOINDEX=false (or unset).
           SITE_URL: ${{ vars.SITE_URL || 'https://prirodasveta.ru' }}
+          NOINDEX: ${{ vars.NOINDEX || 'false' }}
 
       # Hosting isn't chosen yet: until the repository variable DEPLOY_ENABLED is
       # set to "true" (Settings → Secrets and variables → Actions → Variables),

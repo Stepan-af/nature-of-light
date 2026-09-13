@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig, fontProviders } from 'astro/config';
+import { defineConfig, envField, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 /**
@@ -21,8 +21,16 @@ const adminDevRoute = {
 
 // https://astro.build/config
 export default defineConfig({
-  // Production domain. Used for canonical URLs, sitemap and Open Graph.
+  // Public URL of the deployment (canonical URLs, sitemap, Open Graph, robots.txt).
+  // Set SITE_URL for test domains; the default is the production domain.
   site: process.env.SITE_URL ?? 'https://prirodasveta.ru',
+  env: {
+    schema: {
+      // true on test domains: robots.txt disallows everything and every page gets
+      // <meta name="robots" content="noindex">. Must be false for production.
+      NOINDEX: envField.boolean({ context: 'server', access: 'public', default: false }),
+    },
+  },
   output: 'static',
   trailingSlash: 'always',
   build: {

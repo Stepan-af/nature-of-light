@@ -17,12 +17,22 @@ git push в main  ──►  GitHub Actions: npm ci → npm run build (astro che
 
 Если на хостинге nginx без Apache — перенесите правила из `public/.htaccess` в конфиг nginx (редиректы, кэш, заголовки, запрет `api/config.php`).
 
+## Timeweb (текущий хостинг)
+
+- **Тестовый домен:** `https://nature-of-lights.cc716168.tw1.ru` — переменные репозитория `SITE_URL=https://nature-of-lights.cc716168.tw1.ru`, `NOINDEX=true`, `DEPLOY_ENABLED=true`.
+- **Папка сайта:** панель → «Сайты» → у сайта, к которому привязан поддомен, указана директория (обычно `nature-of-lights/public_html`). В `FTP_SERVER_DIR` — этот путь относительно домашней папки, со слешем в конце: `nature-of-lights/public_html/`. Удалите из папки стандартный `index.html` заглушки Timeweb.
+- **FTP:** хост и логин — панель → дашборд → блок «Доступ по FTP» (хост вида `vhXXX.timeweb.ru`). Лучше создать отдельного пользователя: «Пользователи ПУ/FTP» → доступ «Файлы по FTP», ограничить директорией сайта. Шифрование: `protocol: ftps` (explicit TLS); если загрузка падает на TLS — поставьте `ftp`.
+- **PHP:** «Сайты» → настройки сайта → версия PHP 8.2+.
+- **SSL:** «SSL-сертификаты» → бесплатный Let's Encrypt для поддомена. Без HTTPS не работает вход в `/admin/`.
+- **Почта для форм:** `mail()` работает, но отправитель должен быть ящиком на домене аккаунта. На тестовом домене проще проверять формы через Telegram, e-mail — после подключения основного домена и создания ящика.
+- При переходе на боевой домен: `SITE_URL=https://prirodasveta.ru`, `NOINDEX=false`, `site_url` в `public/admin/config.yml`, блок HTTPS в `.htaccess`.
+
 ## Первая настройка
 
 1. **Репозиторий.** Создайте приватный репозиторий на GitHub и отправьте туда проект (ветка `main`).
 2. **Домен.** Если домен не `prirodasveta.ru`, замените его:
-   - `astro.config.mjs` → `site` (или переменная репозитория `SITE_URL`, см. ниже);
-   - `public/robots.txt` → строка `Sitemap:`;
+   - переменная репозитория `SITE_URL` (по умолчанию в `astro.config.mjs` — `https://prirodasveta.ru`); `robots.txt` и `sitemap` строятся из неё автоматически;
+   - для тестового домена — ещё переменная `NOINDEX=true` (закрывает сайт от индексации);
    - `public/.htaccess` → блок «HTTPS + canonical host»;
    - `public/admin/config.yml` → `site_url`;
    - `public/api/config.php` на сервере → `allowed_hosts`.

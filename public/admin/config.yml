@@ -26,7 +26,7 @@ backend:
     deleteMedia: 'CMS: удалён файл {{path}}'
 
 app_title: Природа Света — редактор сайта
-site_url: https://prirodasveta.ru
+site_url: https://nature-of-lights.cc716168.tw1.ru  # test domain; switch to https://prirodasveta.ru at launch
 logo:
   src: /icon-512.png
   show_in_header: true

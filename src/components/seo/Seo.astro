@@ -1,4 +1,5 @@
 ---
+import { NOINDEX } from 'astro:env/server';
 import { settings } from '@/lib/site';
 
 export interface Props {
@@ -21,7 +22,7 @@ const ogImage = new URL(image, Astro.site);
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
-{noindex && <meta name="robots" content="noindex, nofollow" />}
+{(noindex || NOINDEX) && <meta name="robots" content="noindex, nofollow" />}
 
 <meta property="og:type" content={type} />
 <meta property="og:locale" content="ru_RU" />
