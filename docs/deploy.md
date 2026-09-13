@@ -21,7 +21,7 @@ git push в main  ──►  GitHub Actions: npm ci → npm run build (astro che
 
 - **Тестовый домен:** `https://nature-of-lights.cc716168.tw1.ru` — переменные репозитория `SITE_URL=https://nature-of-lights.cc716168.tw1.ru`, `NOINDEX=true`, `DEPLOY_ENABLED=true`, `FTP_PROTOCOL=ftp`.
 - **Папка сайта:** панель → «Сайты» → у сайта, к которому привязан поддомен, указана директория (обычно `nature-of-lights/public_html`). В `FTP_SERVER_DIR` — этот путь относительно домашней папки, со слешем в конце: `nature-of-lights/public_html/`. Удалите из папки стандартный `index.html` заглушки Timeweb.
-- **FTP:** хост и логин — панель → дашборд → блок «Доступ по FTP» (хост вида `vhXXX.timeweb.ru`). Лучше создать отдельного пользователя: «Пользователи ПУ/FTP» → доступ «Файлы по FTP», ограничить директорией сайта. FTPS на shared-хостинге Timeweb нет (ошибка `530 Please login with USER and PASS` сразу после подключения) — задайте переменную репозитория `FTP_PROTOCOL=ftp` или перейдите на SFTP (раздел ниже).
+- **FTP:** хост и логин — панель → дашборд → блок «Доступ по FTP» (хост вида `vhXXX.timeweb.ru`). Лучше создать отдельного пользователя: «Пользователи ПУ/FTP» → доступ «Файлы по FTP», ограничить директорией сайта. FTPS на shared-хостинге Timeweb нет (ошибка `530 Please login with USER and PASS` сразу после подключения) — задайте переменную репозитория `FTP_PROTOCOL=ftp` или перейдите на rsync по SSH (раздел ниже, рекомендуется).
 - **PHP:** «Сайты» → настройки сайта → версия PHP 8.2+.
 - **SSL:** «SSL-сертификаты» → бесплатный Let's Encrypt для поддомена. Без HTTPS не работает вход в `/admin/`.
 - **Почта для форм:** `mail()` работает, но отправитель должен быть ящиком на домене аккаунта. На тестовом домене проще проверять формы через Telegram, e-mail — после подключения основного домена и создания ящика.
@@ -58,13 +58,36 @@ git push в main  ──►  GitHub Actions: npm ci → npm run build (astro che
 ## Как проходит публикация
 
 - Любой коммит в `main` (от разработчика или из `/admin/`) запускает workflow.
-- `npm run build` запускает `astro check` — если в контенте ошибка (например, не заполнено обязательное поле или удалена картинка), сборка упадёт, **сайт не изменится**, а на вкладке Actions будет красный крестик с описанием ошибки.
+- `npm run build` запускает `astro check`, `astro build` и `scripts/prune-unused-assets.mjs` (удаляет из `dist/_astro` файлы, на которые не ссылается ни одна страница — Astro генерирует лишние варианты картинок, а по FTP каждый файл грузится отдельно) — если в контенте ошибка (например, не заполнено обязательное поле или удалена картинка), сборка упадёт, **сайт не изменится**, а на вкладке Actions будет красный крестик с описанием ошибки.
 - Два деплоя одновременно не выполняются (очередь `concurrency`).
 - Повторить деплой: Actions → Deploy → последний запуск → *Re-run jobs*.
 
-## SFTP вместо FTPS
+## rsync по SSH (рекомендуется)
 
-Если хостинг даёт SSH-доступ, надёжнее rsync по SSH: в конце `.github/workflows/deploy.yml` есть закомментированный шаг. Замените им шаг FTPS и добавьте секреты `SSH_HOST`, `SSH_PORT`, `SSH_USER`, `SSH_PRIVATE_KEY` (приватный ключ, публичный — в `~/.ssh/authorized_keys` на сервере). `--exclude=api/config.php` защищает настройки форм от удаления.
+Быстрее и безопаснее FTP: одно сжатое зашифрованное соединение, передаются только изменившиеся файлы. Шаг уже есть в workflow, включается переменной `DEPLOY_METHOD=rsync`.
+
+1. **Включить SSH** (Timeweb: дашборд → «Статус сервисов» → SSH). Работает только для основного пользователя аккаунта (логин вида `cc716168`), хост — `vhXXX.timeweb.ru`, порт 22.
+2. **Ключ для деплоя** (на своём компьютере, без пароля):
+   ```bash
+   ssh-keygen -t ed25519 -N "" -C "github-deploy" -f ~/.ssh/nature_of_lights_deploy
+   ssh-copy-id -i ~/.ssh/nature_of_lights_deploy.pub cc716168@vhXXX.timeweb.ru   # спросит пароль от панели
+   ssh -i ~/.ssh/nature_of_lights_deploy cc716168@vhXXX.timeweb.ru 'pwd && ls nature-of-lights'   # проверка
+   ```
+   Если `ssh-copy-id` недоступен — добавьте содержимое `.pub` строкой в `~/.ssh/authorized_keys` на сервере через файловый менеджер (права: папка `.ssh` — 700, файл — 600).
+3. **Секреты GitHub:**
+
+   | Секрет | Значение |
+   |---|---|
+   | `SSH_HOST` | `vhXXX.timeweb.ru` |
+   | `SSH_USER` | `cc716168` |
+   | `SSH_PRIVATE_KEY` | содержимое `~/.ssh/nature_of_lights_deploy` (приватный ключ целиком) |
+   | `SSH_KNOWN_HOSTS` | вывод `ssh-keyscan vhXXX.timeweb.ru` (необязательно, но защищает от подмены сервера) |
+   | `DEPLOY_PATH` | `nature-of-lights/public_html/` (от домашней папки, со слешем в конце) |
+
+   Через GitHub CLI: `gh secret set SSH_PRIVATE_KEY < ~/.ssh/nature_of_lights_deploy` и т. д.
+4. **Переменная** `DEPLOY_METHOD=rsync`. FTP-секреты после проверки можно удалить.
+
+`rsync --delete` удаляет на сервере всё, чего нет в сборке, кроме `api/config.php` — не кладите в папку сайта ничего постороннего.
 
 ## Что проверить после первого деплоя
 
