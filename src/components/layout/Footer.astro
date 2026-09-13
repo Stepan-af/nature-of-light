@@ -1,0 +1,223 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import { settings, phoneHref } from '@/lib/site';
+import logo from '@/assets/brand/logo-mark.jpg';
+
+const categories = (await getCollection('categories')).sort((a, b) => a.data.order - b.data.order);
+
+const columns = [
+  {
+    title: 'Продукция',
+    links: [
+      ...categories.map((c) => ({ label: c.data.title, href: `/catalog/${c.id}/` })),
+      { label: 'Весь каталог', href: '/catalog/' },
+    ],
+  },
+  {
+    title: 'Компания',
+    links: [
+      { label: 'Портфолио', href: '/portfolio/' },
+      { label: 'Услуги', href: '/uslugi/' },
+      { label: 'Контакты', href: '/kontakty/' },
+    ],
+  },
+  {
+    title: 'Соцсети',
+    links: [
+      { label: 'Telegram', href: settings.social.telegram, external: true },
+      { label: 'WhatsApp', href: settings.social.whatsapp, external: true },
+    ].filter((link): link is { label: string; href: string; external: boolean } => Boolean(link.href)),
+  },
+];
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__top">
+    <div class="footer__brand">
+      <a class="footer__logo" href="/">
+        <Image src={logo} alt="" width={28} height={28} />
+        <span>{settings.siteName}</span>
+      </a>
+      <p class="footer__about">
+        Производство светопрозрачных конструкций с {settings.foundedYear} года. Москва и Подмосковье.
+      </p>
+      <a class="footer__phone" href={phoneHref()}>{settings.phone}</a>
+    </div>
+
+    {
+      columns.map((col) => (
+        <div class="footer__col">
+          <p class="footer__label">{col.title}</p>
+          <ul role="list">
+            {col.links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  {...('external' in link ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="container">
+    <div class="footer__bottom">
+      <p>© {year} {settings.legal.company}. Все права защищены.</p>
+      <div class="footer__legal">
+        <a href="/politika-konfidencialnosti/">Политика конфиденциальности</a>
+        <a href="/rekvizity/">Реквизиты</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer__wordmark" aria-hidden="true"><span data-text="Природа Света"></span></div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-footer);
+    color: #fff;
+  }
+
+  .footer__top {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    padding-block: 56px 48px;
+  }
+
+  .footer__logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .footer__logo :global(img) {
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    border-radius: 7px;
+    object-fit: cover;
+  }
+
+  .footer__about {
+    max-width: 220px;
+    padding-block: 14px 18px;
+    font-size: 12px;
+    line-height: 21px;
+    color: rgb(255 255 255 / 0.6);
+  }
+
+  .footer__phone {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 21px;
+    color: rgb(255 255 255 / 0.8);
+  }
+
+  .footer__label {
+    margin-bottom: 16px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    line-height: 13.5px;
+    letter-spacing: 1.26px;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.5);
+  }
+
+  .footer__col ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer__col a,
+  .footer__legal a {
+    transition: color var(--duration) var(--ease);
+  }
+
+  .footer__col a {
+    font-size: 13px;
+    line-height: 19.5px;
+    color: rgb(255 255 255 / 0.62);
+  }
+
+  .footer__col a:hover,
+  .footer__phone:hover {
+    color: #fff;
+  }
+
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 20px;
+    padding-block: 20px;
+    border-top: 1px solid rgb(255 255 255 / 0.07);
+    font-size: 11px;
+    line-height: 16.5px;
+    color: rgb(255 255 255 / 0.5);
+  }
+
+  .footer__legal {
+    display: flex;
+    gap: 20px;
+  }
+
+  .footer__legal a:hover {
+    color: #fff;
+  }
+
+  .footer__wordmark {
+    height: clamp(56px, 10.5vw, 163px);
+    overflow: hidden;
+    border-top: 1px solid rgb(255 255 255 / 0.05);
+    text-align: center;
+    user-select: none;
+  }
+
+  .footer__wordmark span {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(48px, 11.5vw, 180px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: rgb(255 255 255 / 0.06);
+  }
+
+  /* Decorative wordmark lives in CSS content so it isn't read or audited as text. */
+  .footer__wordmark span::before {
+    content: attr(data-text);
+  }
+
+  @media (max-width: 767.98px) {
+    .footer__top {
+      grid-template-columns: 1fr 1fr;
+      gap: 32px 16px;
+      padding-block: 40px 32px;
+    }
+
+    .footer__brand {
+      grid-column: 1 / -1;
+    }
+
+    .footer__bottom {
+      flex-direction: column;
+    }
+  }
+</style>

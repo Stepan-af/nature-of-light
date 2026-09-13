@@ -1,0 +1,143 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import PlusIcon from '@/assets/services/step-plus.svg';
+import MeasureIcon from '@/assets/services/step-measure.svg';
+import DocIcon from '@/assets/services/step-doc.svg';
+import ProductionIcon from '@/assets/services/step-production.svg';
+import DeliveryIcon from '@/assets/services/step-delivery.svg';
+import InstallIcon from '@/assets/services/step-install.svg';
+import WarrantyIcon from '@/assets/services/step-warranty.svg';
+import ArrowIcon from '@/assets/services/arrow-up-right.svg';
+
+export interface Props {
+  steps: CollectionEntry<'serviceSteps'>[];
+}
+
+const { steps } = Astro.props;
+
+/* Icons follow the step position (the CMS has no icon field); extra steps reuse the set. */
+const icons = [PlusIcon, MeasureIcon, DocIcon, ProductionIcon, DeliveryIcon, InstallIcon, WarrantyIcon];
+---
+
+<ol class="steps" role="list">
+  {
+    steps.map((step, i) => {
+      const Icon = icons[i % icons.length]!;
+      return (
+        <li class="step">
+          <div class="step__top">
+            <Icon class="step__icon" width={20} height={20} aria-hidden="true" />
+            <span class="step__num" data-num={String(i + 1).padStart(2, '0')} aria-hidden="true"></span>
+          </div>
+          <div class="step__body">
+            <h3 class="step__title">
+              <span class="visually-hidden">Этап {i + 1}.{' '}</span>
+              {step.data.title}
+            </h3>
+            <p class="step__text">{step.data.description}</p>
+          </div>
+          <p class="step__duration">
+            <ArrowIcon width={12} height={12} aria-hidden="true" />
+            <span class="visually-hidden">Срок:{' '}</span>
+            {step.data.duration}
+          </p>
+        </li>
+      );
+    })
+  }
+</ol>
+
+<style>
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px;
+    border-radius: var(--radius-md);
+    background: var(--color-surface-subtle);
+  }
+
+  .step__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .step__icon {
+    flex: none;
+  }
+
+  .step__num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 16px;
+    color: #d1d5dc;
+  }
+
+  /* Decorative: the <ol> already conveys order, so the number lives in CSS content. */
+  .step__num::before {
+    content: attr(data-num);
+  }
+
+  .step__title {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    color: var(--color-text-strong);
+    text-wrap: pretty;
+  }
+
+  .step__text {
+    padding-top: 8px;
+    font-size: 14px;
+    line-height: 22.75px;
+    color: var(--color-text-soft);
+  }
+
+  .step__duration {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: auto;
+    padding-top: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    color: var(--color-green-deep);
+  }
+
+  .step__duration :global(svg) {
+    flex: none;
+  }
+
+  @media (max-width: 767.98px) {
+    .steps {
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr));
+      gap: 12px;
+    }
+
+    .step {
+      padding: 20px 14px;
+    }
+
+    .step__title {
+      font-size: 15px;
+      line-height: 20px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+    }
+
+    .step__text {
+      padding-top: 6px;
+      font-size: 13px;
+      line-height: 19px;
+    }
+  }
+</style>

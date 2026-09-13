@@ -1,0 +1,21 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CatalogListing from '@/components/catalog/CatalogListing.astro';
+import { getCategories, getProducts } from '@/components/catalog/catalog';
+
+const categories = await getCategories();
+const products = await getProducts();
+---
+
+<BaseLayout
+  title="Каталог козырьков, навесов и зимних садов"
+  description="Каталог светопрозрачных конструкций «Природа Света»: стеклянные и поликарбонатные козырьки, навесы и зимние сады. Цены от производителя, замер и монтаж под ключ."
+  tone="light"
+>
+  <CatalogListing
+    title="Наш каталог"
+    crumbs={[{ label: 'Главная', href: '/' }, { label: 'Каталог' }]}
+    categories={categories}
+    products={products}
+  />
+</BaseLayout>

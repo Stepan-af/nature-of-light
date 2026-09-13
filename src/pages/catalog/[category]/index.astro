@@ -1,0 +1,31 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CatalogListing from '@/components/catalog/CatalogListing.astro';
+import { getCategories, getProducts, type Category } from '@/components/catalog/catalog';
+
+export const getStaticPaths = (async () => {
+  const categories = await getCategories();
+  return categories.map((category) => ({ params: { category: category.id }, props: { category } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  category: Category;
+}
+
+const { category } = Astro.props;
+const categories = await getCategories();
+const products = await getProducts(category.id);
+const { title, summary, seo } = category.data;
+---
+
+<BaseLayout title={seo?.title ?? title} description={seo?.description ?? summary} tone="light">
+  <CatalogListing
+    title={title}
+    intro={summary}
+    crumbs={[{ label: 'Главная', href: '/' }, { label: 'Каталог', href: '/catalog/' }, { label: title }]}
+    categories={categories}
+    products={products}
+    activeCategory={category.id}
+  />
+</BaseLayout>

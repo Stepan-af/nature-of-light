@@ -1,0 +1,176 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import LegalArticle from '@/components/contacts/LegalArticle.astro';
+import { settings, phoneHref } from '@/lib/site';
+
+/*
+ * settings.legal currently has company / inn / ogrn. The other keys are read
+ * optionally so they show up as soon as they are added to settings.json (and the CMS).
+ */
+const legal = settings.legal as Record<string, string | undefined>;
+const val = (key: string) => legal[key]?.trim() || '';
+const address = [settings.address.city, settings.address.street].filter(Boolean).join(', ');
+
+interface Row {
+  label: string;
+  value: string;
+  href?: string;
+  mono?: boolean;
+}
+
+const groups: { title: string; rows: Row[] }[] = [
+  {
+    title: 'Организация',
+    rows: [
+      { label: 'Полное наименование', value: val('fullName') || val('company') },
+      { label: 'ИНН', value: val('inn'), mono: true },
+      { label: 'КПП', value: val('kpp'), mono: true },
+      { label: 'ОГРН', value: val('ogrn'), mono: true },
+      { label: 'Юридический адрес', value: val('legalAddress') },
+      { label: 'Фактический адрес', value: address },
+      { label: 'Генеральный директор', value: val('director') },
+    ],
+  },
+  {
+    title: 'Банковские реквизиты',
+    rows: [
+      { label: 'Расчётный счёт', value: val('account'), mono: true },
+      { label: 'Банк', value: val('bank') },
+      { label: 'БИК', value: val('bik'), mono: true },
+      { label: 'Корреспондентский счёт', value: val('corrAccount'), mono: true },
+    ],
+  },
+  {
+    title: 'Контакты',
+    rows: [
+      { label: 'Телефон', value: settings.phone, href: phoneHref(settings.phone) },
+      { label: 'Электронная почта', value: settings.email, href: `mailto:${settings.email}` },
+      { label: 'Режим работы', value: settings.hours ?? '—' },
+    ],
+  },
+];
+
+const title = 'Реквизиты';
+const description = `Реквизиты ${settings.legal.company}: ИНН, ОГРН, банковские реквизиты, адрес и контакты.`;
+---
+
+<BaseLayout title={title} description={description} tone="white">
+  <LegalArticle title={title} meta={settings.legal.company} wide>
+    {
+      groups.map((group, i) => (
+        <section class="req" aria-labelledby={`req-${i}`}>
+          <h2 id={`req-${i}`}>{group.title}</h2>
+          <div class="req__scroll">
+            <table class="req__table">
+              <tbody>
+                {group.rows.map((row) => (
+                  <tr>
+                    <th scope="row">{row.label}</th>
+                    <td class:list={{ 'is-mono': row.mono && row.value, 'is-empty': !row.value }}>
+                      {!row.value ? (
+                        <>
+                          <span aria-hidden="true">—</span>
+                          <span class="visually-hidden">не указано</span>
+                        </>
+                      ) : row.href ? (
+                        <a href={row.href}>{row.value}</a>
+                      ) : (
+                        row.value
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      ))
+    }
+  </LegalArticle>
+</BaseLayout>
+
+<style>
+  .req + .req {
+    margin-top: 8px;
+  }
+
+  .req__scroll {
+    overflow-x: auto;
+  }
+
+  .req__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .req__table th,
+  .req__table td {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .req__table tr:first-child th,
+  .req__table tr:first-child td {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .req__table th {
+    width: 38%;
+    padding-right: 24px;
+    font-weight: 400;
+    color: var(--color-text-soft);
+  }
+
+  .req__table td {
+    color: var(--color-text-strong);
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+
+  .req__table td.is-mono {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+
+  .req__table td.is-empty {
+    color: var(--color-text-faint);
+    font-weight: 400;
+  }
+
+  @media (max-width: 767.98px) {
+    .req__table,
+    .req__table tbody,
+    .req__table tr,
+    .req__table th,
+    .req__table td {
+      display: block;
+      width: auto;
+    }
+
+    .req__table tr {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .req__table tr:first-child {
+      border-top: 1px solid var(--color-border);
+    }
+
+    .req__table th,
+    .req__table td,
+    .req__table tr:first-child th,
+    .req__table tr:first-child td {
+      padding: 0;
+      border: 0;
+    }
+
+    .req__table th {
+      font-size: 13px;
+    }
+  }
+</style>

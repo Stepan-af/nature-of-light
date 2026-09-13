@@ -1,0 +1,135 @@
+# «Природа Света» — Apache configuration for the static Astro build (dist/).
+# Astro: trailingSlash: 'always', build.format: 'directory' → every page is
+# /path/index.html and its canonical URL is /path/ (with a trailing slash).
+# The directives need mod_rewrite, mod_headers, mod_expires, mod_deflate
+# (all guarded with <IfModule>, so a missing module never causes a 500).
+
+Options -Indexes
+DirectoryIndex index.html
+AddDefaultCharset utf-8
+ServerSignature Off
+
+<IfModule mod_mime.c>
+  AddType application/manifest+json .webmanifest
+  AddType image/webp .webp
+  AddType image/avif .avif
+  AddType font/woff2 .woff2
+  AddType application/yaml .yml
+  AddCharset utf-8 .html .css .js .json .xml .txt .yml .webmanifest
+</IfModule>
+
+ErrorDocument 404 /404.html
+
+# ─────────────────────────────── Rewrites ───────────────────────────────
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # --- HTTPS + canonical host -------------------------------------------
+  # Uncomment once the domain and the TLS certificate are live. Replace
+  # prirodasveta.ru if the domain differs (and update `site` in astro.config.mjs
+  # and the Sitemap line in robots.txt).
+  # Behind a proxy/CDN that terminates TLS, the X-Forwarded-Proto check prevents loops.
+  #
+  # RewriteCond %{HTTPS} !=on
+  # RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  # RewriteRule ^ https://prirodasveta.ru%{REQUEST_URI} [R=301,L]
+  #
+  # RewriteCond %{HTTP_HOST} !^prirodasveta\.ru$ [NC]
+  # RewriteRule ^ https://prirodasveta.ru%{REQUEST_URI} [R=301,L]
+
+  # --- Hide internals ----------------------------------------------------
+  # Dotfiles (.git, .env, .htaccess …) except .well-known (ACME challenges).
+  RewriteRule (^|/)\.(?!well-known/) - [F,L]
+
+  # --- Trailing slash ----------------------------------------------------
+  # /catalog/kozyrki → /catalog/kozyrki/ when that directory has an index.html.
+  RewriteCond %{REQUEST_METHOD} ^(GET|HEAD)$
+  RewriteCond %{REQUEST_URI} !/$
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME}/index.html -f
+  RewriteRule ^(.*)$ /$1/ [R=301,L]
+
+  # /page/index.html → /page/ (keeps one canonical URL).
+  RewriteCond %{THE_REQUEST} \s/+(.+?/)?index\.html[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L,NE]
+</IfModule>
+
+# Directory requests without a trailing slash are also fixed by mod_dir.
+DirectorySlash On
+
+# ─────────────────────────────── Access rules ───────────────────────────────
+# Secrets for the form handler. Never serve them (also denied by PHP itself).
+<FilesMatch "^(config\.php|config\.example\.php|.*\.log|.*\.bak|.*\.sql|composer\.(json|lock))$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+# ─────────────────────────────── Headers ───────────────────────────────
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+
+  # HSTS: enable only after HTTPS works on the domain and all subdomains.
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+  # Content-Security-Policy — a sane starting point, NOT enabled by default.
+  # The site itself needs only 'self' (+ inline JSON-LD / Astro inline styles).
+  # /admin/ (Sveltia CMS) additionally needs unpkg.com, cdn.jsdelivr.net (fonts),
+  # api.github.com, www.githubstatus.com and *.githubusercontent.com —
+  # see https://sveltiacms.app/en/docs/security#setting-up-content-security-policy
+  #
+  # Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"
+
+  # Hashed build assets: cache forever.
+  <If "%{REQUEST_URI} =~ m#^/_astro/#">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </If>
+
+  # HTML, sitemap, robots, manifest: always revalidate so content updates appear immediately.
+  <FilesMatch "\.(html|xml|txt|webmanifest)$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+
+  # Other static files in public/ (og image, favicons) are not hashed: cache for a week.
+  # (<If> blocks are merged after <FilesMatch>, so the /_astro/ rule above still wins.)
+  <FilesMatch "\.(ico|png|jpe?g|webp|avif|svg|gif)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+
+  # API responses are never cached.
+  <If "%{REQUEST_URI} =~ m#^/api/#">
+    Header set Cache-Control "no-store"
+  </If>
+
+  # Admin panel: keep it out of search engines and always fresh (config.yml changes).
+  <If "%{REQUEST_URI} =~ m#^/admin(/|$)#">
+    Header set X-Robots-Tag "noindex, nofollow"
+    Header set Cache-Control "no-cache"
+  </If>
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 week"
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType application/json "access plus 0 seconds"
+  ExpiresByType application/xml "access plus 0 seconds"
+  ExpiresByType text/xml "access plus 0 seconds"
+  # Hashed files under /_astro/ get 1 year + immutable via mod_headers above.
+</IfModule>
+
+# ─────────────────────────────── Compression ───────────────────────────────
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/xml application/xml application/javascript text/javascript application/json application/ld+json application/manifest+json image/svg+xml application/yaml
+</IfModule>
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/xml application/javascript text/javascript application/json application/ld+json application/manifest+json image/svg+xml application/yaml
+</IfModule>

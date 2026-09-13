@@ -1,0 +1,399 @@
+---
+import { getCollection } from 'astro:content';
+import JsonLd from '@/components/seo/JsonLd.astro';
+import ArrowDown from '@/assets/home/icons/arrow-down.svg';
+import ArrowUp from '@/assets/home/icons/arrow-up.svg';
+import { renderMarkdown } from './markdown';
+
+import source from '@/content/data/faq.json';
+
+// The file loader doesn't keep array order — follow the order set in the CMS.
+const order = source.items.map((item) => item.id);
+const faq = (await getCollection('faq'))
+  .sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id))
+  .map(({ data }) => ({ ...data, html: renderMarkdown(data.answer) }));
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.html },
+  })),
+};
+---
+
+<section class="faq" aria-labelledby="faq-title">
+  <div class="faq__inner">
+    <h2 class="faq__title" id="faq-title">Вопросы и ответы</h2>
+
+    <div class="faq__layout">
+      {
+        faq.length > 0 && (
+          <div class="faq__list">
+            {faq.map((item, i) => (
+              <details class="qa" open={i === 0}>
+                <summary class="qa__question">
+                  <span>{item.question}</span>
+                  <ArrowDown class="qa__icon qa__icon--closed" width={24} height={24} aria-hidden="true" />
+                  <ArrowUp class="qa__icon qa__icon--open" width={24} height={24} aria-hidden="true" />
+                </summary>
+                <div class="qa__answer" set:html={item.html} />
+              </details>
+            ))}
+          </div>
+        )
+      }
+
+      <div class="ask">
+        <h3 class="ask__title">Остались вопросы?</h3>
+        <p class="ask__text">Оставьте свою почту и мы обязательно с вами свяжемся. Гарантируем скидку 10% на всю продукцию 😀</p>
+
+        <form class="ask__form" data-lead-form action="/api/send.php" method="post" novalidate>
+          <input type="hidden" name="source" value="home-faq" />
+          <div class="field">
+            <label class="field__box" for="home-faq-email">
+              <span class="field__label">Ваш e-mail</span>
+              <input
+                class="field__input"
+                id="home-faq-email"
+                name="email"
+                type="email"
+                inputmode="email"
+                autocomplete="email"
+                placeholder="mail@mail.ru"
+                required
+              />
+            </label>
+            <p class="field__error" id="home-faq-email-error" data-error-for="email"></p>
+          </div>
+          <input name="website" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true" />
+          <button class="ask__submit" type="submit">Отправить</button>
+          <p class="ask__status" data-form-status role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{faq.length > 0 && <JsonLd data={schema} />}
+
+<script>
+  import '@/scripts/lead-form';
+</script>
+
+<style>
+  .faq {
+    padding-block: 0 106px;
+  }
+
+  .faq__inner {
+    max-width: calc(1192px + var(--gutter) * 2);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .faq__title,
+  .ask__title {
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 36px;
+    letter-spacing: -1px;
+    color: #1e1e1e;
+  }
+
+  .faq__layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    margin-top: 32px;
+  }
+
+  /* ---------- Accordion ---------- */
+  .faq__list {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .qa {
+    border-radius: 20px;
+    background: var(--color-surface);
+    transition: border-radius var(--duration) var(--ease);
+  }
+
+  .qa[open] {
+    border-radius: var(--radius-xl);
+  }
+
+  .qa__question {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 24px;
+    border-radius: inherit;
+    font-size: 16px;
+    line-height: 20px;
+    color: var(--color-text-muted);
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .qa__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .qa__question > span {
+    flex: 1;
+  }
+
+  .qa__question:hover {
+    color: var(--color-text);
+  }
+
+  .qa__question:focus-visible {
+    outline-offset: -2px;
+  }
+
+  .qa__icon {
+    flex-shrink: 0;
+  }
+
+  .qa[open] .qa__question {
+    align-items: flex-start;
+    padding-bottom: 12px;
+  }
+
+  .qa__icon--open,
+  .qa[open] .qa__icon--closed {
+    display: none;
+  }
+
+  .qa[open] .qa__icon--open {
+    display: block;
+  }
+
+  .qa__answer {
+    padding: 0 58px 24px 24px;
+    font-size: 14px;
+    line-height: 18px;
+    color: #1e1e1e;
+  }
+
+  .qa__answer :global(ul),
+  .qa__answer :global(ol) {
+    padding-left: 21px;
+  }
+
+  .qa__answer :global(p + p),
+  .qa__answer :global(p + ul),
+  .qa__answer :global(p + ol),
+  .qa__answer :global(ul + p),
+  .qa__answer :global(ol + p) {
+    margin-top: 8px;
+  }
+
+  .qa__answer :global(a) {
+    color: var(--color-green);
+    text-decoration: underline;
+  }
+
+  @supports (interpolate-size: allow-keywords) {
+    .qa {
+      interpolate-size: allow-keywords;
+    }
+
+    .qa::details-content {
+      height: 0;
+      overflow: clip;
+      transition:
+        height 250ms var(--ease),
+        content-visibility 250ms allow-discrete;
+    }
+
+    .qa[open]::details-content {
+      height: auto;
+    }
+  }
+
+  /* ---------- "Остались вопросы?" card ---------- */
+  .ask {
+    display: flex;
+    flex: 0 0 420px;
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-xl);
+  }
+
+  .ask__text {
+    max-width: 300px;
+    font-size: 16px;
+    line-height: 20px;
+    color: #666666;
+  }
+
+  .ask__form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .field__box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 62px;
+    padding: 10px 16px;
+    border: 1px solid var(--color-green);
+    border-radius: var(--radius-md);
+    cursor: text;
+    transition: background-color var(--duration) var(--ease);
+  }
+
+  .field__box:hover {
+    background: var(--color-surface-hover);
+  }
+
+  .field__box:focus-within {
+    background: transparent;
+    box-shadow: 0 0 0 1px var(--color-green);
+  }
+
+  .field__label {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    color: var(--color-green);
+  }
+
+  .field__input {
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    color: #1e1e1e;
+    caret-color: var(--color-green);
+  }
+
+  .field__input::placeholder {
+    color: #9a9a9a;
+  }
+
+  .field__input:focus {
+    outline: none;
+  }
+
+  .field:has([aria-invalid='true']) .field__box {
+    border-color: var(--color-danger);
+    box-shadow: none;
+  }
+
+  .field:has([aria-invalid='true']) .field__label {
+    color: var(--color-danger);
+  }
+
+  .field__error {
+    padding-inline: 16px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    color: var(--color-danger);
+  }
+
+  .field__error:empty {
+    display: none;
+  }
+
+  .ask__submit {
+    min-height: 52px;
+    padding: 8px 20px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--color-green);
+    transition: background-color var(--duration) var(--ease);
+  }
+
+  .ask__submit:hover {
+    background: var(--color-green-tint-8);
+  }
+
+  .ask__submit:active {
+    color: var(--color-green-pressed);
+  }
+
+  .ask__form[data-state='submitting'] .ask__submit {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .ask__status {
+    font-size: 14px;
+    line-height: 18px;
+    text-align: center;
+    color: var(--color-text-muted);
+  }
+
+  .ask__status:empty {
+    display: none;
+  }
+
+  .ask__form[data-state='success'] .ask__status {
+    color: var(--color-green);
+  }
+
+  .ask__form[data-state='error'] .ask__status {
+    color: var(--color-danger);
+  }
+
+  @media (max-width: 1199.98px) {
+    .ask {
+      flex-basis: clamp(320px, 34vw, 420px);
+    }
+  }
+
+  @media (max-width: 1023.98px) {
+    .faq__layout {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 44px;
+    }
+
+    .ask {
+      flex-basis: auto;
+      width: 100%;
+      max-width: 560px;
+      margin-inline: auto;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .faq {
+      padding-bottom: 72px;
+    }
+
+    .ask {
+      width: auto;
+      margin-inline: 8px;
+    }
+
+    .ask__text {
+      max-width: 240px;
+    }
+  }
+</style>

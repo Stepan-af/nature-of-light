@@ -1,0 +1,119 @@
+---
+import { settings, phoneHref } from '@/lib/site';
+
+const address = [settings.address.city, settings.address.street].filter(Boolean).join(', ');
+---
+
+<section class="strip" aria-labelledby="strip-title">
+  <h2 class="visually-hidden" id="strip-title">Контакты</h2>
+  <ul class="strip__grid" role="list">
+    <li class="strip__cell">
+      <p class="strip__label">Позвонить нам</p>
+      <a class="strip__value" href={phoneHref(settings.phone)}>{settings.phone}</a>
+      {settings.hours && <p class="strip__note">{settings.hours}</p>}
+    </li>
+    <li class="strip__cell">
+      <p class="strip__label">Наш адрес — заходите</p>
+      <address class="strip__value">{address}</address>
+      {settings.address.note && <p class="strip__note">{settings.address.note}</p>}
+    </li>
+    <li class="strip__cell">
+      <p class="strip__label">Написать на email</p>
+      <a class="strip__value" href={`mailto:${settings.email}`}>{settings.email}</a>
+      {settings.hoursNote && <p class="strip__note">{settings.hoursNote}</p>}
+    </li>
+  </ul>
+</section>
+
+<style>
+  .strip__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--color-border-on-dark);
+  }
+
+  .strip__cell {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    padding: 28px 32px;
+  }
+
+  .strip__cell:first-child {
+    padding-left: 0;
+  }
+
+  .strip__cell:last-child {
+    padding-right: 0;
+  }
+
+  .strip__cell + .strip__cell {
+    border-left: 1px solid var(--color-border-on-dark);
+  }
+
+  .strip__label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 14px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.55);
+  }
+
+  .strip__value {
+    padding-top: 10px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 22.5px;
+    color: #fff;
+    overflow-wrap: anywhere;
+  }
+
+  a.strip__value {
+    transition: color var(--duration) var(--ease);
+  }
+
+  a.strip__value:hover {
+    color: var(--color-green-pale);
+  }
+
+  .strip__note {
+    padding-top: 4px;
+    font-size: 12px;
+    line-height: 18px;
+    color: rgb(255 255 255 / 0.55);
+  }
+
+  @media (max-width: 1199.98px) {
+    .strip__cell {
+      padding-inline: 24px;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .strip__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .strip__cell,
+    .strip__cell:first-child,
+    .strip__cell:last-child {
+      padding: 20px 0;
+    }
+
+    .strip__cell + .strip__cell {
+      border-left: 0;
+      border-top: 1px solid var(--color-border-on-dark);
+    }
+
+    .strip__value {
+      font-size: 16px;
+    }
+
+    .strip__note {
+      font-size: 13px;
+    }
+  }
+</style>

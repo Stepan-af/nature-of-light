@@ -1,0 +1,88 @@
+# Build the Astro site and upload dist/ to shared hosting over FTPS.
+# Runs on every push to main (including commits made by Sveltia CMS) and manually.
+# Setup: docs/deploy.md
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Never run two uploads at the same time; a newer push cancels a queued one.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          # design/ (~75 MB of Figma references) isn't needed to build the site.
+          sparse-checkout: |
+            /*
+            !/design/
+          sparse-checkout-cone-mode: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (astro check + astro build)
+        run: npm run build
+        env:
+          # Production domain (canonical URLs, sitemap, OG). Optional repository
+          # variable SITE_URL overrides the default; keep robots.txt in sync.
+          SITE_URL: ${{ vars.SITE_URL || 'https://prirodasveta.ru' }}
+
+      # Hosting isn't chosen yet: until the repository variable DEPLOY_ENABLED is
+      # set to "true" (Settings → Secrets and variables → Actions → Variables),
+      # pushes only build and check the site, so they don't fail on missing FTP secrets.
+      - name: Upload to hosting (FTPS)
+        if: ${{ vars.DEPLOY_ENABLED == 'true' }}
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # ftps (explicit TLS, recommended) | ftp | ftps-legacy
+          protocol: ftps
+          local-dir: ./dist/
+          # e.g. /public_html/ or /www/prirodasveta.ru/ — must end with a slash
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          # Files matching these globs are neither uploaded nor deleted on the server.
+          # api/config.php holds the real e-mail/Telegram secrets and is uploaded once by hand.
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            api/config.php
+          log-level: standard
+          timeout: 120000
+
+# ---------------------------------------------------------------------------
+# SFTP / SSH alternative (if the hosting gives SSH access instead of FTPS):
+# replace the "Upload to hosting" step with the one below and add secrets
+# SSH_HOST, SSH_USER, SSH_PRIVATE_KEY, SSH_PORT and FTP_SERVER_DIR.
+#
+#      - name: Upload to hosting (rsync over SSH)
+#        uses: burnett01/rsync-deployments@9.0.1
+#        with:
+#          switches: -avz --delete --exclude=api/config.php
+#          path: dist/
+#          remote_path: ${{ secrets.FTP_SERVER_DIR }}
+#          remote_host: ${{ secrets.SSH_HOST }}
+#          remote_port: ${{ secrets.SSH_PORT }}
+#          remote_user: ${{ secrets.SSH_USER }}
+#          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}

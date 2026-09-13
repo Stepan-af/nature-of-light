@@ -1,0 +1,241 @@
+---
+import Breadcrumbs, { type Crumb } from '@/components/ui/Breadcrumbs.astro';
+import ProductCard from './ProductCard.astro';
+import { categoryHref, type Category, type Product } from './catalog';
+
+export interface Props {
+  title: string;
+  intro?: string;
+  crumbs: Crumb[];
+  categories: Category[];
+  products: Product[];
+  /** Current category id; omit on /catalog/. */
+  activeCategory?: string;
+}
+
+const { title, intro, crumbs, categories, products, activeCategory } = Astro.props;
+const categoryTitles = new Map(categories.map((c) => [c.id, c.data.title]));
+
+const chips = [
+  { label: 'Все', href: '/catalog/', active: !activeCategory },
+  ...categories.map((c) => ({ label: c.data.title, href: categoryHref(c), active: c.id === activeCategory })),
+];
+---
+
+<div class="catalog container">
+  <Breadcrumbs class="catalog__crumbs" items={crumbs} />
+
+  <div class="catalog__head">
+    <div class="catalog__heading">
+      <h1 class="catalog__title">{title}</h1>
+      {intro && <p class="catalog__intro">{intro}</p>}
+    </div>
+    <nav class="catalog__filters" aria-label="Категории каталога">
+      <ul class="chips" role="list">
+        {
+          chips.map((chip) => (
+            <li>
+              <a
+                class:list={['chip', { 'is-active': chip.active }]}
+                href={chip.href}
+                aria-current={chip.active ? 'page' : undefined}
+              >
+                {chip.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+
+  {
+    products.length > 0 ? (
+      <ul class="catalog__grid" role="list">
+        {products.map((product, i) => (
+          <li>
+            <ProductCard product={product} categoryLabel={categoryTitles.get(product.data.category.id)} eager={i < 4} />
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="catalog__empty">
+        В этой категории пока нет товаров. <a href="/catalog/">Смотреть весь каталог</a>
+      </p>
+    )
+  }
+</div>
+
+<style>
+  .catalog {
+    padding-block: 32px 72px;
+  }
+
+  .catalog__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px 32px;
+    padding-top: 10px;
+  }
+
+  .catalog__crumbs {
+    margin-bottom: 6px;
+  }
+
+  .catalog__heading {
+    min-width: 0;
+  }
+
+  .catalog__title {
+    font-weight: 800;
+    font-size: 42px;
+    line-height: 63px;
+    letter-spacing: -1px;
+    color: var(--color-text);
+  }
+
+  .catalog__intro {
+    max-width: 560px;
+    font-size: 15px;
+    line-height: 24px;
+    color: var(--color-text-muted);
+  }
+
+  .catalog__filters {
+    min-width: 0;
+    padding-bottom: 12px;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    height: 38px;
+    padding: 8px 18px;
+    border: 1px solid var(--color-green-bright);
+    border-radius: 24px;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 19.5px;
+    color: #6b6b6b;
+    white-space: nowrap;
+    transition:
+      background-color var(--duration) var(--ease),
+      border-color var(--duration) var(--ease),
+      color var(--duration) var(--ease);
+  }
+
+  .chip:hover {
+    background: rgb(35 115 39 / 0.12);
+    border-color: rgb(0 0 0 / 0.15);
+    color: var(--color-text);
+  }
+
+  .chip.is-active {
+    background: rgb(16 42 18 / 0.2);
+    border-color: rgb(46 125 50 / 0.42);
+    color: #4a4f4a;
+  }
+
+  .chip.is-active:hover {
+    background: rgb(36 77 38 / 0.22);
+  }
+
+  .catalog__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .catalog__empty {
+    margin-top: 32px;
+    color: var(--color-text-muted);
+  }
+
+  .catalog__empty a {
+    color: var(--color-green);
+    text-decoration: underline;
+  }
+
+  @media (max-width: 1199.98px) {
+    .catalog__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 899.98px) {
+    .catalog__head {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-items: stretch;
+    }
+
+    .catalog__filters {
+      padding-bottom: 0;
+    }
+
+    .catalog__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .catalog {
+      padding-block: 16px 48px;
+    }
+
+    .catalog__head {
+      gap: 12px;
+      padding-top: 4px;
+    }
+
+    .catalog__title {
+      font-weight: 700;
+      font-size: 30px;
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+    }
+
+    .catalog__intro {
+      margin-top: 6px;
+      font-size: 14px;
+      line-height: 22px;
+    }
+
+    /* Chips scroll horizontally, bleeding to the screen edges. */
+    .catalog__filters {
+      margin-inline: calc(var(--gutter) * -1);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .catalog__filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chips {
+      flex-wrap: nowrap;
+      gap: 6px;
+      width: max-content;
+      padding: 2px var(--gutter);
+    }
+
+    .chip {
+      height: 34px;
+      padding: 6px 14px;
+    }
+
+    .catalog__grid {
+      gap: 12px 8px;
+      margin-top: 20px;
+    }
+  }
+</style>

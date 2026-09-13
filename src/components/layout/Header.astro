@@ -1,0 +1,417 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { getCollection } from 'astro:content';
+import { mainNav, isActive, settings } from '@/lib/site';
+import logo from '@/assets/brand/logo-mark.jpg';
+import CloseIcon from '@/assets/icons/close-circle.svg';
+import DotIcon from '@/assets/icons/dot-green.svg';
+import allProjects from '@/assets/nav/all-projects.jpg';
+import residential from '@/assets/nav/residential.jpg';
+import commercial from '@/assets/nav/commercial.jpg';
+
+interface DropdownCard {
+  label: string;
+  href: string;
+  image: ImageMetadata;
+}
+
+const categories = (await getCollection('categories')).sort((a, b) => a.data.order - b.data.order);
+
+const dropdowns: Record<string, DropdownCard[]> = {
+  '/catalog/': categories.map((c) => ({ label: c.data.title, href: `/catalog/${c.id}/`, image: c.data.image })),
+  '/portfolio/': [
+    { label: 'Все проекты', href: '/portfolio/', image: allProjects },
+    { label: 'Жилые дома', href: '/portfolio/?type=residential', image: residential },
+    { label: 'Коммерческие', href: '/portfolio/?type=commercial', image: commercial },
+  ],
+};
+
+const pathname = Astro.url.pathname;
+---
+
+<header class="header" data-header>
+  <div class="header__bar">
+    <a class="brand" href="/" aria-label={`${settings.siteName} — на главную`}>
+      <Image class="brand__logo" src={logo} alt="" width={50} height={50} loading="eager" />
+      <span class="brand__text">
+        <span class="brand__name">{settings.siteName}</span>
+        <span class="brand__tagline">Козырьки навесы зимние сады</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Основное меню">
+      <ul class="nav__list" role="list">
+        {
+          mainNav.map((item) => {
+            const cards = dropdowns[item.href];
+            const active = isActive(item.href, pathname);
+            return (
+              <li class="nav__item" data-dropdown={cards ? '' : undefined}>
+                <a class:list={['nav__link', { 'is-active': active }]} href={item.href} aria-current={active ? 'page' : undefined}>
+                  {item.label}
+                </a>
+                {cards && (
+                  <div class="dropdown">
+                    <div class="dropdown__head">
+                      <span class="dropdown__title">
+                        <DotIcon width={6} height={6} aria-hidden="true" />
+                        Выберите категорию
+                      </span>
+                      <button class="dropdown__close" type="button" aria-label="Закрыть меню" data-dropdown-close>
+                        <CloseIcon width={23} height={23} aria-hidden="true" />
+                      </button>
+                    </div>
+                    <ul class="dropdown__cards" role="list">
+                      {cards.map((card) => (
+                        <li>
+                          <a class="dropdown__card" href={card.href}>
+                            <Image src={card.image} alt="" width={160} height={110} fit="cover" />
+                            <span>{card.label}</span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+
+    <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobile-menu" data-burger>
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Мобильное меню" hidden>
+    <ul role="list">
+      {
+        mainNav.map((item) => (
+          <li>
+            <a
+              class:list={['mobile-menu__link', { 'is-active': isActive(item.href, pathname) }]}
+              href={item.href}
+              aria-current={isActive(item.href, pathname) ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const burger = header?.querySelector<HTMLButtonElement>('[data-burger]');
+  const menu = header?.querySelector<HTMLElement>('#mobile-menu');
+
+  const setMenu = (open: boolean) => {
+    if (!burger || !menu) return;
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+    menu.hidden = !open;
+  };
+
+  burger?.addEventListener('click', () => setMenu(burger.getAttribute('aria-expanded') !== 'true'));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setMenu(false);
+  });
+
+  // Desktop dropdowns open on hover/focus via CSS; the close button suppresses
+  // the open state until the pointer leaves the item.
+  header?.querySelectorAll<HTMLElement>('[data-dropdown]').forEach((item) => {
+    item.querySelector('[data-dropdown-close]')?.addEventListener('click', () => {
+      item.classList.add('is-dismissed');
+      (document.activeElement as HTMLElement | null)?.blur();
+    });
+    item.addEventListener('pointerleave', () => item.classList.remove('is-dismissed'));
+  });
+</script>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header__bar {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    height: var(--header-height);
+    padding-inline: 33px;
+    background: var(--color-header);
+    border-radius: 0 0 35px 35px;
+  }
+
+  /* ---------- Brand ---------- */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-self: start;
+    color: #fff;
+  }
+
+  .brand__logo {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+  }
+
+  .brand__text {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .brand__name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1;
+  }
+
+  .brand__tagline {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1.35;
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+    color: #8a8a8a;
+  }
+
+  /* ---------- Desktop nav ---------- */
+  .nav__list {
+    display: flex;
+    gap: 2px;
+  }
+
+  .nav__item {
+    position: relative;
+  }
+
+  .nav__link {
+    display: block;
+    padding: 8px 14px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 19.5px;
+    color: #8a8a8a;
+    transition:
+      color var(--duration) var(--ease),
+      background-color var(--duration) var(--ease);
+  }
+
+  .nav__link:hover {
+    color: #fff;
+  }
+
+  .nav__link.is-active {
+    background: var(--color-header-active);
+    color: #fff;
+  }
+
+  /* ---------- Dropdown ---------- */
+  .dropdown {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 552px;
+    padding: 20px 24px 24px;
+    background: var(--color-panel);
+    border-radius: 30px;
+    box-shadow: var(--shadow-panel);
+    opacity: 0;
+    visibility: hidden;
+    translate: -50% 8px;
+    transition:
+      opacity var(--duration) var(--ease),
+      translate var(--duration) var(--ease),
+      visibility 0s linear var(--duration);
+  }
+
+  /* Invisible bridge so the pointer can travel from the link to the panel. */
+  .dropdown::before {
+    content: '';
+    position: absolute;
+    inset: -16px 0 auto;
+    height: 16px;
+  }
+
+  .nav__item:is(:hover, :focus-within):not(.is-dismissed) .dropdown {
+    opacity: 1;
+    visibility: visible;
+    translate: -50% 12px;
+    transition-delay: 0s;
+  }
+
+  .dropdown__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .dropdown__title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: rgb(117 117 117 / 0.6);
+  }
+
+  .dropdown__close {
+    display: grid;
+    place-items: center;
+    border-radius: var(--radius-pill);
+    transition: background-color var(--duration) var(--ease);
+  }
+
+  .dropdown__close:hover {
+    background: rgb(255 255 255 / 0.05);
+  }
+
+  .dropdown__cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .dropdown__card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    color: #fff;
+  }
+
+  .dropdown__card :global(img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 160 / 110;
+    object-fit: cover;
+    border: 1px solid rgb(255 255 255 / 0.04);
+    border-radius: var(--radius-lg);
+    transition: opacity var(--duration) var(--ease);
+  }
+
+  .dropdown__card:hover :global(img) {
+    opacity: 0.8;
+  }
+
+  /* ---------- Mobile ---------- */
+  .burger {
+    display: none;
+  }
+
+  .mobile-menu {
+    display: none;
+  }
+
+  @media (max-width: 1023.98px) {
+    .header__bar {
+      grid-template-columns: 1fr auto;
+      padding-inline: 16px;
+      border-radius: 0 0 24px 24px;
+    }
+
+    .nav {
+      display: none;
+    }
+
+    .brand__logo {
+      width: 40px;
+      height: 40px;
+    }
+
+    .brand__name {
+      font-size: 18px;
+    }
+
+    .brand__tagline {
+      display: none;
+    }
+
+    .burger {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      width: 46px;
+      height: 38px;
+      padding: 8px;
+      border: 1px solid rgb(255 255 255 / 0.2);
+      border-radius: var(--radius-sm);
+      background: rgb(82 82 77 / 0.33);
+      backdrop-filter: blur(29px);
+    }
+
+    .burger span {
+      height: 2px;
+      border-radius: var(--radius-pill);
+      background: #d9d9d9;
+      transition:
+        translate var(--duration) var(--ease),
+        rotate var(--duration) var(--ease),
+        opacity var(--duration) var(--ease);
+    }
+
+    .burger[aria-expanded='true'] span:nth-child(1) {
+      translate: 0 6px;
+      rotate: 45deg;
+    }
+
+    .burger[aria-expanded='true'] span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .burger[aria-expanded='true'] span:nth-child(3) {
+      translate: 0 -6px;
+      rotate: -45deg;
+    }
+
+    .mobile-menu:not([hidden]) {
+      display: block;
+      position: absolute;
+      top: calc(100% + 8px);
+      inset-inline: 10px;
+      padding: 20px 24px 24px;
+      background: var(--color-panel);
+      border-radius: 30px;
+      box-shadow: var(--shadow-panel);
+    }
+
+    .mobile-menu ul {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .mobile-menu__link {
+      display: block;
+      padding-block: 8px;
+      font-size: 17px;
+      font-weight: 500;
+      color: #b2b2b2;
+    }
+
+    .mobile-menu__link:hover,
+    .mobile-menu__link.is-active {
+      color: #fff;
+    }
+  }
+</style>

@@ -1,0 +1,168 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import JsonLd from '@/components/seo/JsonLd.astro';
+import ServiceSteps from '@/components/services/ServiceSteps.astro';
+import ExtraServices from '@/components/services/ExtraServices.astro';
+import { ORG_ID } from '@/lib/schema';
+
+import stepsData from '@/content/data/service-steps.json';
+import extrasData from '@/content/data/extra-services.json';
+
+// The file loader doesn't guarantee order: keep the JSON (CMS list) order.
+const byJsonOrder = <T extends { id: string }>(entries: T[], json: { items: { id: string }[] }) => {
+  const order = new Map(json.items.map((item, i) => [item.id, i]));
+  return entries.sort((a, b) => (order.get(a.id) ?? 999) - (order.get(b.id) ?? 999));
+};
+
+const steps = byJsonOrder(await getCollection('serviceSteps'), stepsData);
+const extras = byJsonOrder(await getCollection('extraServices'), extrasData);
+
+const title = 'Услуги — полный цикл работ';
+const description =
+  'Полный цикл работ по козырькам, навесам и зимним садам: консультация, бесплатный замер, проектирование, производство, доставка, монтаж и обслуживание.';
+
+const pageUrl = new URL('/uslugi/', Astro.site).href;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${pageUrl}#service`,
+  name: 'Полный цикл работ: проектирование, производство и монтаж светопрозрачных конструкций',
+  serviceType: 'Проектирование, изготовление и монтаж козырьков, навесов и зимних садов',
+  description,
+  url: pageUrl,
+  areaServed: { '@type': 'AdministrativeArea', name: 'Москва и Московская область' },
+  provider: { '@id': ORG_ID },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Услуги',
+    itemListElement: [
+      {
+        '@type': 'OfferCatalog',
+        name: 'Этапы работ',
+        itemListElement: steps.map((step) => ({
+          '@type': 'Offer',
+          itemOffered: { '@type': 'Service', name: step.data.title, description: step.data.description },
+        })),
+      },
+      {
+        '@type': 'OfferCatalog',
+        name: 'Дополнительные услуги',
+        itemListElement: extras.map((extra) => ({
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: extra.data.title,
+            ...(extra.data.description ? { description: extra.data.description } : {}),
+          },
+        })),
+      },
+    ],
+  },
+};
+---
+
+<BaseLayout title={title} description={description} tone="white">
+  <div class="container services">
+    <Breadcrumbs class="services__crumbs" items={[{ label: 'Главная', href: '/' }, { label: 'Услуги' }]} />
+
+    <header class="intro">
+      <h1 class="intro__title">Полный цикл работ</h1>
+      <p class="intro__text">
+        Берём на себя весь цикл — от первого звонка до сдачи объекта. Работаем с частными лицами, застройщиками и
+        управляющими компаниями.
+      </p>
+    </header>
+
+    <section class="services__steps" aria-labelledby="steps-title">
+      <h2 class="visually-hidden" id="steps-title">Этапы работ</h2>
+      <ServiceSteps steps={steps} />
+    </section>
+  </div>
+
+  {extras.length > 0 && <ExtraServices services={extras} />}
+
+  <JsonLd data={schema} />
+</BaseLayout>
+
+<style>
+  .services {
+    padding-top: 28px;
+  }
+
+  .intro {
+    display: flex;
+    align-items: flex-start;
+    gap: 64px;
+    padding-top: 16px;
+    padding-bottom: 32px;
+  }
+
+  .intro__title {
+    flex: 0 0 480px;
+    font-size: 48px;
+    line-height: 52.8px;
+    color: var(--color-text-strong);
+  }
+
+  .intro__text {
+    max-width: 300px;
+    padding-top: 8px;
+    font-size: 14px;
+    line-height: 22.75px;
+    color: var(--color-text-soft);
+  }
+
+  .services__steps {
+    padding-bottom: 40px;
+  }
+
+  @media (max-width: 1199.98px) {
+    .intro {
+      gap: 40px;
+    }
+
+    .intro__title {
+      flex-basis: auto;
+      font-size: clamp(36px, 4.4vw, 48px);
+      line-height: 1.1;
+    }
+
+    .intro__text {
+      max-width: 340px;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .services {
+      padding-top: 16px;
+    }
+
+    .intro {
+      flex-direction: column;
+      gap: 12px;
+      padding-top: 10px;
+      padding-bottom: 24px;
+    }
+
+    .intro__title {
+      font-size: 32px;
+      line-height: 1.05;
+      letter-spacing: -0.5px;
+      color: var(--color-text);
+    }
+
+    .intro__text {
+      max-width: none;
+      padding-top: 0;
+      font-size: 14px;
+      line-height: 21px;
+    }
+
+    .services__steps {
+      padding-bottom: 40px;
+    }
+  }
+</style>

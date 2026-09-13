@@ -1,0 +1,185 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/ui/Button.astro';
+import { settings, phoneHref } from '@/lib/site';
+
+const links = [
+  { label: 'Каталог', text: 'Козырьки, навесы и зимние сады', href: '/catalog/' },
+  { label: 'Портфолио', text: 'Реализованные проекты', href: '/portfolio/' },
+  { label: 'Услуги', text: 'Полный цикл работ', href: '/uslugi/' },
+];
+---
+
+<BaseLayout
+  title="Страница не найдена"
+  description="Такой страницы нет. Перейдите на главную, в каталог или свяжитесь с нами."
+  noindex
+  tone="dark"
+>
+  <section class="nf container" aria-labelledby="nf-title">
+    <p class="nf__code" aria-hidden="true">404</p>
+    <div class="nf__content">
+      <p class="eyebrow nf__eyebrow">Ошибка 404</p>
+      <h1 class="nf__title" id="nf-title">Страница не найдена</h1>
+      <p class="nf__lead">
+        Возможно, ссылка устарела или в адресе опечатка. Начните с главной страницы или выберите нужный раздел — а если
+        что-то искали, просто позвоните: <a href={phoneHref(settings.phone)}>{settings.phone}</a>.
+      </p>
+      <div class="nf__actions">
+        <Button href="/" variant="primary">На главную</Button>
+        <Button href="/kontakty/" variant="ghost">Связаться с нами</Button>
+      </div>
+      <ul class="nf__links" role="list">
+        {
+          links.map((link) => (
+            <li>
+              <a class="nf__link" href={link.href}>
+                <span class="nf__link-label">{link.label}</span>
+                <span class="nf__link-text">{link.text}</span>
+                <span class="nf__link-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf {
+    position: relative;
+    display: grid;
+    align-items: center;
+    min-height: min(78vh, 720px);
+    padding-block: 80px;
+    overflow: hidden;
+  }
+
+  .nf__code {
+    position: absolute;
+    right: var(--gutter);
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(160px, 26vw, 380px);
+    line-height: 0.8;
+    letter-spacing: -0.04em;
+    color: rgb(255 255 255 / 0.05);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .nf__content {
+    position: relative;
+    max-width: 620px;
+  }
+
+  .nf__eyebrow {
+    color: var(--color-green-pale);
+  }
+
+  .nf__title {
+    margin-top: 16px;
+    font-weight: 800;
+    font-size: clamp(36px, 5vw, 55px);
+    line-height: 1.09;
+    letter-spacing: -0.03em;
+    color: #fff;
+  }
+
+  .nf__lead {
+    max-width: 520px;
+    margin-top: 20px;
+    font-size: 15px;
+    line-height: 27px;
+    color: rgb(255 255 255 / 0.6);
+  }
+
+  .nf__lead a {
+    color: #fff;
+    white-space: nowrap;
+    text-decoration: underline;
+    text-decoration-color: rgb(255 255 255 / 0.3);
+    text-underline-offset: 3px;
+  }
+
+  .nf__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .nf__links {
+    margin-top: 48px;
+    border-top: 1px solid var(--color-border-on-dark);
+  }
+
+  .nf__link {
+    display: grid;
+    grid-template-columns: 140px 1fr auto;
+    align-items: baseline;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-border-on-dark);
+    transition: color var(--duration) var(--ease);
+  }
+
+  .nf__link-label {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 18px;
+    color: #fff;
+  }
+
+  .nf__link-text {
+    font-size: 14px;
+    color: rgb(255 255 255 / 0.5);
+  }
+
+  .nf__link-arrow {
+    color: rgb(255 255 255 / 0.5);
+    transition:
+      transform var(--duration) var(--ease),
+      color var(--duration) var(--ease);
+  }
+
+  .nf__link:hover .nf__link-label,
+  .nf__link:hover .nf__link-arrow {
+    color: var(--color-green-pale);
+  }
+
+  .nf__link:hover .nf__link-arrow {
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 767.98px) {
+    .nf {
+      min-height: 0;
+      padding-block: 48px 56px;
+    }
+
+    .nf__code {
+      top: 24px;
+      transform: none;
+    }
+
+    .nf__link {
+      grid-template-columns: 1fr auto;
+      gap: 2px 12px;
+    }
+
+    .nf__link-text {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .nf__link-arrow {
+      grid-row: 1 / span 2;
+      grid-column: 2;
+      align-self: center;
+    }
+  }
+</style>

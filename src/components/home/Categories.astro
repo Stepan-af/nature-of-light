@@ -1,0 +1,171 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+
+const categories = (await getCollection('categories')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<section class="categories" aria-labelledby="categories-title">
+  <div class="container">
+    <h2 class="section-title categories__title" id="categories-title">Что мы строим</h2>
+    <ul class="categories__grid" role="list">
+      {
+        categories.map((category) => (
+          <li>
+            <article class="card">
+              <Image
+                class="card__image"
+                src={category.data.image}
+                alt={category.data.imageAlt}
+                widths={[360, 560, 760, 1024]}
+                sizes="(max-width: 767.98px) calc(50vw - 21px), (max-width: 1199.98px) calc((100vw - 80px) / 3), 373px"
+                fit="cover"
+              />
+              <div class="card__body">
+                <h3 class="card__title">{category.data.title}</h3>
+                <p class="card__text">{category.data.summary}</p>
+                <a class="card__link" href={`/catalog/${category.id}/`}>
+                  Смотреть всё<span class="visually-hidden">: {category.data.title}</span>
+                  <span class="card__arrow" aria-hidden="true">
+                    →
+                  </span>
+                </a>
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .categories {
+    padding-block: 60px 92px;
+  }
+
+  .categories__title {
+    font-size: 38px;
+    line-height: 1.5;
+  }
+
+  .categories__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 40px;
+  }
+
+  .categories__grid > li {
+    display: flex;
+  }
+
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+
+  .card__image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    object-position: 50% 100%;
+    transition: transform 400ms var(--ease);
+  }
+
+  .card:hover .card__image {
+    transform: scale(1.04);
+  }
+
+  .card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 20px 22px;
+  }
+
+  .card__title {
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--color-text);
+  }
+
+  .card__text {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  .card__link {
+    display: inline-flex;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 19.5px;
+    color: var(--color-green);
+  }
+
+  /* Whole card is clickable. */
+  .card__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .card__arrow {
+    transition: transform var(--duration) var(--ease);
+  }
+
+  .card:hover .card__arrow {
+    transform: translateX(3px);
+  }
+
+  .card:has(.card__link:focus-visible) {
+    outline: 2px solid var(--color-green);
+    outline-offset: 2px;
+  }
+
+  .card__link:focus-visible {
+    outline: none;
+  }
+
+  @media (max-width: 767.98px) {
+    .categories {
+      padding-block: 48px 56px;
+    }
+
+    .categories__title {
+      font-size: 28px;
+      line-height: 1.4;
+    }
+
+    .categories__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px 10px;
+      margin-top: 24px;
+    }
+
+    .card__body {
+      padding: 16px 14px 18px;
+    }
+
+    .card__title {
+      font-size: 18px;
+      line-height: 1.4;
+    }
+
+    .card__text {
+      font-size: 13px;
+      line-height: 1.5;
+    }
+  }
+</style>

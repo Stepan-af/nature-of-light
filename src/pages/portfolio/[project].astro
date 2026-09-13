@@ -1,0 +1,68 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getImage } from 'astro:assets';
+import { render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import DetailView from '@/components/portfolio/DetailView.astro';
+import { getProjects, projectHref, type Project } from '@/components/portfolio/portfolio';
+import { formatPrice } from '@/lib/site';
+
+export const getStaticPaths = (async () => {
+  const projects = await getProjects();
+  return projects.map((project, i) => {
+    const prev = projects[(i - 1 + projects.length) % projects.length];
+    const next = projects[(i + 1) % projects.length];
+    return {
+      params: { project: project.id },
+      props: {
+        project,
+        prev: projects.length > 1 ? prev : undefined,
+        next: projects.length > 1 ? next : undefined,
+      },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+interface Props {
+  project: Project;
+  prev?: Project;
+  next?: Project;
+}
+
+const { project, prev, next } = Astro.props;
+const { title, badge, price, area, city, year, installDuration, cover, coverAlt, gallery, location, seo } = project.data;
+const { Content } = await render(project);
+
+const items = gallery.length > 0 ? gallery : [{ image: cover, alt: coverAlt }];
+const ogImage = await getImage({ src: cover, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+
+const plain = (project.body ?? '').replace(/\s+/g, ' ').trim();
+const description =
+  seo?.description ??
+  `${title} — ${location}. ${plain ? `${plain.slice(0, 110).replace(/\s\S*$/, '')}… ` : ''}Стоимость ${formatPrice(price)}, монтаж ${installDuration}.`;
+---
+
+<BaseLayout title={seo?.title ?? `${title} — ${badge.toLowerCase()} в г. ${city}`} {description} image={ogImage.src} type="article" tone="light">
+  <DetailView
+    crumbs={[{ label: 'Портфолио', href: '/portfolio/' }, { label: title }]}
+    badge={badge}
+    title={title}
+    gallery={items}
+    paramsLabel="Параметры проекта"
+    params={[
+      { label: 'Стоимость', value: formatPrice(price) },
+      { label: 'Площадь', value: area },
+      { label: 'Город', value: city },
+      { label: 'Год', value: String(year) },
+      { label: 'Срок монтажа', value: installDuration },
+    ]}
+    aboutLabel="О проекте"
+    ctaHref={`/kontakty/?project=${project.id}`}
+    prev={prev && { href: projectHref(prev), title: prev.data.title }}
+    next={next && { href: projectHref(next), title: next.data.title }}
+    pagerLabel="Другие проекты"
+    showAbout={Boolean(plain)}
+  >
+    <Content />
+  </DetailView>
+</BaseLayout>

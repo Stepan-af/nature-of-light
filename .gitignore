@@ -1,0 +1,33 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment variables & server secrets
+.env
+.env.*
+!.env.example
+public/api/config.php
+
+# local tooling
+.claude/settings.local.json
+.lighthouseci/
+
+# OS
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# editors
+.vscode/*
+!.vscode/extensions.json
+.idea/

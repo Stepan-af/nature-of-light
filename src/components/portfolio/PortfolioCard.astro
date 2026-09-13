@@ -1,0 +1,168 @@
+---
+import { Image } from 'astro:assets';
+import { formatPrice } from '@/lib/site';
+import { projectHref, type Project } from './portfolio';
+
+export interface Props {
+  project: Project;
+  /** Load the photo eagerly (first cards above the fold). */
+  eager?: boolean;
+}
+
+const { project, eager = false } = Astro.props;
+const { title, badge, location, price, cover, coverAlt } = project.data;
+---
+
+<a class="pcard" href={projectHref(project)}>
+  <Image
+    class="pcard__img"
+    src={cover}
+    alt={coverAlt}
+    width={760}
+    widths={[400, 560, 760, 1000]}
+    sizes="(max-width: 899.98px) 50vw, (max-width: 1199.98px) 33vw, 380px"
+    loading={eager ? 'eager' : 'lazy'}
+  />
+  <span class="pcard__badge">{badge}</span>
+  <span class="pcard__caption">
+    <span class="pcard__title">{title}</span>
+    <span class="pcard__meta">
+      <span class="pcard__location">{location}</span>
+      <span class="pcard__price">{formatPrice(price)}</span>
+    </span>
+  </span>
+</a>
+
+<style>
+  .pcard {
+    position: relative;
+    display: block;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 22px;
+    background: var(--color-warm-white);
+    box-shadow: var(--shadow-card);
+    isolation: isolate;
+  }
+
+  .pcard__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 500ms var(--ease);
+  }
+
+  .pcard:hover .pcard__img {
+    transform: scale(1.04);
+  }
+
+  .pcard__badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 4px 12px;
+    border: 1px solid rgb(255 255 255 / 0.92);
+    border-radius: var(--radius-pill);
+    background: rgb(255 255 255 / 0.78);
+    box-shadow: 0 8px 40px rgb(0 0 0 / 0.08);
+    font-weight: 700;
+    font-size: 11px;
+    line-height: 14px;
+    letter-spacing: 0.18px;
+    color: var(--color-dark);
+    backdrop-filter: blur(6px);
+  }
+
+  .pcard__caption {
+    position: absolute;
+    inset: auto 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 14px 12px;
+    background: linear-gradient(90deg, rgb(48 44 40 / 0.55) 0%, rgb(120 120 118 / 0.38) 55%, rgb(235 235 235 / 0.28) 100%);
+    backdrop-filter: blur(14px) saturate(1.1);
+    -webkit-backdrop-filter: blur(14px) saturate(1.1);
+    color: #fff;
+  }
+
+  .pcard__title {
+    overflow: hidden;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 8px rgb(0 0 0 / 0.25);
+  }
+
+  .pcard__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 27px;
+  }
+
+  .pcard__location {
+    overflow: hidden;
+    min-width: 0;
+    font-size: 11px;
+    line-height: 15px;
+    color: rgb(255 255 255 / 0.75);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .pcard__price {
+    flex-shrink: 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 24px;
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+    text-shadow: 0 1px 10px rgb(0 0 0 / 0.3);
+  }
+
+  @media (max-width: 767.98px) {
+    .pcard {
+      border-radius: 18px;
+    }
+
+    .pcard__badge {
+      top: 8px;
+      left: 8px;
+      padding: 2px 8px;
+      font-size: 10px;
+    }
+
+    .pcard__caption {
+      gap: 2px;
+      padding: 10px 12px;
+    }
+
+    .pcard__title {
+      font-size: 13px;
+      line-height: 16px;
+    }
+
+    .pcard__meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      min-height: 0;
+    }
+
+    .pcard__location {
+      max-width: 100%;
+    }
+
+    .pcard__price {
+      font-size: 17px;
+      line-height: 20px;
+    }
+  }
+</style>

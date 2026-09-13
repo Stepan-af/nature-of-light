@@ -1,0 +1,225 @@
+---
+import { Image } from 'astro:assets';
+import { formatPriceFrom } from '@/lib/site';
+import { availabilityLabel, productHref, type Product } from './catalog';
+
+export interface Props {
+  product: Product;
+  /** Category title for the green chip on the photo. */
+  categoryLabel?: string;
+  headingLevel?: 'h2' | 'h3';
+  /** Load eagerly (cards in the first row, which contain the LCP image). */
+  eager?: boolean;
+}
+
+const { product, categoryLabel, headingLevel: Heading = 'h2', eager = false } = Astro.props;
+const { title, material, priceFrom, availability, image, imageAlt } = product.data;
+---
+
+<article class="card">
+  <div class="card__media">
+    <Image
+      class="card__img"
+      src={image}
+      alt={imageAlt}
+      width={600}
+      widths={[320, 480, 640, 900]}
+      sizes="(max-width: 767.98px) 50vw, (max-width: 1199.98px) 33vw, 280px"
+      loading={eager ? 'eager' : 'lazy'}
+    />
+    {categoryLabel && <span class="card__chip">{categoryLabel}</span>}
+  </div>
+  <div class="card__body">
+    <Heading class="card__title">
+      <a class="card__link" href={productHref(product)}>{title}</a>
+    </Heading>
+    <p class:list={['card__availability', `is-${availability}`]}>{availabilityLabel[availability]}</p>
+    <p class="card__material">{material}</p>
+    <div class="card__footer">
+      <p class="card__price">{formatPriceFrom(priceFrom)}</p>
+      <span class="card__more" aria-hidden="true">Подробнее →</span>
+    </div>
+  </div>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    transition:
+      border-color var(--duration) var(--ease),
+      box-shadow var(--duration) var(--ease);
+  }
+
+  .card:hover {
+    border-color: rgb(46 125 50 / 0.35);
+    box-shadow: var(--shadow-card);
+  }
+
+  .card:focus-within {
+    outline: 2px solid var(--color-green);
+    outline-offset: 2px;
+  }
+
+  .card__media {
+    position: relative;
+    aspect-ratio: 276 / 200;
+    overflow: hidden;
+    background: var(--color-surface-hover);
+  }
+
+  .card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 400ms var(--ease);
+  }
+
+  .card:hover .card__img {
+    transform: scale(1.04);
+  }
+
+  .card__chip {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 3px 10px;
+    border: 1px solid #fff;
+    border-radius: 20px;
+    background: var(--color-green);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 11px;
+    line-height: 16.5px;
+    letter-spacing: 0.66px;
+    text-transform: uppercase;
+  }
+
+  .card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 16px 16px 18px;
+  }
+
+  .card__title {
+    flex: 1;
+    padding-bottom: 8px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 20.25px;
+    color: var(--color-text);
+    text-wrap: pretty;
+    min-height: calc(20.25px * 2 + 8px);
+  }
+
+  /* Whole card is clickable through the title link. */
+  .card__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .card__link:focus-visible {
+    outline: none;
+  }
+
+  .card__availability {
+    padding-bottom: 4px;
+    font-size: 15px;
+    line-height: 18px;
+    color: var(--color-green);
+  }
+
+  .card__material {
+    padding-bottom: 12px;
+    font-size: 12px;
+    line-height: 18px;
+    color: var(--color-text-muted);
+  }
+
+  .card__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px 12px;
+  }
+
+  .card__price {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--color-green);
+    white-space: nowrap;
+  }
+
+  .card__more {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    color: var(--color-text-muted);
+    transition: color var(--duration) var(--ease);
+  }
+
+  .card:hover .card__more {
+    color: var(--color-text);
+  }
+
+  @media (max-width: 767.98px) {
+    .card {
+      border-radius: var(--radius-lg);
+    }
+
+    .card__media {
+      aspect-ratio: 183 / 200;
+    }
+
+    .card__chip {
+      top: 8px;
+      left: 8px;
+      padding: 2px 8px;
+      font-size: 10px;
+      line-height: 15px;
+      letter-spacing: 0.5px;
+    }
+
+    .card__body {
+      padding: 12px 12px 14px;
+    }
+
+    .card__title {
+      font-size: 14px;
+      line-height: 18px;
+      min-height: calc(18px * 2 + 6px);
+      padding-bottom: 6px;
+    }
+
+    .card__availability {
+      font-size: 13px;
+      line-height: 17px;
+    }
+
+    .card__material {
+      padding-bottom: 8px;
+    }
+
+    .card__price {
+      font-size: 15px;
+      line-height: 22px;
+    }
+
+    .card__more {
+      display: none;
+    }
+  }
+</style>

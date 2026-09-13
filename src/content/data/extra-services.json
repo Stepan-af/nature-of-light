@@ -1,0 +1,12 @@
+{
+  "items": [
+    { "id": "montazh-videosten", "title": "Монтаж видеостен и подсветки" },
+    { "id": "protivopozharnaya-obrabotka", "title": "Противопожарная обработка" },
+    { "id": "fasadnoe-osteklenie", "title": "Фасадное остекление без сварки" },
+    { "id": "demontazh", "title": "Демонтаж старых конструкций" },
+    { "id": "remont-germetizaciya", "title": "Ремонт и герметизация покрытий" },
+    { "id": "pokraska-stekol", "title": "Покраска стёкол плёнкой" },
+    { "id": "tehobsluzhivanie", "title": "Техническое обслуживание" },
+    { "id": "podgonka-zimoj", "title": "Подгонка конструкций зимой" }
+  ]
+}

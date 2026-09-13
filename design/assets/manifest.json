@@ -1,0 +1,644 @@
+{
+  "logo-mark.jpg": {
+    "sourceNode": "110:4474",
+    "description": "Logo mark tile (50x50, radius 8) in header",
+    "width": 1042,
+    "height": 1042
+  },
+  "home-hero-photo-cutout.png": {
+    "sourceNode": "82:42",
+    "description": "Hero photo pre-clipped by Subtract boolean (rounded card with bottom-right notch), 2x",
+    "width": 2362,
+    "height": 1288
+  },
+  "home-hero-blur-panel-h1.svg": {
+    "sourceNode": "82:42",
+    "description": "Blurred translucent panel behind hero H1 (#757575 20%, blur 7.4)",
+    "width": 646.8,
+    "height": 384.562
+  },
+  "home-hero-blur-panel-lead.svg": {
+    "sourceNode": "82:42",
+    "description": "Blurred panel behind hero paragraph",
+    "width": 614.8,
+    "height": 271.656
+  },
+  "home-hero-blur-panel-stats.svg": {
+    "sourceNode": "82:42",
+    "description": "Blurred panel behind hero stats",
+    "width": 614.8,
+    "height": 244.683
+  },
+  "home-hero-rating-badge-shape.svg": {
+    "sourceNode": "82:42",
+    "description": "Rating badge blob shape #373737 with concave top-right notch (290x161)",
+    "width": 290.0,
+    "height": 161.0
+  },
+  "home-cat-zimnie-sady.png": {
+    "sourceNode": "82:97",
+    "description": "Category card photo: Зимние сады (winter garden)",
+    "width": 1024,
+    "height": 768
+  },
+  "home-cat-kozyrki.png": {
+    "sourceNode": "82:97",
+    "description": "Category card photo: Козырьки (canopy over entrance)",
+    "width": 1024,
+    "height": 768
+  },
+  "home-cat-navesy.png": {
+    "sourceNode": "82:97",
+    "description": "Category card photo: Навесы (canopy on brick building)",
+    "width": 768,
+    "height": 1024
+  },
+  "home-portfolio-featured-winter-garden.jpg": {
+    "sourceNode": "86:1392",
+    "description": "Portfolio bento featured card photo: Атмосфера 42 м² winter garden interior (tall)",
+    "width": 1280,
+    "height": 960
+  },
+  "home-portfolio-brick-balconies.jpg": {
+    "sourceNode": "86:1392",
+    "description": "Portfolio bento photo: brick facade with glazed balconies",
+    "width": 960,
+    "height": 1280
+  },
+  "home-portfolio-roof-skylight.jpg": {
+    "sourceNode": "86:1392",
+    "description": "Portfolio bento photo: glass roof skylight lantern",
+    "width": 4032,
+    "height": 3024
+  },
+  "home-portfolio-glass-roof-hall.png": {
+    "sourceNode": "86:1392",
+    "description": "Portfolio bento photo: glass-roof hall with plants",
+    "width": 1024,
+    "height": 768
+  },
+  "icon-adv-measure.svg": {
+    "sourceNode": "82:264",
+    "description": "Advantage icon 20px: Точный замер (diagonal expand arrows)",
+    "width": 20.0,
+    "height": 20.0
+  },
+  "icon-adv-factory-part1.svg": {
+    "sourceNode": "82:264",
+    "description": "Advantage icon Собственное производство — outer rect vector",
+    "width": 15.5,
+    "height": 11.5
+  },
+  "icon-adv-factory-part2.svg": {
+    "sourceNode": "82:264",
+    "description": "Advantage icon Собственное производство — inner circle vector",
+    "width": 5.5,
+    "height": 5.5
+  },
+  "icon-adv-install-part1.svg": {
+    "sourceNode": "82:264",
+    "description": "Advantage icon Монтаж за 1 день — bottom stand line",
+    "width": 11.0607,
+    "height": 4.12132
+  },
+  "icon-adv-install-part2.svg": {
+    "sourceNode": "82:264",
+    "description": "Advantage icon Монтаж за 1 день — monitor rect",
+    "width": 13.5,
+    "height": 9.5
+  },
+  "icon-adv-warranty-part1.svg": {
+    "sourceNode": "82:264",
+    "description": "Advantage icon Гарантия 5 лет — clock circle",
+    "width": 15.5,
+    "height": 15.5
+  },
+  "icon-adv-warranty-part2.svg": {
+    "sourceNode": "82:264",
+    "description": "Advantage icon Гарантия 5 лет — clock hands",
+    "width": 3.28033,
+    "height": 5.53033
+  },
+  "review-divider.svg": {
+    "sourceNode": "635:5237",
+    "description": "1px horizontal divider line inside review card (356px)",
+    "width": 356.0,
+    "height": 1.0
+  },
+  "rating-stars-5.svg": {
+    "sourceNode": "635:5237",
+    "description": "5 orange stars rating row 128x24",
+    "width": 128.0,
+    "height": 24.0
+  },
+  "icon-arrow-down.svg": {
+    "sourceNode": "473:952",
+    "description": "FAQ collapsed state arrow (down), 24px",
+    "width": 24.0,
+    "height": 24.0
+  },
+  "icon-arrow-up.svg": {
+    "sourceNode": "473:952",
+    "description": "FAQ expanded state arrow (up), 24px",
+    "width": 24.0,
+    "height": 24.0
+  },
+  "input-caret.svg": {
+    "sourceNode": "473:952",
+    "description": "Text cursor caret line (20px tall) in focused input",
+    "width": 1.0,
+    "height": 21.0
+  },
+  "catalog-kozyrek-klassik.jpg": {
+    "sourceNode": "108:2355",
+    "description": "Catalog card photo: Козырёк стеклянный «Классик»",
+    "width": 4032,
+    "height": 3024
+  },
+  "catalog-zerkalnye-raboty.jpg": {
+    "sourceNode": "108:2355",
+    "description": "Catalog card photo: Зеркальные работы (interior)",
+    "width": 1280,
+    "height": 1920
+  },
+  "catalog-zimniy-sad-mansardnyy.jpg": {
+    "sourceNode": "108:2355",
+    "description": "Catalog card photo: Зимний сад «Мансардный» (stained glass)",
+    "width": 3024,
+    "height": 4032
+  },
+  "catalog-naves-parkovka.jpg": {
+    "sourceNode": "108:2355",
+    "description": "Catalog card photo: Навес над парковкой",
+    "width": 4096,
+    "height": 2304
+  },
+  "catalog-kozyrek-veer.jpg": {
+    "sourceNode": "108:2355",
+    "description": "Catalog card photo: Козырёк «Веер» консольный",
+    "width": 1600,
+    "height": 1200
+  },
+  "catalog-naves-besedka.jpg": {
+    "sourceNode": "108:2355",
+    "description": "Catalog card photo: Навес-беседка комбинированный",
+    "width": 1200,
+    "height": 1600
+  },
+  "catalog-zimniy-sad-legkiy.jpg": {
+    "sourceNode": "108:2355",
+    "description": "Catalog card photo: Зимний сад «Лёгкий» пристройка",
+    "width": 4032,
+    "height": 3024
+  },
+  "photo-staircase-glass-railing.jpg": {
+    "sourceNode": "86:1392",
+    "description": "Interior staircase with glass railing — used in home portfolio bento (top middle) and catalog card Зимний сад «Панорама»",
+    "width": 1280,
+    "height": 960
+  },
+  "portfolio-atmosfera-42-greenhouse.jpg": {
+    "sourceNode": "108:3185",
+    "description": "Portfolio card (visible photo): Атмосфера 42 м² — outdoor greenhouse extension",
+    "width": 3008,
+    "height": 2000
+  },
+  "portfolio-prestizh-house.jpg": {
+    "sourceNode": "108:3185",
+    "description": "Portfolio card (visible photo): «Престиж» входная группа — brick house with bay windows",
+    "width": 2592,
+    "height": 1944
+  },
+  "portfolio-loft-glass-roof.jpg": {
+    "sourceNode": "108:3185",
+    "description": "Portfolio card (visible photo): «Лофт» в таунхаусе — dark glass roof structure",
+    "width": 4032,
+    "height": 3024
+  },
+  "portfolio-roof-terrace-stained-glass.jpg": {
+    "sourceNode": "108:3185",
+    "description": "Portfolio card (visible photo): Кровельная терраса 18 м² — stained glass window",
+    "width": 4032,
+    "height": 3024
+  },
+  "portfolio-office-entrance-house.jpg": {
+    "sourceNode": "108:3185",
+    "description": "Portfolio card (visible photo): Козырёк над входом в офис — modern house with trees",
+    "width": 3024,
+    "height": 4032
+  },
+  "portfolio-spiral-stair-glass.jpg": {
+    "sourceNode": "108:3185",
+    "description": "Portfolio card (visible photo): duplicate Козырёк над входом — spiral stair in glass shaft",
+    "width": 4032,
+    "height": 3024
+  },
+  "portfolio-hidden-atmosfera-42.jpg": {
+    "sourceNode": "108:3185",
+    "description": "Hidden base photo layer under card Атмосфера 42 м² (covered by visible photo)",
+    "width": 800,
+    "height": 800
+  },
+  "portfolio-hidden-klassik-3.jpg": {
+    "sourceNode": "108:3185",
+    "description": "Hidden base photo under card «Классик» ×3 для ЖК",
+    "width": 600,
+    "height": 380
+  },
+  "portfolio-hidden-tropik-30.jpg": {
+    "sourceNode": "108:3185",
+    "description": "Hidden base photo under card Оранжерея «Тропик» 30 м²",
+    "width": 800,
+    "height": 800
+  },
+  "portfolio-hidden-prestizh.jpg": {
+    "sourceNode": "108:3185",
+    "description": "Hidden base photo under card «Престиж» входная группа",
+    "width": 600,
+    "height": 380
+  },
+  "portfolio-hidden-loft.jpg": {
+    "sourceNode": "108:3185",
+    "description": "Hidden base photo under card «Лофт» в таунхаусе",
+    "width": 600,
+    "height": 380
+  },
+  "portfolio-hidden-terrace-22.jpg": {
+    "sourceNode": "108:3185",
+    "description": "Hidden base photo under card Стеклянная терраса 22 м²",
+    "width": 600,
+    "height": 380
+  },
+  "portfolio-hidden-naves-80.jpg": {
+    "sourceNode": "108:3185",
+    "description": "Hidden base photo under card Навес над парковкой 80 м²",
+    "width": 600,
+    "height": 380
+  },
+  "portfolio-hidden-roof-terrace-18.jpg": {
+    "sourceNode": "108:3185",
+    "description": "Hidden base photo under card Кровельная терраса 18 м²",
+    "width": 600,
+    "height": 380
+  },
+  "portfolio-hidden-office-entrance.jpg": {
+    "sourceNode": "108:3185",
+    "description": "Hidden base photo under card Козырёк над входом в офис",
+    "width": 600,
+    "height": 380
+  },
+  "project-gallery-main-glass-dome.jpg": {
+    "sourceNode": "148:1410",
+    "description": "Project detail main gallery photo (also 4th, active thumbnail): glass-roof pavilion with carved wooden panel",
+    "width": 1200,
+    "height": 1600
+  },
+  "project-gallery-thumb-1.jpg": {
+    "sourceNode": "148:1410",
+    "description": "Project detail gallery thumbnail 1: glass roof frame, sky",
+    "width": 960,
+    "height": 1280
+  },
+  "project-gallery-thumb-2.jpg": {
+    "sourceNode": "148:1410",
+    "description": "Project detail gallery thumbnail 2: glass terrace interior",
+    "width": 1600,
+    "height": 1200
+  },
+  "project-gallery-thumb-3.jpg": {
+    "sourceNode": "148:1410",
+    "description": "Project detail gallery thumbnail 3: glass roof over lounge with plants",
+    "width": 1280,
+    "height": 960
+  },
+  "icon-arrow-up-right-green.svg": {
+    "sourceNode": "781:5611",
+    "description": "12px arrow ↗ (stroke #2D7A3A) before service duration label",
+    "width": 12.0,
+    "height": 12.0
+  },
+  "icon-svc-plus-v.svg": {
+    "sourceNode": "781:5611",
+    "description": "Service 01 Консультация plus icon — vertical stroke",
+    "width": 1.5,
+    "height": 12.0
+  },
+  "icon-svc-plus-h.svg": {
+    "sourceNode": "781:5611",
+    "description": "Service 01 plus icon — horizontal stroke",
+    "width": 12.0,
+    "height": 1.5
+  },
+  "icon-svc-measure-part1.svg": {
+    "sourceNode": "781:5611",
+    "description": "Service 02 Замер diagonal arrow top-left",
+    "width": 6.28033,
+    "height": 6.28033
+  },
+  "icon-svc-measure-part2.svg": {
+    "sourceNode": "781:5611",
+    "description": "Service 02 Замер diagonal arrow bottom-right",
+    "width": 6.28033,
+    "height": 6.28033
+  },
+  "icon-svc-doc-part1.svg": {
+    "sourceNode": "781:5611",
+    "description": "Service 03 Проектирование document outline",
+    "width": 15.5,
+    "height": 15.5
+  },
+  "icon-svc-doc-part2.svg": {
+    "sourceNode": "781:5611",
+    "description": "Service 03 document inner lines",
+    "width": 6.0,
+    "height": 7.5
+  },
+  "icon-svc-delivery-part1.svg": {
+    "sourceNode": "781:5611",
+    "description": "Service 05 Доставка chart/line glyph",
+    "width": 15.0607,
+    "height": 7.65318
+  },
+  "icon-svc-delivery-part2.svg": {
+    "sourceNode": "781:5611",
+    "description": "Service 05 Доставка baseline",
+    "width": 14.0,
+    "height": 1.5
+  },
+  "icon-textfield-arrow.svg": {
+    "sourceNode": "302:3212",
+    "description": "Text field optional left/right arrow icon (19px line, rotated -90deg)",
+    "width": 19.5,
+    "height": 7.36396
+  },
+  "menu-card-residential-staircase.jpg": {
+    "sourceNode": "910:1958",
+    "description": "Catalog dropdown card image: Жилые дома (interior staircase with pendant light)",
+    "width": 4032,
+    "height": 3024
+  },
+  "dot-green-6.svg": {
+    "sourceNode": "910:1958",
+    "description": "6px green status dot in dropdown panel header",
+    "width": 6.0,
+    "height": 6.0
+  },
+  "icon-close-10.svg": {
+    "sourceNode": "910:1958",
+    "description": "10px close (x) icon inside round close button",
+    "width": 10.0,
+    "height": 10.0
+  },
+  "icon-close-circle-23.svg": {
+    "sourceNode": "910:1958",
+    "description": "23px x-circle close icon (dropdown panel)",
+    "width": 23.0,
+    "height": 23.0
+  },
+  "menu-portfolio-card-all.png": {
+    "sourceNode": "910:1988",
+    "description": "Portfolio dropdown card: Все проекты (brick house with canopies, dusk)",
+    "width": 160,
+    "height": 110
+  },
+  "menu-portfolio-card-residential.png": {
+    "sourceNode": "910:1988",
+    "description": "Portfolio dropdown card: Жилые дома (glass canopy with forged brackets)",
+    "width": 160,
+    "height": 110
+  },
+  "menu-portfolio-card-commercial.png": {
+    "sourceNode": "910:1988",
+    "description": "Portfolio dropdown card: Коммерческие (glazed veranda with balusters)",
+    "width": 552,
+    "height": 380
+  },
+  "icon-close-circle-25.svg": {
+    "sourceNode": "910:1988",
+    "description": "25x23 x-circle close icon (portfolio dropdown)",
+    "width": 25.0,
+    "height": 23.0
+  },
+  "logo-full.jpg": {
+    "sourceNode": "857:929",
+    "description": "Company logo 'ПРИРОДА СВЕТА' (grey building illustration + wordmark on white), 1042x1042 JPEG, from UI kit логотип 1",
+    "width": 1042,
+    "height": 1042
+  },
+  "icon-close-circle-19.svg": {
+    "sourceNode": "549:1111",
+    "description": "19px x-circle close icon (mobile menu panel, stroke #757575)",
+    "width": 20.0,
+    "height": 20.0
+  },
+  "photos/home-portfolio-raw-1.jpg": {
+    "sourceNode": "86:1392",
+    "description": "Original uploaded photo (download_assets rawImages) from HomePortfolio bento; byte-identical to assets/home-portfolio-featured-winter-garden.jpg",
+    "width": 1280,
+    "height": 960
+  },
+  "photos/home-portfolio-raw-10.jpg": {
+    "sourceNode": "86:1392",
+    "description": "Original uploaded photo (download_assets rawImages) from HomePortfolio bento; byte-identical to assets/portfolio-loft-glass-roof.jpg",
+    "width": 4032,
+    "height": 3024
+  },
+  "photos/home-portfolio-raw-2.jpg": {
+    "sourceNode": "86:1392",
+    "description": "Original uploaded photo (download_assets rawImages) from HomePortfolio bento; small thumbnail-size original",
+    "width": 504,
+    "height": 378
+  },
+  "photos/home-portfolio-raw-3.jpg": {
+    "sourceNode": "86:1392",
+    "description": "Original uploaded photo (download_assets rawImages) from HomePortfolio bento; byte-identical to assets/photo-staircase-glass-railing.jpg",
+    "width": 1280,
+    "height": 960
+  },
+  "photos/home-portfolio-raw-4.jpg": {
+    "sourceNode": "86:1392",
+    "description": "Original uploaded photo (download_assets rawImages) from HomePortfolio bento; small thumbnail-size original",
+    "width": 320,
+    "height": 240
+  },
+  "photos/home-portfolio-raw-5.jpg": {
+    "sourceNode": "86:1392",
+    "description": "Original uploaded photo (download_assets rawImages) from HomePortfolio bento; byte-identical to assets/home-portfolio-brick-balconies.jpg",
+    "width": 960,
+    "height": 1280
+  },
+  "photos/home-portfolio-raw-6.jpg": {
+    "sourceNode": "86:1392",
+    "description": "Original uploaded photo (download_assets rawImages) from HomePortfolio bento; small thumbnail-size original",
+    "width": 240,
+    "height": 320
+  },
+  "photos/home-portfolio-raw-7.jpg": {
+    "sourceNode": "86:1392",
+    "description": "Original uploaded photo (download_assets rawImages) from HomePortfolio bento; byte-identical to assets/home-portfolio-roof-skylight.jpg",
+    "width": 4032,
+    "height": 3024
+  },
+  "photos/home-portfolio-raw-8.jpg": {
+    "sourceNode": "86:1392",
+    "description": "Original uploaded photo (download_assets rawImages) from HomePortfolio bento; small thumbnail-size original",
+    "width": 504,
+    "height": 378
+  },
+  "photos/home-portfolio-raw-9.jpg": {
+    "sourceNode": "86:1392",
+    "description": "Original uploaded photo (download_assets rawImages) from HomePortfolio bento; small thumbnail-size original",
+    "width": 320,
+    "height": 240
+  },
+  "mobile-hero-photo-cutout.png": {
+    "sourceNode": "325:5444",
+    "description": "Mobile hero photo pre-clipped by Subtract boolean (402x633 with bottom-right notch), 2x",
+    "width": 804,
+    "height": 1266
+  },
+  "mobile-hero-blur-panel-h1.svg": {
+    "sourceNode": "325:5444",
+    "description": "Mobile hero blurred panel behind H1",
+    "width": 646.8,
+    "height": 384.562
+  },
+  "mobile-hero-blur-panel-stats.svg": {
+    "sourceNode": "325:5444",
+    "description": "Mobile hero blurred panel behind stats",
+    "width": 413.8,
+    "height": 236.614
+  },
+  "mobile-hero-blur-panel-lead.svg": {
+    "sourceNode": "325:5444",
+    "description": "Mobile hero blurred panel behind lead paragraph",
+    "width": 466.8,
+    "height": 221.664
+  },
+  "mobile-cat-kozyrki.png": {
+    "sourceNode": "325:5562",
+    "description": "Mobile category card photo: Козырьки (182x230 crop)",
+    "width": 1024,
+    "height": 768
+  },
+  "mobile-portfolio-featured-winter-garden.png": {
+    "sourceNode": "340:5645",
+    "description": "Mobile home portfolio featured card photo (Атмосфера 42 м², glass-roof interior), cropped export",
+    "width": 482,
+    "height": 605
+  },
+  "rating-stars-5-mobile.svg": {
+    "sourceNode": "487:2191",
+    "description": "5 orange stars rating row (mobile export 128x24)",
+    "width": 128.0,
+    "height": 24.0
+  },
+  "review-divider-mobile.svg": {
+    "sourceNode": "487:2191",
+    "description": "Review card divider line 315px (mobile)",
+    "width": 315.0,
+    "height": 1.0
+  },
+  "ios-statusbar-cellular.svg": {
+    "sourceNode": "480:1202",
+    "description": "iOS status bar mock icon (NOT site UI)",
+    "width": 19.2,
+    "height": 12.2264
+  },
+  "ios-statusbar-wifi-icon.svg": {
+    "sourceNode": "480:1202",
+    "description": "iOS status bar mock icon (NOT site UI)",
+    "width": 17.1417,
+    "height": 12.3283
+  },
+  "ios-statusbar-battery-icon.svg": {
+    "sourceNode": "480:1202",
+    "description": "iOS status bar mock icon (NOT site UI)",
+    "width": 27.328,
+    "height": 13.0
+  },
+  "ios-statusbar-cellular-dark.svg": {
+    "sourceNode": "394:7392",
+    "description": "iOS status bar mock icon, dark variant (NOT site UI)",
+    "width": 19.2,
+    "height": 12.2264
+  },
+  "ios-statusbar-wifi-dark.svg": {
+    "sourceNode": "394:7392",
+    "description": "iOS status bar mock icon, dark variant (NOT site UI)",
+    "width": 17.1417,
+    "height": 12.3283
+  },
+  "ios-statusbar-battery-dark.svg": {
+    "sourceNode": "394:7392",
+    "description": "iOS status bar mock icon, dark variant (NOT site UI)",
+    "width": 27.328,
+    "height": 13.0
+  },
+  "mobile-portfolio-greenhouse.png": {
+    "sourceNode": "415:8653",
+    "description": "Mobile portfolio card crop: outdoor greenhouse (tall 183x364)",
+    "width": 378,
+    "height": 530
+  },
+  "mobile-portfolio-staircase.png": {
+    "sourceNode": "415:8653",
+    "description": "Mobile portfolio card crop: staircase with glass railing",
+    "width": 378,
+    "height": 260
+  },
+  "mobile-portfolio-skylight.png": {
+    "sourceNode": "415:8653",
+    "description": "Mobile portfolio card crop: roof skylight at dusk",
+    "width": 378,
+    "height": 260
+  },
+  "mobile-portfolio-stained-glass.png": {
+    "sourceNode": "415:8653",
+    "description": "Mobile portfolio card crop: stained glass window",
+    "width": 378,
+    "height": 260
+  },
+  "mobile-portfolio-brick-house.png": {
+    "sourceNode": "415:8653",
+    "description": "Mobile portfolio card crop: brick house with bay windows",
+    "width": 378,
+    "height": 260
+  },
+  "mobile-portfolio-spiral-stair.png": {
+    "sourceNode": "415:8653",
+    "description": "Mobile portfolio card crop: spiral stair in glass shaft",
+    "width": 378,
+    "height": 260
+  },
+  "mobile-portfolio-glass-roof-plants.png": {
+    "sourceNode": "415:8653",
+    "description": "Mobile portfolio card crop: dark glass roof hall with plants",
+    "width": 378,
+    "height": 260
+  },
+  "ios-statusbar-cellular-light.svg": {
+    "sourceNode": "421:10337",
+    "description": "iOS status bar mock icon, white (NOT site UI)",
+    "width": 19.2,
+    "height": 12.2264
+  },
+  "ios-statusbar-wifi-light.svg": {
+    "sourceNode": "421:10337",
+    "description": "iOS status bar mock icon, white (NOT site UI)",
+    "width": 17.1417,
+    "height": 12.3283
+  },
+  "ios-statusbar-battery-light.svg": {
+    "sourceNode": "421:10337",
+    "description": "iOS status bar mock icon, white (NOT site UI)",
+    "width": 27.328,
+    "height": 13.0
+  },
+  "icon-svc-production.svg": {
+    "sourceNode": "791:7237",
+    "description": "Service 04 Производство icon (price-tag glyph, single 20px svg, mobile)",
+    "width": 20.0,
+    "height": 20.0
+  }
+}

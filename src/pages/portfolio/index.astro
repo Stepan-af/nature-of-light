@@ -1,0 +1,273 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import PortfolioCard from '@/components/portfolio/PortfolioCard.astro';
+import { bentoTall, getProjects, segmentLabels } from '@/components/portfolio/portfolio';
+import { getCategories } from '@/components/catalog/catalog';
+
+const projects = await getProjects();
+const categories = await getCategories();
+const tall = bentoTall(projects.length);
+
+const pills = [{ id: '', label: 'Все работы' }, ...categories.map((c) => ({ id: c.id, label: c.data.title }))];
+---
+
+<BaseLayout
+  title="Портфолио — наши работы"
+  description="Реализованные проекты «Природа Света»: зимние сады, стеклянные козырьки, навесы и террасы в Москве и Подмосковье. Фото, цены и сроки монтажа."
+  tone="light"
+>
+  <div class="portfolio container" data-portfolio data-segments={JSON.stringify(segmentLabels)}>
+    <Breadcrumbs items={[{ label: 'Главная', href: '/' }, { label: 'Портфолио' }]} />
+    <h1 class="portfolio__title">Наши работы</h1>
+
+    <nav class="filters" aria-label="Фильтр проектов">
+      <ul class="filters__list" role="list">
+        {
+          pills.map((pill) => (
+            <li>
+              <a
+                class:list={['pill', { 'is-active': !pill.id }]}
+                href={pill.id ? `?category=${pill.id}` : '/portfolio/'}
+                data-filter-category={pill.id}
+                aria-current={!pill.id ? 'true' : undefined}
+              >
+                {pill.label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a class="pill pill--type" href="/portfolio/" data-filter-type hidden>
+            <span data-filter-type-label></span>
+            <span aria-hidden="true">×</span>
+            <span class="visually-hidden">— сбросить фильтр</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <ul class="grid" role="list">
+      {
+        projects.map((project, i) => (
+          <li
+            class:list={['grid__item', { 'is-tall': tall[i] }]}
+            data-project
+            data-category={project.data.category.id}
+            data-segment={project.data.segment}
+          >
+            <PortfolioCard project={project} eager={i < 3} />
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="portfolio__empty" data-portfolio-empty hidden>
+      По выбранным фильтрам проектов пока нет. <a href="/portfolio/">Показать все работы</a>
+    </p>
+  </div>
+</BaseLayout>
+
+<script>
+  import { bentoTall } from '@/components/portfolio/bento';
+
+  const root = document.querySelector<HTMLElement>('[data-portfolio]');
+
+  if (root) {
+    const segmentLabels = JSON.parse(root.dataset.segments ?? '{}') as Record<string, string>;
+    const cards = [...root.querySelectorAll<HTMLElement>('[data-project]')];
+    const pills = [...root.querySelectorAll<HTMLAnchorElement>('[data-filter-category]')];
+    const typeChip = root.querySelector<HTMLAnchorElement>('[data-filter-type]');
+    const typeLabel = root.querySelector<HTMLElement>('[data-filter-type-label]');
+    const empty = root.querySelector<HTMLElement>('[data-portfolio-empty]');
+    const categoryIds = new Set(pills.map((p) => p.dataset.filterCategory).filter(Boolean));
+
+    const apply = (params: URLSearchParams) => {
+      const category = categoryIds.has(params.get('category') ?? '') ? params.get('category')! : '';
+      const type = params.get('type') ?? '';
+      const validType = type in segmentLabels ? type : '';
+
+      const visible = cards.filter(
+        (card) =>
+          (!category || card.dataset.category === category) && (!validType || card.dataset.segment === validType),
+      );
+      const tall = bentoTall(visible.length);
+      cards.forEach((card) => (card.hidden = !visible.includes(card)));
+      visible.forEach((card, i) => card.classList.toggle('is-tall', Boolean(tall[i])));
+
+      pills.forEach((pill) => {
+        const active = (pill.dataset.filterCategory ?? '') === category;
+        pill.classList.toggle('is-active', active);
+        if (active) pill.setAttribute('aria-current', 'true');
+        else pill.removeAttribute('aria-current');
+      });
+
+      if (typeChip && typeLabel) {
+        typeChip.hidden = !validType;
+        typeLabel.textContent = segmentLabels[validType] ?? '';
+        typeChip.href = category ? `?category=${category}` : '/portfolio/';
+      }
+      if (empty) empty.hidden = visible.length > 0;
+    };
+
+    const update = (mutate: (params: URLSearchParams) => void) => {
+      const params = new URLSearchParams(location.search);
+      mutate(params);
+      const query = params.toString();
+      history.replaceState(null, '', query ? `?${query}` : location.pathname);
+      apply(params);
+    };
+
+    pills.forEach((pill) =>
+      pill.addEventListener('click', (event) => {
+        event.preventDefault();
+        const id = pill.dataset.filterCategory;
+        update((params) => (id ? params.set('category', id) : params.delete('category')));
+      }),
+    );
+
+    typeChip?.addEventListener('click', (event) => {
+      event.preventDefault();
+      update((params) => params.delete('type'));
+    });
+
+    apply(new URLSearchParams(location.search));
+  }
+</script>
+
+<style>
+  .portfolio {
+    padding-block: 32px 72px;
+  }
+
+  .portfolio__title {
+    margin-top: 16px;
+    font-weight: 400;
+    font-size: 52px;
+    line-height: 57.2px;
+    letter-spacing: -1px;
+    color: var(--color-text);
+  }
+
+  .filters {
+    padding-top: 24px;
+  }
+
+  .filters__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 39px;
+    padding: 9px 18px;
+    border-radius: var(--radius-pill);
+    background: rgb(0 0 0 / 0.06);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: #555555;
+    white-space: nowrap;
+    transition:
+      background-color var(--duration) var(--ease),
+      color var(--duration) var(--ease);
+  }
+
+  .pill:hover {
+    background: rgb(0 0 0 / 0.11);
+    color: var(--color-text);
+  }
+
+  .pill.is-active {
+    background: rgb(13 13 12 / 0.2);
+    color: #4a4a48;
+  }
+
+  .pill--type {
+    background: var(--color-dark);
+    color: #fff;
+  }
+
+  .pill--type:hover {
+    background: var(--color-graphite);
+    color: #fff;
+  }
+
+  .pill[hidden] {
+    display: none;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: 260px;
+    grid-auto-flow: row dense;
+    gap: 10px;
+    margin-top: 40px;
+  }
+
+  .grid__item.is-tall {
+    grid-row: span 2;
+  }
+
+  .portfolio__empty {
+    margin-top: 40px;
+    color: var(--color-text-muted);
+  }
+
+  .portfolio__empty a {
+    color: var(--color-green);
+    text-decoration: underline;
+  }
+
+  @media (max-width: 1199.98px) {
+    .grid {
+      grid-auto-rows: clamp(200px, 21vw, 260px);
+    }
+  }
+
+  @media (max-width: 899.98px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-auto-rows: clamp(190px, 30vw, 260px);
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .portfolio {
+      padding-block: 16px 48px;
+    }
+
+    .portfolio__title {
+      margin-top: 6px;
+      font-weight: 700;
+      font-size: 30px;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+    }
+
+    .filters {
+      padding-top: 12px;
+    }
+
+    .filters__list {
+      gap: 6px;
+    }
+
+    .pill {
+      height: 32px;
+      padding: 6px 14px;
+      font-size: 13px;
+    }
+
+    .grid {
+      gap: 10px;
+      margin-top: 20px;
+      grid-auto-rows: clamp(180px, 50vw, 240px);
+    }
+  }
+</style>

@@ -1,0 +1,138 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  services: CollectionEntry<'extraServices'>[];
+}
+
+const { services } = Astro.props;
+---
+
+<section class="extra" aria-labelledby="extra-title">
+  <div class="container">
+    <div class="extra__head">
+      <h2 class="extra__title" id="extra-title">Дополнительные услуги</h2>
+      <p class="extra__lead">Расширенный перечень работ для комплексного обслуживания объекта</p>
+    </div>
+    <ul class="extra__grid" role="list">
+      {
+        services.map((service) => (
+          <li class="tile">
+            <span class="tile__title">{service.data.title}</span>
+            {service.data.description && <span class="tile__text">{service.data.description}</span>}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .extra {
+    padding-block: 40px;
+    background: var(--color-surface-subtle);
+  }
+
+  .extra__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 32px;
+  }
+
+  .extra__title {
+    padding-top: 6px;
+    font-size: 30px;
+    line-height: 36px;
+    color: var(--color-text-strong);
+  }
+
+  .extra__lead {
+    max-width: 240px;
+    padding-top: 8px;
+    font-size: 14px;
+    line-height: 22.75px;
+    text-align: right;
+    color: var(--color-text-soft);
+  }
+
+  .extra__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    min-height: 82px;
+    padding: 20px 24px;
+    border: 1px solid #ebebea;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+
+  .tile__title {
+    max-width: 214px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #444;
+  }
+
+  .tile__text {
+    font-size: 13px;
+    line-height: 18px;
+    color: var(--color-text-soft);
+  }
+
+  @media (max-width: 1199.98px) {
+    .extra__grid {
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .extra {
+      padding-block: 32px;
+    }
+
+    .extra__head {
+      gap: 16px;
+    }
+
+    .extra__title {
+      padding-top: 0;
+      font-size: 22px;
+      line-height: 26px;
+      font-weight: 500;
+    }
+
+    .extra__lead {
+      max-width: 190px;
+      padding-top: 2px;
+      font-size: 12px;
+      line-height: 17px;
+      text-align: left;
+    }
+
+    .extra__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .tile {
+      min-height: 56px;
+      padding: 10px 12px;
+      border-radius: 10px;
+    }
+
+    .tile__title {
+      font-size: 13px;
+      line-height: 17px;
+    }
+  }
+</style>

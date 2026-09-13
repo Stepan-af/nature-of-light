@@ -1,0 +1,366 @@
+---
+import Breadcrumbs, { type Crumb } from '@/components/ui/Breadcrumbs.astro';
+import Button from '@/components/ui/Button.astro';
+import Gallery, { type GalleryItem } from './Gallery.astro';
+
+export interface DetailLink {
+  href: string;
+  title: string;
+}
+
+export interface Props {
+  crumbs: Crumb[];
+  badge: string;
+  title: string;
+  gallery: GalleryItem[];
+  paramsLabel: string;
+  params: { label: string; value: string }[];
+  aboutLabel: string;
+  ctaHref: string;
+  prev?: DetailLink;
+  next?: DetailLink;
+  /** aria-label for the prev/next navigation. */
+  pagerLabel: string;
+  /** Render the description block (default slot). */
+  showAbout?: boolean;
+}
+
+const { crumbs, badge, title, gallery, paramsLabel, params, aboutLabel, ctaHref, prev, next, pagerLabel, showAbout = true } =
+  Astro.props;
+const hasAbout = showAbout && Astro.slots.has('default');
+---
+
+<div class="detail container">
+  <Breadcrumbs items={crumbs} />
+
+  <div class="detail__grid">
+    <div class="detail__main">
+      <div class="detail__gallery">
+        <Gallery items={gallery} />
+      </div>
+
+      {
+        hasAbout && (
+          <section class="detail__about" aria-labelledby="detail-about">
+            <h2 class="detail__label" id="detail-about">
+              {aboutLabel}
+            </h2>
+            <div class="detail__text">
+              <slot />
+            </div>
+          </section>
+        )
+      }
+    </div>
+
+    <div class="detail__aside">
+      <header class="detail__head">
+        <p class="detail__badge">{badge}</p>
+        <h1 class="detail__title">{title}</h1>
+      </header>
+
+      <section class="params" aria-labelledby="detail-params">
+        <h2 class="params__label" id="detail-params">{paramsLabel}</h2>
+        <dl class="params__list">
+          {
+            params.map((row) => (
+              <div class="params__row">
+                <dt>{row.label}</dt>
+                <dd>{row.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </section>
+
+      <section class="cta" aria-labelledby="detail-cta">
+        <h2 class="cta__title" id="detail-cta">Хотите похожую конструкцию?</h2>
+        <p class="cta__text">Рассчитаем стоимость и сроки — бесплатно</p>
+        <Button class="cta__btn" variant="light" href={ctaHref} block>Оставить заявку</Button>
+      </section>
+
+      {
+        (prev || next) && (
+          <nav class="pager" aria-label={pagerLabel}>
+            {prev && (
+              <a class="pager__card" href={prev.href} rel="prev">
+                <span class="pager__label">Пред.</span>
+                <span class="pager__title">{prev.title}</span>
+              </a>
+            )}
+            {next && (
+              <a class="pager__card pager__card--next" href={next.href} rel="next">
+                <span class="pager__label">След.</span>
+                <span class="pager__title">{next.title}</span>
+              </a>
+            )}
+          </nav>
+        )
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .detail {
+    padding-block: 36px 64px;
+  }
+
+  .detail__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 772fr) minmax(290px, 340fr);
+    gap: 40px;
+    align-items: start;
+    margin-top: 28px;
+  }
+
+  .detail__main,
+  .detail__aside {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .detail__aside {
+    gap: 12px;
+  }
+
+  /* ---------- About ---------- */
+  .detail__about {
+    padding-top: 28px;
+  }
+
+  .detail__label {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 11px;
+    line-height: 15px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--color-green);
+  }
+
+  .detail__text {
+    padding-top: 10px;
+    font-size: 15px;
+    line-height: 27px;
+    color: var(--color-text);
+  }
+
+  .detail__text :global(p + p),
+  .detail__text :global(ul),
+  .detail__text :global(ol) {
+    margin-top: 12px;
+  }
+
+  .detail__text :global(a) {
+    color: var(--color-green);
+    text-decoration: underline;
+  }
+
+  /* ---------- Head ---------- */
+  .detail__head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .detail__badge {
+    padding: 3px 10px;
+    border: 1px solid rgb(46 125 50 / 0.16);
+    border-radius: 20px;
+    background: var(--color-green-tint-8);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 11px;
+    line-height: 16.5px;
+    letter-spacing: 0.66px;
+    text-transform: uppercase;
+    color: #1f6a24;
+  }
+
+  .detail__title {
+    font-size: 28px;
+    line-height: 1.2;
+    color: var(--color-text);
+  }
+
+  /* ---------- Params ---------- */
+  .params {
+    padding: 20px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+  }
+
+  .params__label {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 13.5px;
+    letter-spacing: 1.08px;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .params__list {
+    padding-top: 14px;
+  }
+
+  .params__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 43.5px;
+    padding-block: 8px;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .params__row:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .params__row dt {
+    font-size: 13px;
+    line-height: 18px;
+    color: var(--color-text-muted);
+  }
+
+  .params__row dd {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 22.5px;
+    color: var(--color-text);
+    text-align: right;
+  }
+
+  /* ---------- CTA ---------- */
+  .cta {
+    padding: 22px 20px;
+    border-radius: var(--radius-card);
+    background: var(--color-green);
+    color: #fff;
+  }
+
+  .cta__title {
+    font-size: 18px;
+    line-height: 21.6px;
+  }
+
+  .cta__text {
+
+    padding-top: 8px;
+    font-size: 13px;
+    line-height: 19.5px;
+    color: #fff;
+  }
+
+  .cta :global(.cta__btn) {
+    margin-top: 16px;
+    min-height: 45px;
+  }
+
+  /* ---------- Prev / next ---------- */
+  .pager {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding-top: 4px;
+  }
+
+  .pager__card {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 10px 12px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    transition: border-color var(--duration) var(--ease);
+  }
+
+  .pager__card:hover {
+    border-color: rgb(46 125 50 / 0.4);
+  }
+
+  .pager__card--next {
+    grid-column: 2;
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .pager__label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 13.5px;
+    letter-spacing: 0.72px;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .pager__title {
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 16.5px;
+    color: var(--color-text);
+  }
+
+  @media (max-width: 767.98px) {
+    .detail {
+      padding-block: 16px 48px;
+    }
+
+    /* Single column: title → gallery → params → CTA → about → prev/next. */
+    .detail__grid {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .detail__main,
+    .detail__aside {
+      display: contents;
+    }
+
+    .detail__head {
+      order: 1;
+      gap: 8px;
+    }
+
+    .detail__gallery {
+      order: 2;
+    }
+
+    .params {
+      order: 3;
+    }
+
+    .cta {
+      order: 4;
+    }
+
+    .detail__about {
+      order: 5;
+      padding-top: 8px;
+    }
+
+    .pager {
+      order: 6;
+    }
+
+    .detail__title {
+      font-size: 26px;
+    }
+
+    .detail__text {
+      font-size: 15px;
+      line-height: 25px;
+    }
+  }
+</style>

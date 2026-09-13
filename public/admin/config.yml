@@ -1,0 +1,424 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+#
+# Sveltia CMS — «Природа Света»
+# Docs: https://sveltiacms.app/en/docs
+#
+# This file MUST mirror src/content.config.ts. When a schema changes, change
+# this file too and run `node docs/check-cms-config.mjs`.
+#
+# Content layout:
+#   - categories / products / projects: page bundles
+#     src/content/<collection>/<slug>/index.md + images next to index.md
+#   - blocks (reviews, faq, …): JSON singletons `{ "items": [...] }` in src/content/data
+#   - settings: src/content/data/settings.json (imported directly by src/lib/site.ts)
+
+backend:
+  name: github
+  repo: Stepan-af/nature-of-light
+  branch: main
+  # No OAuth server: editors sign in with a GitHub personal access token.
+  auth_methods: [token]
+  commit_messages:
+    create: 'CMS: создано {{collection}} «{{slug}}»'
+    update: 'CMS: изменено {{collection}} «{{slug}}»'
+    delete: 'CMS: удалено {{collection}} «{{slug}}»'
+    uploadMedia: 'CMS: загружен файл {{path}}'
+    deleteMedia: 'CMS: удалён файл {{path}}'
+
+app_title: Природа Света — редактор сайта
+site_url: https://prirodasveta.ru
+logo:
+  src: /icon-512.png
+  show_in_header: true
+
+# Global media folder is required by Sveltia, but every collection with images
+# overrides it with entry-relative folders (images live next to index.md).
+media_folder: public/uploads
+public_folder: /uploads
+
+media_libraries:
+  default:
+    config:
+      max_file_size: 15000000 # 15 MB
+      slugify_filename: true # «Фото 1.JPG» → foto-1.jpg
+      transformations:
+        raster_image:
+          format: webp
+          quality: 85
+          width: 2400
+          height: 2400
+
+# Cyrillic titles → Latin folder names/URLs: «Зимние сады» → zimnie-sady
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: '-'
+  lowercase: true
+  trim: true
+  maxlength: 60
+
+# Astro's zod schemas treat missing optional values as `undefined`; `null`/''
+# would fail validation (e.g. an unfilled SEO block), so omit empty optional fields.
+output:
+  omit_empty_optional_fields: true
+  yaml:
+    quote: double
+  json:
+    indent_style: space
+    indent_size: 2
+
+editor:
+  preview: false
+
+show_preview_links: true
+
+collections:
+  # ───────────────────────────── Категории ─────────────────────────────
+  - name: categories
+    label: Категории
+    label_singular: категорию
+    description: Разделы каталога (козырьки, навесы, зимние сады). Папка записи = адрес страницы `/catalog/<папка>/`.
+    icon: category
+    folder: src/content/categories
+    path: '{{slug}}/index'
+    extension: md
+    format: yaml-frontmatter
+    media_folder: ''
+    public_folder: ''
+    preview_path: '/catalog/{{dirname}}/'
+    aliases_field: false
+    identifier_field: title
+    summary: '{{title}}'
+    thumbnail: image
+    sortable_fields:
+      fields: [order, title]
+      default: { field: order, direction: ascending }
+    fields:
+      - { name: title, label: Название, widget: string, hint: 'Например: «Козырьки». Из названия автоматически формируется адрес страницы латиницей.' }
+      - { name: summary, label: Краткое описание, widget: text, hint: Текст для карточки категории на главной странице (1–2 предложения). }
+      - &image_field
+        name: image
+        label: Обложка
+        widget: image
+        hint: JPEG или WebP, не меньше 1600 px по ширине.
+      - &image_alt_field
+        name: imageAlt
+        label: Описание обложки (alt)
+        widget: string
+        hint: Что изображено на фото — для незрячих пользователей и поисковиков.
+      - &order_field
+        name: order
+        label: Порядок
+        widget: number
+        value_type: int
+        default: 0
+        required: false
+        hint: Чем меньше число, тем выше в списке.
+      - &seo_field
+        name: seo
+        label: SEO
+        widget: object
+        required: false
+        collapsed: auto
+        hint: Необязательно. Если не заполнено, используются название и описание по умолчанию.
+        fields:
+          - { name: title, label: Заголовок страницы (title), widget: string, required: false, maxlength: 70, hint: 'До 60–70 символов. Название сайта добавится автоматически.' }
+          - { name: description, label: Описание (meta description), widget: text, required: false, maxlength: 200, hint: До 160 символов. }
+
+  # ───────────────────────────── Товары ─────────────────────────────
+  - name: products
+    label: Товары
+    label_singular: товар
+    description: Карточки каталога. Адрес страницы — `/catalog/<категория>/<папка товара>/`.
+    icon: inventory_2
+    folder: src/content/products
+    path: '{{slug}}/index'
+    extension: md
+    format: yaml-frontmatter
+    media_folder: ''
+    public_folder: ''
+    preview_path: '/catalog/{{category}}/{{dirname}}/'
+    aliases_field: false
+    identifier_field: title
+    summary: "{{title}}{{draft | ternary(' — черновик', '')}}"
+    thumbnail: image
+    sortable_fields:
+      fields: [order, title, priceFrom]
+      default: { field: order, direction: ascending }
+    view_groups:
+      - { name: category, label: Категория, field: category }
+    fields:
+      - { name: title, label: Название, widget: string, hint: 'Например: Козырёк стеклянный «Классик».' }
+      - &category_field
+        name: category
+        label: Категория
+        widget: relation
+        collection: categories
+        value_field: '{{slug}}'
+        display_fields: [title]
+        search_fields: [title]
+      - { name: material, label: Материал, widget: string, hint: 'Например: Закалённое стекло 8 мм.' }
+      - { name: priceFrom, label: Цена «от», widget: number, value_type: int, min: 0, step: 1000, after_input: ₽, hint: 'Целое число в рублях, без пробелов. На сайте будет «от 45 000 ₽».' }
+      - name: availability
+        label: Наличие
+        widget: select
+        default: order
+        options:
+          - { label: Под заказ, value: order }
+          - { label: В наличии, value: stock }
+      - *image_field
+      - *image_alt_field
+      - &gallery_field
+        name: gallery
+        label: Галерея
+        label_singular: фото
+        widget: list
+        required: false
+        summary: '{{alt}}'
+        hint: Дополнительные фотографии. Порядок можно менять перетаскиванием.
+        fields:
+          - { name: image, label: Фото, widget: image, hint: 'JPEG или WebP, не меньше 1600 px по ширине.' }
+          - { name: alt, label: Описание фото (alt), widget: string }
+      - name: specs
+        label: Характеристики
+        label_singular: характеристику
+        widget: list
+        required: false
+        summary: '{{label}}: {{value}}'
+        fields:
+          - { name: label, label: Параметр, widget: string, hint: 'Например: Стекло' }
+          - { name: value, label: Значение, widget: string, hint: 'Например: Закалённое 8 мм' }
+      - *order_field
+      - &draft_field
+        name: draft
+        label: Черновик
+        widget: boolean
+        default: false
+        required: false
+        hint: Черновики не публикуются на сайте.
+      - *seo_field
+      - &body_field
+        name: body
+        label: Описание
+        widget: markdown
+        required: false
+        hint: Основной текст страницы.
+        buttons: [bold, italic, link, heading-two, heading-three, bulleted-list, numbered-list, quote]
+        editor_components: []
+
+  # ───────────────────────────── Проекты ─────────────────────────────
+  - name: projects
+    label: Портфолио
+    label_singular: проект
+    description: Реализованные объекты. Адрес страницы — `/portfolio/<папка проекта>/`.
+    icon: photo_library
+    folder: src/content/projects
+    path: '{{slug}}/index'
+    extension: md
+    format: yaml-frontmatter
+    media_folder: ''
+    public_folder: ''
+    preview_path: '/portfolio/{{dirname}}/'
+    aliases_field: false
+    identifier_field: title
+    summary: "{{title}} · {{city}}, {{year}}{{draft | ternary(' — черновик', '')}}"
+    thumbnail: cover
+    sortable_fields:
+      fields: [order, title, year, price]
+      default: { field: order, direction: ascending }
+    view_groups:
+      - { name: category, label: Категория, field: category }
+      - { name: segment, label: Тип объекта, field: segment }
+    fields:
+      - { name: title, label: Название, widget: string, hint: 'Например: Атмосфера 42 м².' }
+      - *category_field
+      - { name: badge, label: Метка на карточке, widget: string, hint: 'Например: «Зимний сад», «Козырёк», «Терраса».' }
+      - { name: location, label: Адрес / объект, widget: string, hint: 'Например: Красногорск, КП «Гринфилд».' }
+      - { name: price, label: Стоимость, widget: number, value_type: int, min: 0, step: 1000, after_input: ₽, hint: 'Целое число в рублях, без пробелов.' }
+      - { name: area, label: Площадь / размеры, widget: string, hint: 'Например: 6×7 м' }
+      - { name: city, label: Город, widget: string }
+      - { name: year, label: Год, widget: number, value_type: int, min: 2000, max: 2100 }
+      - { name: installDuration, label: Срок монтажа, widget: string, hint: 'Например: 14 дней' }
+      - { name: cover, label: Обложка, widget: image, hint: 'JPEG или WebP, не меньше 1600 px по ширине.' }
+      - { name: coverAlt, label: Описание обложки (alt), widget: string, hint: Что изображено на фото. }
+      - *gallery_field
+      - name: segment
+        label: Тип объекта
+        widget: select
+        hint: Используется в фильтре портфолио.
+        options:
+          - { label: Частный, value: residential }
+          - { label: Коммерческий, value: commercial }
+      - { name: featured, label: Показать на главной, widget: boolean, default: false, required: false, hint: Проект попадёт в тёмный блок «Более 840 проектов» на главной. }
+      - *order_field
+      - *draft_field
+      - *seo_field
+      - *body_field
+
+  - divider: true
+
+  # ───────────────────────────── Блоки страниц ─────────────────────────────
+  - name: blocks
+    label: Блоки страниц
+    icon: view_agenda
+    description: Повторяющиеся блоки на страницах сайта. Каждый список должен содержать хотя бы один элемент.
+    files:
+      - name: reviews
+        label: Отзывы
+        icon: reviews
+        file: src/content/data/reviews.json
+        format: json
+        fields:
+          - name: items
+            label: Отзывы
+            label_singular: отзыв
+            widget: list
+            summary: '{{name}} — {{object}}'
+            fields:
+              - &id_field { name: id, label: ID, widget: uuid, hint: 'Служебный идентификатор, заполняется автоматически.' }
+              - { name: name, label: Имя клиента, widget: string }
+              - { name: object, label: Объект, widget: string, hint: 'Например: Зимний сад, Истра' }
+              - { name: rating, label: Оценка, widget: number, value_type: int, min: 1, max: 5, default: 5 }
+              - { name: text, label: Текст отзыва, widget: text }
+
+      - name: faq
+        label: Вопросы и ответы
+        icon: quiz
+        file: src/content/data/faq.json
+        format: json
+        fields:
+          - name: items
+            label: Вопросы
+            label_singular: вопрос
+            widget: list
+            summary: '{{question}}'
+            fields:
+              - *id_field
+              - { name: question, label: Вопрос, widget: string }
+              - { name: answer, label: Ответ, widget: markdown, buttons: [bold, italic, link, bulleted-list, numbered-list], editor_components: [], minimal: true }
+
+      - name: serviceSteps
+        label: Этапы работы
+        icon: format_list_numbered
+        file: src/content/data/service-steps.json
+        format: json
+        fields:
+          - name: items
+            label: Этапы
+            label_singular: этап
+            widget: list
+            summary: '{{title}} ({{duration}})'
+            fields:
+              - *id_field
+              - { name: title, label: Название этапа, widget: string }
+              - { name: description, label: Описание, widget: text }
+              - { name: duration, label: Срок, widget: string, hint: 'Например: 1 день' }
+
+      - name: extraServices
+        label: Дополнительные услуги
+        icon: add_task
+        file: src/content/data/extra-services.json
+        format: json
+        fields:
+          - name: items
+            label: Услуги
+            label_singular: услугу
+            widget: list
+            summary: '{{title}}'
+            fields:
+              - *id_field
+              - { name: title, label: Название, widget: string }
+              - { name: description, label: Описание, widget: text, required: false }
+
+      - name: advantages
+        label: Преимущества
+        icon: verified
+        file: src/content/data/advantages.json
+        format: json
+        fields:
+          - name: items
+            label: Преимущества
+            label_singular: преимущество
+            widget: list
+            summary: '{{title}}'
+            fields:
+              - *id_field
+              - { name: title, label: Заголовок, widget: string }
+              - { name: text, label: Текст, widget: text }
+              - name: icon
+                label: Иконка
+                widget: select
+                options:
+                  - { label: Замер, value: measure }
+                  - { label: Производство, value: factory }
+                  - { label: Монтаж, value: install }
+                  - { label: Гарантия, value: warranty }
+
+  # ───────────────────────────── Настройки ─────────────────────────────
+  # settings.json is imported directly by src/lib/site.ts, so its TS type is
+  # inferred from the file. Optional fields (required: false) are OMITTED from
+  # the file when left empty (output.omit_empty_optional_fields) — site.ts must
+  # type/normalize them as optional (see docs/cms.md → «Для разработчика»).
+  # Fields used unconditionally by components stay required.
+  - name: settings
+    label: Настройки сайта
+    icon: settings
+    files:
+      - name: settings
+        label: Контакты и общие данные
+        icon: contact_phone
+        file: src/content/data/settings.json
+        format: json
+        fields:
+          - { name: siteName, label: Название компании, widget: string }
+          - { name: tagline, label: Слоган, widget: string, hint: Показывается в заголовке главной страницы во вкладке браузера. }
+          - { name: description, label: Описание сайта по умолчанию, widget: text, hint: 'Meta description для страниц без собственного описания, до 160 символов.' }
+          - { name: foundedYear, label: Год основания, widget: number, value_type: int, min: 1900, max: 2100 }
+          - { name: phone, label: Телефон, widget: string, hint: 'Формат: +7 (495) 123-45-67' }
+          - { name: email, label: E-mail, widget: string, type: email }
+          - name: address
+            label: Адрес
+            widget: object
+            fields:
+              - { name: street, label: Улица и дом, widget: string }
+              - { name: city, label: Город, widget: string }
+              - { name: note, label: Примечание, widget: string, hint: 'Например: Производство и офис · м. Текстильщики' }
+          - { name: hours, label: Часы работы, widget: string, hint: 'Формат: «Пн–Пт 9:00–19:00, Сб 10:00–16:00» — используется и для разметки для поисковиков.' }
+          - { name: hoursNote, label: Примечание к часам работы, widget: string }
+          - name: social
+            label: Соцсети и мессенджеры
+            widget: object
+            fields:
+              - { name: telegram, label: Telegram, widget: string, type: url, hint: 'https://t.me/имя' }
+              - { name: whatsapp, label: WhatsApp, widget: string, type: url, hint: 'https://wa.me/74951234567' }
+              - { name: vk, label: ВКонтакте, widget: string, type: url, hint: 'https://vk.com/имя' }
+          - name: stats
+            label: Цифры о компании
+            label_singular: показатель
+            widget: list
+            summary: '{{value}} {{label}}'
+            fields:
+              - { name: value, label: Значение, widget: string, hint: 'Например: 500+' }
+              - { name: label, label: Подпись, widget: string, hint: 'Например: реализованных проектов' }
+          - name: rating
+            label: Рейтинг
+            widget: object
+            fields:
+              - { name: value, label: Значение, widget: string, hint: 'Например: 4.9 / 5' }
+              - { name: label, label: Подпись, widget: string }
+          - name: legal
+            label: Юридические данные и реквизиты
+            widget: object
+            hint: Используются в подвале сайта и на странице «Реквизиты». Незаполненные поля на сайте не показываются.
+            fields:
+              - { name: company, label: Краткое название, widget: string, hint: 'Например: ООО «Природа Света»' }
+              - { name: fullName, label: Полное наименование, widget: string, required: false, hint: 'Например: Общество с ограниченной ответственностью «Природа Света»' }
+              - { name: inn, label: ИНН, widget: string, required: false, pattern: ['^(\d{10}|\d{12})$', 'ИНН — 10 или 12 цифр'] }
+              - { name: kpp, label: КПП, widget: string, required: false, pattern: ['^\d{9}$', 'КПП — 9 цифр'] }
+              - { name: ogrn, label: ОГРН / ОГРНИП, widget: string, required: false, pattern: ['^(\d{13}|\d{15})$', 'ОГРН — 13 цифр, ОГРНИП — 15 цифр'] }
+              - { name: legalAddress, label: Юридический адрес, widget: text, required: false }
+              - { name: director, label: Генеральный директор, widget: string, required: false, hint: 'Например: Иванов Иван Иванович' }
+              - { name: bank, label: Банк, widget: string, required: false }
+              - { name: bik, label: БИК, widget: string, required: false, pattern: ['^\d{9}$', 'БИК — 9 цифр'] }
+              - { name: account, label: Расчётный счёт, widget: string, required: false, pattern: ['^\d{20}$', 'Расчётный счёт — 20 цифр'] }
+              - { name: corrAccount, label: Корреспондентский счёт, widget: string, required: false, pattern: ['^\d{20}$', 'Корр. счёт — 20 цифр'] }

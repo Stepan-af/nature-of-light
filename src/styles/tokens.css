@@ -1,0 +1,98 @@
+/*
+ * Design tokens from Figma (see design/README.md → "Design tokens summary").
+ * Breakpoints (use literal values in @media, custom properties don't work there):
+ *   mobile  < 768px   (designed at 402px)
+ *   tablet  768–1199px (not designed — fluid between the two)
+ *   desktop ≥ 1200px  (designed at 1560px, 1200px container)
+ */
+:root {
+  /* Brand greens */
+  --color-green: #2e7d32;
+  --color-green-bright: #26902b;
+  --color-green-deep: #2d7a3a;
+  --color-green-light: #4caf50;
+  --color-green-pale: #92c895;
+  --color-green-pressed: #075b0b;
+  --color-green-dark: #122211;
+  --color-green-tint-8: rgb(46 125 50 / 0.08);
+  --color-green-tint-20: rgb(46 125 50 / 0.2);
+
+  /* Dark surfaces */
+  --color-header: #10111a;
+  --color-header-active: #1d1e24;
+  --color-dark: #0d0d0c;
+  --color-dark-alt: #0e0e0c;
+  --color-footer: #0a0b09;
+  --color-panel: #0f0f10;
+  --color-graphite: #373737;
+
+  /* Text */
+  --color-text: #1a1a1a;
+  --color-text-strong: #101828;
+  --color-text-muted: #757575;
+  --color-text-soft: #6a7282;
+  --color-text-faint: #999999;
+  --color-text-on-dark: #ffffff;
+  --color-text-on-dark-muted: rgb(255 255 255 / 0.45);
+  --color-warm-white: #f0efe9;
+
+  /* Light surfaces & lines */
+  --color-bg: #f5f5f5;
+  --color-surface: #ffffff;
+  --color-surface-hover: #efefef;
+  --color-surface-subtle: #f9fafb;
+  --color-border: rgb(0 0 0 / 0.09);
+  --color-border-strong: #303030;
+  --color-border-on-dark: rgb(255 255 255 / 0.08);
+
+  /* Accents */
+  --color-star: #f59e0b;
+  --color-star-alt: #ff7f22;
+  --color-danger: #ec221f;
+
+  /*
+   * Typography: --font-display (Playfair Display), --font-body (Inter) and
+   * --font-mono (JetBrains Mono) are injected by <Font /> in BaseLayout from
+   * astro.config.mjs. Don't redefine them here.
+   */
+
+  /* Spacing (Figma "Size/Space/Gap") */
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-10: 40px;
+  --space-16: 64px;
+  --section-pad: clamp(48px, 6vw, 80px);
+
+  /* Radii */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-card: 14px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 100px;
+
+  /* Shadows */
+  --shadow-card: 0 4px 20px rgb(0 0 0 / 0.07);
+  --shadow-deep: 0 8px 40px rgb(0 0 0 / 0.28);
+  --shadow-panel: 0 20px 60px rgb(0 0 0 / 0.4);
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: 24px;
+  --header-height: 67px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration: 200ms;
+}
+
+@media (max-width: 767.98px) {
+  :root {
+    --gutter: 16px;
+    --header-height: 60px;
+  }
+}

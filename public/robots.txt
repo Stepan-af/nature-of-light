@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+# Must match `site` in astro.config.mjs (production domain).
+Sitemap: https://prirodasveta.ru/sitemap-index.xml

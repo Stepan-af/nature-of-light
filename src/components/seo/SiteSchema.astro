@@ -1,0 +1,12 @@
+---
+/*
+ * Site-wide structured data (HomeAndConstructionBusiness + WebSite), rendered on
+ * every page by BaseLayout. Page-specific schemas (Product, FAQPage,
+ * BreadcrumbList…) are rendered by the pages themselves via <JsonLd /> and can
+ * reference the business as `{ '@id': ORG_ID }` from '@/lib/schema'.
+ */
+import JsonLd from '@/components/seo/JsonLd.astro';
+import { siteGraph } from '@/lib/schema';
+---
+
+<JsonLd data={siteGraph()} />

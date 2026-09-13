@@ -1,0 +1,95 @@
+---
+import JsonLd from '@/components/seo/JsonLd.astro';
+
+export interface Crumb {
+  label: string;
+  /** Omit for the current page (last item). */
+  href?: string;
+}
+
+export interface Props {
+  items: Crumb[];
+  tone?: 'light' | 'dark';
+  class?: string;
+}
+
+const { items, tone = 'light', class: className } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: item.label,
+    ...(item.href ? { item: new URL(item.href, Astro.site).href } : {}),
+  })),
+};
+---
+
+<nav class:list={['crumbs', `crumbs--${tone}`, className]} aria-label="Хлебные крошки">
+  <ol role="list">
+    {
+      items.map((item) => (
+        <li>
+          {item.href ? (
+            <a href={item.href}>{item.label}</a>
+          ) : (
+            <span aria-current="page">{item.label}</span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+<JsonLd data={schema} />
+
+<style>
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 19.5px;
+  }
+
+  .crumbs li {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .crumbs li + li::before {
+    content: '›';
+    opacity: 0.4;
+  }
+
+  .crumbs a {
+    transition: color var(--duration) var(--ease);
+  }
+
+  .crumbs [aria-current] {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  .crumbs--light {
+    color: #666666;
+  }
+
+  .crumbs--light a:hover,
+  .crumbs--light [aria-current] {
+    color: var(--color-text);
+  }
+
+  .crumbs--dark {
+    color: rgb(255 255 255 / 0.6);
+  }
+
+  .crumbs--dark a:hover,
+  .crumbs--dark [aria-current] {
+    color: #fff;
+  }
+</style>

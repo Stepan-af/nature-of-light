@@ -1,0 +1,22 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '@/components/home/Hero.astro';
+import Categories from '@/components/home/Categories.astro';
+import PortfolioBento from '@/components/home/PortfolioBento.astro';
+import Advantages from '@/components/home/Advantages.astro';
+import Reviews from '@/components/home/Reviews.astro';
+import Faq from '@/components/home/Faq.astro';
+
+const title = 'Козырьки, навесы и зимние сады из стекла и поликарбоната под ключ';
+const description =
+  'Производим и монтируем стеклянные козырьки, навесы и зимние сады в Москве и Подмосковье с 2009 года. Бесплатный замер, собственное производство, гарантия 5 лет.';
+---
+
+<BaseLayout title={title} description={description} tone="light">
+  <Hero />
+  <Categories />
+  <PortfolioBento />
+  <Advantages />
+  <Reviews />
+  <Faq />
+</BaseLayout>
