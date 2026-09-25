@@ -64,6 +64,24 @@ const icons = {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-card);
     background: var(--color-surface);
+    transition:
+      transform 400ms var(--ease),
+      box-shadow 400ms var(--ease),
+      border-color 400ms var(--ease);
+  }
+
+  @media (hover: hover) {
+    .adv:hover {
+      border-color: transparent;
+      box-shadow: var(--shadow-card);
+      transform: translateY(-4px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .adv:hover {
+      transform: none;
+    }
   }
 
   .adv__icon {

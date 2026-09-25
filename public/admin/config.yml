@@ -188,6 +188,150 @@ collections:
         fields:
           - { name: label, label: Параметр, widget: string, hint: 'Например: Стекло' }
           - { name: value, label: Значение, widget: string, hint: 'Например: Закалённое 8 мм' }
+      # ── Product page sections: all optional, an empty section is not shown ──
+      - { name: lead, label: Краткое описание, widget: text, required: false, hint: 'Текст под названием товара (2–3 предложения). Если пусто — выводится основной текст «Описание».' }
+      - { name: priceLabel, label: Подпись над ценой, widget: string, required: false, hint: 'По умолчанию «Стоимость проекта».' }
+      - name: keySpecs
+        label: Параметры в блоке с ценой
+        label_singular: параметр
+        widget: list
+        required: false
+        summary: '{{label}}: {{value}}'
+        hint: 'Обычно 3 строки (Профиль, Стекло, Размер). Если пусто — выводятся «Материал» и «Характеристики».'
+        fields:
+          - { name: label, label: Параметр, widget: string }
+          - { name: value, label: Значение, widget: string }
+      - { name: note, label: Примечание под кнопкой, widget: string, required: false, hint: 'Например: Замер и визуализация. Гарантия на конструкцию — 5 лет.' }
+      - name: advantages
+        label: 'Блок «Преимущества»'
+        widget: object
+        required: false
+        collapsed: true
+        hint: 'Тёмная полоса с иконками. Не заполнено — блок не показывается.'
+        fields:
+          - { name: title, label: Заголовок, widget: string, hint: 'Например: Пространство, в котором больше света' }
+          - name: items
+            label: Преимущества
+            label_singular: преимущество
+            widget: list
+            summary: '{{title}}'
+            hint: Лучше всего смотрятся 4 карточки.
+            fields:
+              - name: icon
+                label: Иконка
+                widget: select
+                options:
+                  - { label: Солнце (тепло), value: sun }
+                  - { label: Документ (проект), value: project }
+                  - { label: Гаечный ключ (монтаж), value: wrench }
+                  - { label: Щит (гарантия), value: shield }
+              - { name: title, label: Заголовок, widget: string }
+              - { name: text, label: Текст, widget: text }
+      - name: story
+        label: 'Блоки «Фото + текст»'
+        label_singular: блок
+        widget: list
+        required: false
+        collapsed: true
+        summary: '{{title}}'
+        hint: 'Фото и текст, чередуются: фото слева, затем справа. Не заполнено — не показывается.'
+        fields:
+          - { name: image, label: Фото, widget: image, hint: 'JPEG или WebP, не меньше 1600 px по ширине.' }
+          - { name: imageAlt, label: Описание фото (alt), widget: string }
+          - { name: title, label: Заголовок, widget: string }
+          - { name: text, label: Текст, widget: text }
+          - { name: quote, label: Цитата, widget: text, required: false, hint: Крупный курсив под текстом. }
+          - name: link
+            label: Кнопка-ссылка
+            widget: object
+            required: false
+            collapsed: true
+            fields:
+              - { name: label, label: Текст кнопки, widget: string, hint: 'Например: Смотреть портфолио' }
+              - { name: href, label: Адрес, widget: string, hint: 'Например: /portfolio/?category=zimnie-sady' }
+          - name: stats
+            label: Цифры
+            label_singular: цифру
+            widget: list
+            required: false
+            summary: '{{value}} — {{label}}'
+            fields:
+              - { name: value, label: Значение, widget: string, hint: 'Например: до 3,2 м' }
+              - { name: label, label: Подпись, widget: string, hint: 'Например: высота остекления' }
+      - name: details
+        label: 'Блок «Характеристики»'
+        widget: object
+        required: false
+        collapsed: true
+        hint: 'Заголовок, фото и таблица характеристик. Не заполнено — блок не показывается.'
+        fields:
+          - { name: title, label: Заголовок, widget: string, hint: 'Например: Продумано до каждой детали' }
+          - { name: text, label: Текст, widget: text, required: false }
+          - { name: image, label: Большое фото, widget: image, required: false }
+          - { name: imageAlt, label: Описание большого фото (alt), widget: string, required: false }
+          - name: photos
+            label: Маленькие фото
+            label_singular: фото
+            widget: list
+            required: false
+            summary: '{{alt}}'
+            hint: 1–2 фото под большим.
+            fields:
+              - { name: image, label: Фото, widget: image }
+              - { name: alt, label: Описание фото (alt), widget: string }
+          - name: rows
+            label: Строки таблицы
+            label_singular: строку
+            widget: list
+            summary: '{{label}}: {{value}}'
+            fields:
+              - { name: label, label: Параметр, widget: string }
+              - { name: value, label: Значение, widget: string }
+      - name: process
+        label: 'Блок «Этапы»'
+        widget: object
+        required: false
+        collapsed: true
+        hint: 'Фото и нумерованный список этапов. Не заполнено — блок не показывается.'
+        fields:
+          - { name: title, label: Заголовок, widget: string, hint: 'Например: От эскиза до готового пространства' }
+          - { name: image, label: Фото, widget: image, required: false }
+          - { name: imageAlt, label: Описание фото (alt), widget: string, required: false }
+          - name: steps
+            label: Этапы
+            label_singular: этап
+            widget: list
+            summary: '{{title}}'
+            fields:
+              - { name: title, label: Название, widget: string }
+              - { name: text, label: Описание, widget: text }
+      - name: faq
+        label: 'Блок «Вопросы и ответы»'
+        widget: object
+        required: false
+        collapsed: true
+        hint: 'Вопросы о товаре. Не заполнено — блок не показывается.'
+        fields:
+          - { name: title, label: Заголовок, widget: string, hint: 'Например: О зимнем саде — коротко' }
+          - { name: intro, label: Текст под заголовком, widget: text, required: false }
+          - name: items
+            label: Вопросы
+            label_singular: вопрос
+            widget: list
+            summary: '{{question}}'
+            fields:
+              - { name: question, label: Вопрос, widget: string }
+              - { name: answer, label: Ответ, widget: markdown, buttons: [bold, italic, link, bulleted-list, numbered-list], editor_components: [] }
+      - name: finale
+        label: 'Финальный баннер'
+        widget: object
+        required: false
+        collapsed: true
+        hint: 'Широкое фото с крупным заголовком внизу страницы. Не заполнено — не показывается.'
+        fields:
+          - { name: title, label: Заголовок, widget: string, hint: 'Например: Создадим место, куда хочется возвращаться' }
+          - { name: image, label: Фото, widget: image, hint: 'Горизонтальное, не меньше 1600 px по ширине.' }
+          - { name: imageAlt, label: Описание фото (alt), widget: string }
       - *order_field
       - &draft_field
         name: draft
@@ -374,7 +518,7 @@ collections:
           - { name: tagline, label: Слоган, widget: string, hint: Показывается в заголовке главной страницы во вкладке браузера. }
           - { name: description, label: Описание сайта по умолчанию, widget: text, hint: 'Meta description для страниц без собственного описания, до 160 символов.' }
           - { name: foundedYear, label: Год основания, widget: number, value_type: int, min: 1900, max: 2100 }
-          - { name: phone, label: Телефон, widget: string, hint: 'Формат: +7 (495) 123-45-67' }
+          - { name: phone, label: Телефон, widget: string, hint: 'Формат: +7 (985) 157-47-47' }
           - { name: email, label: E-mail, widget: string, type: email }
           - name: address
             label: Адрес
@@ -389,9 +533,14 @@ collections:
             label: Соцсети и мессенджеры
             widget: object
             fields:
-              - { name: telegram, label: Telegram, widget: string, type: url, hint: 'https://t.me/имя' }
-              - { name: whatsapp, label: WhatsApp, widget: string, type: url, hint: 'https://wa.me/74951234567' }
-              - { name: vk, label: ВКонтакте, widget: string, type: url, hint: 'https://vk.com/имя' }
+              - { name: telegram, label: Telegram, widget: string, type: url, required: false, hint: 'Ссылка на чат: https://t.me/имя' }
+              - { name: whatsapp, label: WhatsApp, widget: string, type: url, required: false, hint: 'Ссылка на чат: https://wa.me/79851574747 (номер без +, пробелов и скобок)' }
+          - name: messengers
+            label: Мессенджеры — как показывать на сайте
+            widget: object
+            fields:
+              - { name: whatsappPhone, label: Номер WhatsApp, widget: string, hint: 'Как показывать: +7 (985) 157-47-47' }
+              - { name: telegramUsername, label: Имя в Telegram, widget: string, hint: 'Как показывать: @prirodasvetamanager' }
           - name: stats
             label: Цифры о компании
             label_singular: показатель

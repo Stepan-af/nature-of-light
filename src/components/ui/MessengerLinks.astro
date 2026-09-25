@@ -1,0 +1,145 @@
+---
+/*
+ * WhatsApp + Telegram buttons — the site's only way to reach the company
+ * (no forms: the site deliberately doesn't collect personal data).
+ */
+import { settings, whatsappHref, telegramHref } from '@/lib/site';
+import WhatsAppIcon from '@/assets/icons/whatsapp.svg';
+import TelegramIcon from '@/assets/icons/telegram.svg';
+
+export interface Props {
+  /** Prefilled WhatsApp message, e.g. «Здравствуйте! Интересует: …». */
+  message?: string;
+  /** Colour scheme of the surface the buttons sit on. */
+  tone?: 'light' | 'dark' | 'green';
+  /** Show the number / username under each label. */
+  details?: boolean;
+  /** Stretch buttons to the container width and stack them. */
+  stack?: boolean;
+  class?: string;
+}
+
+const { message, tone = 'light', details = false, stack = false, class: className } = Astro.props;
+
+const links = [
+  {
+    key: 'whatsapp',
+    label: 'Написать в WhatsApp',
+    detail: settings.messengers.whatsappPhone,
+    href: whatsappHref(message),
+    Icon: WhatsAppIcon,
+  },
+  {
+    key: 'telegram',
+    label: 'Написать в Telegram',
+    detail: settings.messengers.telegramUsername,
+    href: telegramHref(),
+    Icon: TelegramIcon,
+  },
+].filter((link) => link.href);
+---
+
+<ul class:list={['messengers', `messengers--${tone}`, { 'messengers--stack': stack }, className]} role="list">
+  {
+    links.map(({ key, label, detail, href, Icon }) => (
+      <li>
+        <a class:list={['messenger', `messenger--${key}`]} href={href} target="_blank" rel="noopener noreferrer">
+          <Icon class="messenger__icon" width={20} height={20} fill="currentColor" aria-hidden="true" />
+          <span class="messenger__text">
+            <span class="messenger__label">{label}</span>
+            {details && <span class="messenger__detail">{detail}</span>}
+          </span>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .messengers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .messengers--stack {
+    flex-direction: column;
+  }
+
+  .messenger {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 47px;
+    padding: 10px 20px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1.3;
+    transition:
+      background-color var(--duration) var(--ease),
+      border-color var(--duration) var(--ease),
+      color var(--duration) var(--ease);
+  }
+
+  .messengers--stack .messenger {
+    width: 100%;
+  }
+
+  .messenger__icon {
+    flex: none;
+  }
+
+  .messenger__text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .messenger__detail {
+    font-weight: 400;
+    font-size: 13px;
+    opacity: 0.7;
+  }
+
+  /* Light surfaces: brand colours. */
+  .messengers--light .messenger--whatsapp {
+    color: #fff;
+    background: #187a41;
+  }
+
+  .messengers--light .messenger--whatsapp:hover {
+    background: #13653a;
+  }
+
+  .messengers--light .messenger--telegram {
+    color: #fff;
+    background: #166aa5;
+  }
+
+  .messengers--light .messenger--telegram:hover {
+    background: #125a8d;
+  }
+
+  /* Dark surfaces: outlined, like the rest of the dark UI. */
+  .messengers--dark .messenger {
+    color: #fff;
+    border-color: rgb(255 255 255 / 0.3);
+  }
+
+  .messengers--dark .messenger:hover {
+    border-color: #fff;
+    background: rgb(255 255 255 / 0.06);
+  }
+
+  /* Brand-green CTA card: white buttons with green text. */
+  .messengers--green .messenger {
+    color: var(--color-green);
+    background: #fff;
+  }
+
+  .messengers--green .messenger:hover {
+    color: var(--color-green-pressed);
+    background: rgb(255 255 255 / 0.9);
+  }
+</style>

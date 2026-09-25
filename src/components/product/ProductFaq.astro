@@ -1,0 +1,224 @@
+---
+/*
+ * Product FAQ (Figma 1002:1680 «Вопросы и ответы»): native <details>
+ * accordion + FAQPage JSON-LD. Answers are short Markdown.
+ */
+import type { CollectionEntry } from 'astro:content';
+import JsonLd from '@/components/seo/JsonLd.astro';
+import ArrowDown from '@/assets/product/icons/arrow-down.svg';
+import ArrowUp from '@/assets/product/icons/arrow-up.svg';
+import { renderMarkdown } from '@/lib/markdown';
+
+type Faq = NonNullable<CollectionEntry<'products'>['data']['faq']>;
+
+export interface Props {
+  data: Faq;
+}
+
+const { data } = Astro.props;
+const items = data.items.map((item) => ({ ...item, html: renderMarkdown(item.answer) }));
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.html },
+  })),
+};
+---
+
+<section class="pfaq pd-section" aria-labelledby="pfaq-title">
+  <div class="pfaq__inner">
+    <div class="pfaq__info">
+      <h2 class="pfaq__title" id="pfaq-title">{data.title}</h2>
+      {data.intro && <p class="pfaq__intro">{data.intro}</p>}
+    </div>
+    <div class="pfaq__list">
+      {
+        items.map((item, i) => (
+          <details class="pqa" open={i === 0}>
+            <summary class="pqa__question">
+              <span>{item.question}</span>
+              <ArrowDown class="pqa__icon pqa__icon--closed" width={24} height={24} aria-hidden="true" />
+              <ArrowUp class="pqa__icon pqa__icon--open" width={24} height={24} aria-hidden="true" />
+            </summary>
+            <div class="pqa__answer" set:html={item.html} />
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<JsonLd data={schema} />
+
+<style>
+  .pfaq {
+    background: #f6f6f4;
+  }
+
+  .pfaq__inner {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 32px;
+    max-width: calc(1132px + var(--gutter) * 2);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .pfaq__info {
+    display: flex;
+    flex: 0 1 360px;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .pfaq__title {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: clamp(26px, 2.5vw, 36px);
+    line-height: 1.25;
+    color: #1e1e1e;
+  }
+
+  .pfaq__intro {
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--color-text-muted);
+  }
+
+  .pfaq__list {
+    display: flex;
+    flex: 0 1 740px;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .pqa {
+    border-radius: 20px;
+    background: var(--color-surface);
+  }
+
+  .pqa[open] {
+    border-radius: var(--radius-xl);
+  }
+
+  .pqa__question {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 24px;
+    border-radius: inherit;
+    font-size: 16px;
+    line-height: 20px;
+    color: var(--color-text-muted);
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .pqa__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .pqa__question > span {
+    flex: 1;
+  }
+
+  .pqa__question:hover {
+    color: var(--color-text);
+  }
+
+  .pqa__question:focus-visible {
+    outline-offset: -2px;
+  }
+
+  .pqa__icon {
+    flex-shrink: 0;
+  }
+
+  .pqa[open] .pqa__question {
+    align-items: flex-start;
+    padding-bottom: 12px;
+  }
+
+  .pqa__icon--open,
+  .pqa[open] .pqa__icon--closed {
+    display: none;
+  }
+
+  .pqa[open] .pqa__icon--open {
+    display: block;
+  }
+
+  .pqa__answer {
+    padding: 0 58px 24px 24px;
+    font-size: 14px;
+    line-height: 18px;
+    color: #1e1e1e;
+  }
+
+  .pqa__answer :global(ul),
+  .pqa__answer :global(ol) {
+    padding-left: 21px;
+  }
+
+  .pqa__answer :global(p + p),
+  .pqa__answer :global(p + ul),
+  .pqa__answer :global(ul + p) {
+    margin-top: 8px;
+  }
+
+  .pqa__answer :global(a) {
+    color: var(--color-green);
+    text-decoration: underline;
+  }
+
+  @supports (interpolate-size: allow-keywords) {
+    .pqa {
+      interpolate-size: allow-keywords;
+    }
+
+    .pqa::details-content {
+      height: 0;
+      overflow: clip;
+      transition:
+        height 250ms var(--ease),
+        content-visibility 250ms allow-discrete;
+    }
+
+    .pqa[open]::details-content {
+      height: auto;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .pfaq__inner {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .pfaq__info {
+      flex-basis: auto;
+      gap: 16px;
+    }
+
+    .pfaq__list {
+      flex-basis: auto;
+    }
+
+    .pqa__question {
+      font-size: 17px;
+      line-height: 1.3;
+    }
+
+    .pqa__answer {
+      padding: 0 24px 24px;
+      font-size: 15px;
+      line-height: 1.3;
+    }
+  }
+</style>

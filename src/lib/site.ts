@@ -14,7 +14,8 @@ export interface Settings {
   address: { street: string; city: string; note?: string };
   hours?: string;
   hoursNote?: string;
-  social: { telegram?: string; whatsapp?: string; vk?: string };
+  social: { telegram?: string; whatsapp?: string };
+  messengers: { whatsappPhone: string; telegramUsername: string };
   stats: { value: string; label: string }[];
   rating: { value: string; label: string };
   legal: {
@@ -36,6 +37,19 @@ export const settings: Settings = rawSettings;
 
 /** `tel:` link from a formatted phone number. */
 export const phoneHref = (phone: string = settings.phone) => `tel:${phone.replace(/[^\d+]/g, '')}`;
+
+/**
+ * WhatsApp chat link, optionally with a prefilled message
+ * (e.g. «Здравствуйте! Интересует: Козырёк «Классик»»). Telegram has no
+ * prefill for personal chats, so it's always the plain link.
+ */
+export const whatsappHref = (text?: string) => {
+  const base = settings.social.whatsapp;
+  if (!base) return undefined;
+  return text ? `${base}?text=${encodeURIComponent(text)}` : base;
+};
+
+export const telegramHref = () => settings.social.telegram;
 
 const rub = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 0 });
 

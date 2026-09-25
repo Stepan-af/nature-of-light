@@ -57,7 +57,7 @@ const description =
       { label: 'Срок монтажа', value: installDuration },
     ]}
     aboutLabel="О проекте"
-    ctaHref={`/kontakty/?project=${project.id}`}
+    ctaMessage={`Здравствуйте! Хочу похожую конструкцию, как в проекте «${title}»\n${new URL(projectHref(project), Astro.site).href}`}
     prev={prev && { href: projectHref(prev), title: prev.data.title }}
     next={next && { href: projectHref(next), title: next.data.title }}
     pagerLabel="Другие проекты"

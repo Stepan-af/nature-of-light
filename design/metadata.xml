@@ -1,5 +1,7 @@
+
+
 <canvas id="70:896" name="ГЛАВЕЫЙ ФАЙЛ" x="0" y="0" width="0" height="0">
-  <section id="108:2352" name="ОСНОВНЫЕ СТРАНИЦЫ" x="13417" y="-4891" width="12715" height="5898">
+  <section id="108:2352" name="ОСНОВНЫЕ СТРАНИЦЫ" x="13417" y="-4891" width="14829" height="7630">
     <frame id="139:259" name="Website Information Architecture" x="10734" y="1026" width="1559" height="1513" />
     <frame id="108:3183" name="ПАРТФОЛИО" x="5451" y="1026" width="1559" height="1966">
       <frame id="108:3185" name="App" x="0" y="43" width="1559" height="1923.1875">
@@ -7,7 +9,7 @@
           <frame id="108:3218" name="Container" x="180" y="89" width="1200" height="1355">
             <frame id="108:3219" name="Container" x="24" y="56" width="1152" height="121">
               <frame id="108:3220" name="Heading 1" x="0" y="0" width="1152" height="58">
-                <text id="108:3221" name="Наши работы" x="0" y="0" width="336" height="58" />
+                <text id="108:3221" name="Наши работы" x="0" y="0" width="344" height="58" />
               </frame>
               <frame id="108:3222" name="Container" x="0" y="58" width="1152" height="63">
                 <instance id="284:907" name="кнопка   партфолио" x="0" y="24" width="116" height="39" />
@@ -254,6 +256,9 @@
                   <text id="144:1371" name="Контакты" x="14" y="8" width="63" height="20" />
                 </frame>
               </frame>
+              <frame id="1059:1474" name="Button" x="960" y="4" width="115" height="36">
+                <text id="1059:1475" name="Мой козырек" x="14" y="8" width="87" height="20" />
+              </frame>
             </frame>
           </frame>
           <frame id="293:2060" name="Footer" x="0" y="1423" width="1559" height="500">
@@ -289,10 +294,9 @@
                     <frame id="293:2082" name="Container" x="0" y="0" width="188.5625" height="14">
                       <instance id="293:2083" name="футер компания" x="0" y="0" width="59" height="14" />
                     </frame>
-                    <instance id="293:2084" name="футер о нас" x="0" y="14" width="36" height="36" />
-                    <instance id="293:2085" name="футер портфолио" x="0" y="50" width="73" height="30" />
-                    <instance id="293:2086" name="футер услуги" x="0" y="80" width="43" height="30" />
-                    <instance id="293:2087" name="футер контакты" x="0" y="110" width="61" height="40" />
+                    <instance id="293:2085" name="футер портфолио" x="0" y="14" width="73" height="30" />
+                    <instance id="293:2086" name="футер услуги" x="0" y="44" width="43" height="30" />
+                    <instance id="293:2087" name="футер контакты" x="0" y="74" width="61" height="40" />
                   </frame>
                   <frame id="293:2088" name="Container" x="750.8429565429688" y="0" width="188.578125" height="147.5">
                     <frame id="293:2089" name="Container" x="0" y="0" width="188.578125" height="146">
@@ -328,6 +332,7 @@
                     </frame>
                   </frame>
                 </frame>
+                <instance id="1059:1506" name="Мой козырек" x="562.5" y="166" width="85" height="20" />
               </frame>
             </frame>
             <frame id="293:2110" name="Container" x="0" y="337.5" width="1559" height="163">
@@ -340,7 +345,7 @@
       </frame>
     </frame>
     <frame id="148:1406" name="Website Information Architecture" x="3725" y="1026" width="1559" height="1480">
-      <frame id="148:1410" name="Body" x="0" y="0" width="1559" height="915">
+      <frame id="148:1410" name="Body" x="0" y="0" width="1559" height="1480">
         <frame id="148:1411" name="App" x="0" y="0" width="1559" height="1480">
           <frame id="148:1451" name="ProjectDetailPage" x="0" y="0" width="1559" height="1480">
             <frame id="148:1579" name="Container:margin" x="0" y="86" width="1559" height="894.75">
@@ -507,6 +512,9 @@
                     <text id="166:473" name="Контакты" x="14" y="8" width="63" height="20" />
                   </frame>
                 </frame>
+                <frame id="1059:1472" name="Button" x="960" y="4" width="115" height="36">
+                  <text id="1059:1473" name="Мой козырек" x="14" y="8" width="87" height="20" />
+                </frame>
               </frame>
             </frame>
           </frame>
@@ -545,10 +553,9 @@
                 <frame id="293:2011" name="Container" x="0" y="0" width="188.5625" height="14">
                   <instance id="293:2012" name="футер компания" x="0" y="0" width="59" height="14" />
                 </frame>
-                <instance id="293:2013" name="футер о нас" x="0" y="14" width="36" height="36" />
-                <instance id="293:2014" name="футер портфолио" x="0" y="50" width="73" height="30" />
-                <instance id="293:2015" name="футер услуги" x="0" y="80" width="43" height="30" />
-                <instance id="293:2016" name="футер контакты" x="0" y="110" width="61" height="40" />
+                <instance id="293:2014" name="футер портфолио" x="0" y="14" width="73" height="30" />
+                <instance id="293:2015" name="футер услуги" x="0" y="44" width="43" height="30" />
+                <instance id="293:2016" name="футер контакты" x="0" y="74" width="61" height="40" />
               </frame>
               <frame id="293:2017" name="Container" x="750.8429565429688" y="0" width="188.578125" height="147.5">
                 <frame id="293:2018" name="Container" x="0" y="0" width="188.578125" height="146">
@@ -584,6 +591,7 @@
                 </frame>
               </frame>
             </frame>
+            <instance id="1059:1504" name="Мой козырек" x="562.5" y="166" width="85" height="20" />
           </frame>
         </frame>
         <frame id="293:2039" name="Container" x="0" y="337.5" width="1559" height="163">
@@ -593,7 +601,7 @@
         </frame>
       </frame>
     </frame>
-    <frame id="82:7" name="ГЛАВНАЯ" x="288" y="873" width="1559" height="4683">
+    <frame id="82:7" name="ГЛАВНАЯ" x="436" y="1026" width="1559" height="4683">
       <frame id="82:8" name="Body" x="0" y="0" width="1559" height="1" />
       <frame id="86:1392" name="HomePortfolio" x="0" y="1394" width="1560" height="921">
         <frame id="86:1393" name="Container" x="545" y="-184.09375" width="500" height="500" />
@@ -765,17 +773,17 @@
           </frame>
         </frame>
       </frame>
-      <frame id="82:42" name="Group 6" x="190" y="118" width="1181" height="644">
-        <boolean-operation id="82:43" name="Subtract" x="190" y="118" width="1181" height="644" />
-        <frame id="82:46" name="Container" x="258.673828125" y="134" width="539.6033325195312" height="555.09375">
-          <frame id="82:47" name="Container" x="0" y="0" width="539.6033325195312" height="15">
+      <frame id="82:42" name="Group 6" x="0" y="118" width="1559" height="644">
+        <boolean-operation id="82:43" name="Subtract" x="0" y="118" width="1559" height="644" />
+        <frame id="82:46" name="Container" x="90.6533203125" y="134" width="712.3129272460938" height="555.09375">
+          <frame id="82:47" name="Container" x="0" y="0" width="712.3129272460938" height="15">
             <frame id="82:48" name="Container" x="0" y="4.5" width="6" height="6" />
             <frame id="82:49" name="Text" x="14" y="0" width="237" height="15">
               <rounded-rectangle id="189:245" name="Rectangle 161124953" x="-4.673828125" y="-5" width="247" height="25" />
               <text id="82:50" name="Производство с 2009 года · Москва" x="0" y="0" width="237" height="15" />
             </frame>
           </frame>
-          <frame id="82:51" name="Heading 1" x="0" y="15" width="539.6033325195312" height="289">
+          <frame id="82:51" name="Heading 1" x="0" y="15" width="712.3129272460938" height="289">
             <vector id="189:241" name="Rectangle 161124952" x="-18.673828125" y="10" width="523" height="261" />
             <text id="82:52" name="Свет и пространство под открытым небом" x="0" y="20" width="546" height="240" />
           </frame>
@@ -816,7 +824,7 @@
             </frame>
           </frame>
         </frame>
-        <frame id="82:76" name="Frame 4" x="1047.32421875" y="529" width="286.6025085449219" height="161">
+        <frame id="82:76" name="Frame 4" x="1131.7259521484375" y="529" width="378.3347473144531" height="161">
           <boolean-operation id="82:77" name="Subtract" x="0" y="0" width="290" height="161">
             <rounded-rectangle id="82:78" name="Rectangle 45" x="0" y="0" width="290" height="161" />
             <rounded-rectangle id="82:79" name="Rectangle 46" x="212.5" y="-96" width="290" height="161" />
@@ -879,10 +887,10 @@
                 <frame id="293:1755" name="Container" x="0" y="0" width="188.5625" height="14">
                   <instance id="293:1857" name="футер компания" x="0" y="0" width="59" height="14" />
                 </frame>
-                <instance id="293:1757" name="футер о нас" x="0" y="14" width="36" height="36" />
-                <instance id="293:1758" name="футер портфолио" x="0" y="50" width="73" height="30" />
-                <instance id="293:1759" name="футер услуги" x="0" y="80" width="43" height="30" />
-                <instance id="293:1760" name="футер контакты" x="0" y="110" width="61" height="40" />
+                <instance id="293:1758" name="футер портфолио" x="0" y="14" width="73" height="30" />
+                <instance id="293:1759" name="футер услуги" x="0" y="44" width="43" height="30" />
+                <instance id="293:1760" name="футер контакты" x="0" y="74" width="61" height="40" />
+                <instance id="1059:1499" name="Мой козырек" x="0" y="114" width="85" height="20" />
               </frame>
               <frame id="293:1768" name="Container" x="963.4209594726562" y="0" width="188.578125" height="147.5">
                 <frame id="293:1769" name="Container" x="0" y="0" width="188.578125" height="14">
@@ -976,6 +984,7 @@
         </frame>
         <instance id="243:472" name="Услуги" x="786" y="21" width="44" height="20" />
         <text id="110:4467" name="Контакты" x="843" y="21" width="63" height="20" />
+        <text id="1059:1467" name="Мой козырек" x="919" y="21" width="87" height="20" />
       </frame>
     </frame>
     <frame id="108:2842" name="ЗАЯВКА" x="8998" y="1026" width="1559" height="1482">
@@ -1050,6 +1059,7 @@
                         <text id="150:1714" name="Контакты" x="14" y="8" width="63" height="20" />
                       </frame>
                     </frame>
+                    <text id="1059:1480" name="Мой козырек" x="976" y="12" width="87" height="20" />
                   </frame>
                 </frame>
               </frame>
@@ -1127,10 +1137,9 @@
                 <frame id="293:2612" name="Container" x="0" y="0" width="188.5625" height="14">
                   <instance id="293:2613" name="футер компания" x="0" y="0" width="59" height="14" />
                 </frame>
-                <instance id="293:2614" name="футер о нас" x="0" y="14" width="36" height="36" />
-                <instance id="293:2615" name="футер портфолио" x="0" y="50" width="73" height="30" />
-                <instance id="293:2616" name="футер услуги" x="0" y="80" width="43" height="30" />
-                <instance id="293:2617" name="футер контакты" x="0" y="110" width="61" height="40" />
+                <instance id="293:2615" name="футер портфолио" x="0" y="14" width="73" height="30" />
+                <instance id="293:2616" name="футер услуги" x="0" y="44" width="43" height="30" />
+                <instance id="293:2617" name="футер контакты" x="0" y="74" width="61" height="40" />
               </frame>
               <frame id="293:2618" name="Container" x="750.8429565429688" y="0" width="188.578125" height="147.5">
                 <frame id="293:2619" name="Container" x="0" y="0" width="188.578125" height="146">
@@ -1166,6 +1175,7 @@
                 </frame>
               </frame>
             </frame>
+            <instance id="1059:1510" name="Мой козырек" x="562.5" y="166" width="85" height="20" />
           </frame>
         </frame>
         <frame id="293:2640" name="Container" x="0" y="337.5" width="1559" height="163">
@@ -1184,8 +1194,8 @@
                 <frame id="108:2405" name="Container" x="1" y="1" width="274" height="200">
                   <frame id="108:2406" name="Image (Козырёк стеклянный «Классик»)" x="0" y="0" width="274" height="200" />
                   <frame id="108:2407" name="Container" x="10" y="10" width="80.09375" height="25.5">
-                    <frame id="108:2408" name="Chip" x="0" y="1" width="80" height="24.5">
-                      <text id="108:2409" name="Козырьки" x="11" y="3.75" width="58" height="17" />
+                    <frame id="108:2408" name="Chip" x="0" y="1" width="89" height="24.5">
+                      <text id="108:2409" name="Козырьки" x="11" y="3.75" width="67" height="17" />
                     </frame>
                   </frame>
                 </frame>
@@ -1469,10 +1479,10 @@
                 <frame id="293:1898" name="Container" x="0" y="0" width="188.5625" height="14">
                   <instance id="293:1899" name="футер компания" x="0" y="0" width="59" height="14" />
                 </frame>
-                <instance id="293:1900" name="футер о нас" x="0" y="14" width="36" height="36" />
-                <instance id="293:1901" name="футер портфолио" x="0" y="50" width="73" height="30" />
-                <instance id="293:1902" name="футер услуги" x="0" y="80" width="43" height="30" />
-                <instance id="293:1903" name="футер контакты" x="0" y="110" width="61" height="40" />
+                <instance id="293:1901" name="футер портфолио" x="0" y="14" width="73" height="30" />
+                <instance id="293:1902" name="футер услуги" x="0" y="44" width="43" height="30" />
+                <instance id="293:1903" name="футер контакты" x="0" y="74" width="61" height="40" />
+                <instance id="1059:1502" name="Мой козырек" x="0" y="114" width="85" height="20" />
               </frame>
               <frame id="293:1904" name="Container" x="750.8429565429688" y="0" width="188.578125" height="147.5">
                 <frame id="293:1905" name="Container" x="0" y="0" width="188.578125" height="146">
@@ -1548,6 +1558,9 @@
               <text id="122:5491" name="Контакты" x="14" y="8" width="63" height="20" />
             </frame>
           </frame>
+          <frame id="1059:1470" name="Button" x="960" y="4" width="115" height="36">
+            <text id="1059:1471" name="Мой козырек" x="14" y="8" width="87" height="20" />
+          </frame>
         </frame>
       </frame>
     </frame>
@@ -1583,6 +1596,9 @@
             <frame id="144:1399" name="Button" x="343" y="0" width="91" height="36">
               <text id="144:1400" name="Контакты" x="14" y="8" width="63" height="20" />
             </frame>
+          </frame>
+          <frame id="1059:1476" name="Button" x="946" y="4" width="115" height="36">
+            <text id="1059:1477" name="Мой козырек" x="14" y="8" width="87" height="20" />
           </frame>
         </frame>
       </frame>
@@ -1819,10 +1835,9 @@
                 <frame id="293:2398" name="Container" x="0" y="0" width="188.5625" height="14">
                   <instance id="293:2399" name="футер компания" x="0" y="0" width="59" height="14" />
                 </frame>
-                <instance id="293:2400" name="футер о нас" x="0" y="14" width="36" height="36" />
-                <instance id="293:2401" name="футер портфолио" x="0" y="50" width="73" height="30" />
-                <instance id="293:2402" name="футер услуги" x="0" y="80" width="43" height="30" />
-                <instance id="293:2403" name="футер контакты" x="0" y="110" width="61" height="40" />
+                <instance id="293:2401" name="футер портфолио" x="0" y="14" width="73" height="30" />
+                <instance id="293:2402" name="футер услуги" x="0" y="44" width="43" height="30" />
+                <instance id="293:2403" name="футер контакты" x="0" y="74" width="61" height="40" />
               </frame>
               <frame id="293:2404" name="Container" x="750.8429565429688" y="0" width="188.578125" height="147.5">
                 <frame id="293:2405" name="Container" x="0" y="0" width="188.578125" height="146">
@@ -1858,6 +1873,7 @@
                 </frame>
               </frame>
             </frame>
+            <instance id="1059:1508" name="Мой козырек" x="562.5" y="166" width="85" height="20" />
           </frame>
         </frame>
         <frame id="293:2426" name="Container" x="0" y="337.5" width="1559" height="163">
@@ -1878,13 +1894,332 @@
       </frame>
     </frame>
     <instance id="819:990" name="Button" x="3167" y="777" width="61" height="38" />
-    <frame id="901:1663" name="Button" x="2306" y="2685" width="579" height="565">
-      <symbol id="901:1664" name="Property 1=Default" x="41.5" y="20" width="80" height="36" />
-      <symbol id="901:1666" name="Property 1=Variant2" x="0" y="82" width="579" height="228" />
+    <frame id="1002:1522" name="Зимний сад Панорама" x="12470" y="1026" width="1559" height="6209">
+      <frame id="1002:1523" name="Шапка" x="0" y="0" width="1559" height="67">
+        <frame id="1002:1990" name="Header" x="0" y="8" width="1507" height="50">
+          <frame id="1002:1991" name="Button" x="320" y="0" width="50" height="50">
+            <frame id="1002:1992" name="Container" x="0" y="0" width="50" height="50" />
+            <frame id="1002:1993" name="Frame" x="59" y="4" width="209" height="42">
+              <frame id="1002:1994" name="Container" x="0" y="0" width="209" height="42">
+                <frame id="1002:1995" name="Container" x="5" y="0" width="195" height="20">
+                  <text id="1002:1996" name="Природа Света" x="0" y="0" width="176" height="17" />
+                </frame>
+                <frame id="1002:1997" name="Container" x="5" y="26" width="195" height="12">
+                  <text id="1002:1998" name="КОЗЫРЬКИ НАВЕСЫ ЗИМНИЕ САДЫ" x="0" y="0" width="186" height="14" />
+                </frame>
+              </frame>
+            </frame>
+          </frame>
+          <frame id="1014:970" name="Navigation" x="753" y="7" width="434" height="36">
+            <frame id="1014:971" name="Button" x="0" y="0" width="81" height="36">
+              <text id="1014:972" name="Главная" x="14" y="8" width="53" height="20" />
+            </frame>
+            <frame id="1014:973" name="Button" x="83" y="0" width="80" height="36">
+              <text id="1014:974" name="Каталог" x="14" y="8" width="52" height="20" />
+            </frame>
+            <frame id="1014:975" name="Button" x="165" y="0" width="102" height="36">
+              <text id="1014:976" name="Портфолио" x="14" y="8" width="74" height="20" />
+            </frame>
+            <frame id="1014:977" name="Button" x="269" y="0" width="72" height="36">
+              <text id="1014:978" name="Услуги" x="14" y="8" width="44" height="20" />
+            </frame>
+            <frame id="1014:979" name="Button" x="343" y="0" width="91" height="36">
+              <text id="1014:980" name="Контакты" x="14" y="8" width="63" height="20" />
+            </frame>
+          </frame>
+          <frame id="1059:1483" name="Button" x="1187" y="7" width="115" height="36">
+            <text id="1059:1484" name="Мой козырек" x="14" y="8" width="87" height="20" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="1002:1538" name="Первый экран" x="0" y="67" width="1559" height="826">
+        <text id="1002:1539" name="Хлебные крошки" x="690.5" y="28" width="178" height="14" />
+        <frame id="1002:1540" name="Товар" x="84" y="70" width="1391" height="684">
+          <frame id="1002:1541" name="Галерея" x="0" y="0" width="900" height="684">
+            <frame id="1002:1542" name="Миниатюры" x="0" y="0" width="120" height="684">
+              <rounded-rectangle id="1002:1543" name="Миниатюра" x="0" y="0" width="120" height="104" />
+              <rounded-rectangle id="1002:1544" name="Миниатюра" x="0" y="116" width="120" height="104" />
+              <rounded-rectangle id="1002:1545" name="Миниатюра" x="0" y="232" width="120" height="104" />
+              <rounded-rectangle id="1011:979" name="Миниатюра" x="0" y="348" width="120" height="104" />
+              <rounded-rectangle id="1011:982" name="Миниатюра" x="0" y="464" width="120" height="104" />
+              <rounded-rectangle id="1011:983" name="Миниатюра" x="0" y="580" width="120" height="104" />
+            </frame>
+            <frame id="1002:1546" name="Главное фото" x="136" y="0" width="764" height="684" />
+          </frame>
+          <frame id="1002:1552" name="Покупательский блок" x="916" y="0" width="475" height="684">
+            <text id="1002:1556" name="Название" x="38" y="38" width="399" height="106" />
+            <text id="1002:1557" name="Описание" x="38" y="168" width="399" height="69" />
+            <frame id="1002:1558" name="Цена" x="38" y="261" width="228" height="71">
+              <text id="1002:1559" name="Подпись" x="0" y="0" width="129" height="15" />
+              <text id="1002:1560" name="Значение" x="0" y="20" width="228" height="51" />
+            </frame>
+            <frame id="1002:1561" name="Параметры" x="38" y="356" width="399" height="126">
+              <frame id="1002:1562" name="Параметр" x="0" y="0" width="399" height="42">
+                <text id="1002:1563" name="Название" x="0" y="13" width="54" height="16" />
+                <text id="1002:1564" name="Значение" x="282" y="13" width="117" height="16" />
+              </frame>
+              <frame id="1002:1565" name="Параметр" x="0" y="42" width="399" height="42">
+                <text id="1002:1566" name="Название" x="0" y="13" width="41" height="16" />
+                <text id="1002:1567" name="Значение" x="258" y="13" width="141" height="16" />
+              </frame>
+              <frame id="1002:1568" name="Параметр" x="0" y="84" width="399" height="42">
+                <text id="1002:1569" name="Название" x="0" y="13" width="43" height="16" />
+                <text id="1002:1570" name="Значение" x="278" y="13" width="121" height="16" />
+              </frame>
+            </frame>
+            <instance id="1044:1015" name="Button" x="38" y="506" width="321" height="38" />
+            <text id="1039:977" name="Название" x="38" y="568" width="345" height="16" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="1002:1575" name="Преимущества" x="0" y="893" width="1559" height="413">
+        <text id="1002:1576" name="Заголовок" x="389.5" y="82" width="780" height="52" />
+        <frame id="1002:1577" name="Карточки" x="84" y="178" width="1391" height="153">
+          <frame id="1002:1578" name="Преимущество" x="0" y="0" width="334.25" height="153">
+            <frame id="1002:1757" name="sun" x="0" y="24" width="28" height="28" />
+            <text id="1002:1580" name="Название" x="0" y="68" width="201" height="29" />
+            <text id="1002:1581" name="Описание" x="0" y="113" width="310.25" height="40" />
+          </frame>
+          <frame id="1002:1582" name="Преимущество" x="352.25" y="0" width="334.25" height="153">
+            <frame id="1002:1760" name="file-braces" x="0" y="24" width="28" height="28" />
+            <text id="1002:1584" name="Название" x="0" y="68" width="275" height="29" />
+            <text id="1002:1585" name="Описание" x="0" y="113" width="310.25" height="40" />
+          </frame>
+          <frame id="1002:1586" name="Преимущество" x="704.5" y="0" width="334.25" height="153">
+            <frame id="1002:1763" name="wrench" x="0" y="24" width="28" height="28" />
+            <text id="1002:1588" name="Название" x="0" y="68" width="196" height="29" />
+            <text id="1002:1589" name="Описание" x="0" y="113" width="310.25" height="40" />
+          </frame>
+          <frame id="1002:1590" name="Преимущество" x="1056.75" y="0" width="334.25" height="153">
+            <frame id="1002:1766" name="shield-check" x="0" y="24" width="28" height="28" />
+            <text id="1002:1592" name="Название" x="0" y="68" width="160" height="29" />
+            <text id="1002:1593" name="Описание" x="0" y="113" width="310.25" height="40" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="1002:1594" name="Подробности" x="0" y="1306" width="1559" height="1426">
+        <frame id="1002:1595" name="Архитектура света" x="84" y="104" width="1391" height="600">
+          <rounded-rectangle id="1002:1596" name="Интерьер" x="0" y="0" width="820" height="600" />
+          <frame id="1002:1597" name="Текст" x="836" y="124.5" width="555" height="351">
+            <frame id="1002:1598" name="Заголовок секции" x="0" y="0" width="555" height="193">
+              <text id="1002:1600" name="Заголовок" x="0" y="0" width="555" height="104" />
+              <text id="1002:1601" name="Описание" x="0" y="124" width="555" height="69" />
+            </frame>
+            <text id="1002:1602" name="Цитата" x="0" y="223" width="555" height="60" />
+            <instance id="1002:2017" name="Button" x="0" y="313" width="190" height="38" />
+          </frame>
+        </frame>
+        <frame id="1002:1603" name="Конструкция" x="84" y="782" width="1391" height="540">
+          <frame id="1002:1604" name="Текст" x="0" y="129" width="555" height="282">
+            <frame id="1002:1605" name="Заголовок секции" x="0" y="0" width="555" height="193">
+              <text id="1002:1607" name="Заголовок" x="0" y="0" width="555" height="104" />
+              <text id="1002:1608" name="Описание" x="0" y="124" width="555" height="69" />
+            </frame>
+            <frame id="1002:1609" name="Факты" x="0" y="221" width="276" height="61">
+              <frame id="1002:1610" name="Факт" x="0" y="0" width="115" height="61">
+                <text id="1002:1611" name="Значение" x="0" y="0" width="115" height="43" />
+                <text id="1002:1612" name="Подпись" x="0" y="47" width="103" height="14" />
+              </frame>
+              <frame id="1002:1613" name="Факт" x="157" y="0" width="119" height="61">
+                <text id="1002:1614" name="Значение" x="0" y="0" width="116" height="43" />
+                <text id="1002:1615" name="Подпись" x="0" y="47" width="119" height="14" />
+              </frame>
+            </frame>
+          </frame>
+          <rounded-rectangle id="1002:1616" name="Узел конструкции" x="571" y="0" width="820" height="540" />
+        </frame>
+      </frame>
+      <frame id="1002:1617" name="Характеристики" x="0" y="2732" width="1559" height="863">
+        <frame id="1002:1618" name="Вводная" x="84" y="104" width="520" height="655">
+          <frame id="1002:1619" name="Заголовок секции" x="0" y="0" width="520" height="170">
+            <text id="1002:1621" name="Заголовок" x="0" y="0" width="520" height="104" />
+            <text id="1002:1622" name="Описание" x="0" y="124" width="520" height="46" />
+          </frame>
+          <rounded-rectangle id="1002:1623" name="Образцы" x="0" y="202" width="520" height="280" />
+          <frame id="1002:2019" name="Галерея превью" x="0" y="514" width="378" height="141">
+            <instance id="1002:2020" name="Button" x="0" y="0" width="181" height="137" />
+            <instance id="1002:2022" name="Button" x="193" y="0" width="185" height="141" />
+          </frame>
+        </frame>
+        <frame id="1002:1624" name="Таблица" x="684" y="104" width="791" height="472">
+          <frame id="1002:1625" name="Строка" x="0" y="0" width="791" height="59">
+            <text id="1002:1626" name="Параметр" x="0" y="21" width="230" height="17" />
+            <text id="1002:1627" name="Значение" x="321" y="21" width="470" height="17" />
+          </frame>
+          <frame id="1002:1628" name="Строка" x="0" y="59" width="791" height="59">
+            <text id="1002:1629" name="Параметр" x="0" y="21" width="230" height="17" />
+            <text id="1002:1630" name="Значение" x="321" y="21" width="470" height="17" />
+          </frame>
+          <frame id="1002:1631" name="Строка" x="0" y="118" width="791" height="59">
+            <text id="1002:1632" name="Параметр" x="0" y="21" width="230" height="17" />
+            <text id="1002:1633" name="Значение" x="321" y="21" width="470" height="17" />
+          </frame>
+          <frame id="1002:1634" name="Строка" x="0" y="177" width="791" height="59">
+            <text id="1002:1635" name="Параметр" x="0" y="21" width="230" height="17" />
+            <text id="1002:1636" name="Значение" x="321" y="21" width="470" height="17" />
+          </frame>
+          <frame id="1002:1637" name="Строка" x="0" y="236" width="791" height="59">
+            <text id="1002:1638" name="Параметр" x="0" y="21" width="230" height="17" />
+            <text id="1002:1639" name="Значение" x="321" y="21" width="470" height="17" />
+          </frame>
+          <frame id="1002:1640" name="Строка" x="0" y="295" width="791" height="59">
+            <text id="1002:1641" name="Параметр" x="0" y="21" width="230" height="17" />
+            <text id="1002:1642" name="Значение" x="321" y="21" width="470" height="17" />
+          </frame>
+          <frame id="1002:1643" name="Строка" x="0" y="354" width="791" height="59">
+            <text id="1002:1644" name="Параметр" x="0" y="21" width="230" height="17" />
+            <text id="1002:1645" name="Значение" x="321" y="21" width="470" height="17" />
+          </frame>
+          <frame id="1002:1646" name="Строка" x="0" y="413" width="791" height="59">
+            <text id="1002:1647" name="Параметр" x="0" y="21" width="230" height="17" />
+            <text id="1002:1648" name="Значение" x="321" y="21" width="470" height="17" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="1002:1649" name="Комплектация" x="0" y="3595" width="1559" height="782">
+        <frame id="1002:1650" name="Заголовок секции" x="84" y="104" width="1391" height="52">
+          <text id="1002:1652" name="Заголовок" x="0" y="0" width="1391" height="52" />
+        </frame>
+        <frame id="1002:1653" name="Содержание" x="84" y="208" width="1391" height="470">
+          <rounded-rectangle id="1002:1654" name="Монтаж" x="0" y="0" width="720" height="470" />
+          <frame id="1002:1655" name="Список" x="736" y="0" width="655" height="416">
+            <frame id="1002:1656" name="Этап" x="0" y="0" width="655" height="104">
+              <text id="1002:1657" name="Номер" x="0" y="24" width="32" height="24" />
+              <frame id="1002:1658" name="Текст" x="50" y="24" width="605" height="56">
+                <text id="1002:1659" name="Название" x="0" y="0" width="184" height="29" />
+                <text id="1002:1660" name="Описание" x="0" y="36" width="605" height="20" />
+              </frame>
+            </frame>
+            <frame id="1002:1662" name="Этап" x="0" y="104" width="655" height="104">
+              <text id="1002:1663" name="Номер" x="0" y="24" width="32" height="24" />
+              <frame id="1002:1664" name="Текст" x="50" y="24" width="605" height="56">
+                <text id="1002:1665" name="Название" x="0" y="0" width="179" height="29" />
+                <text id="1002:1666" name="Описание" x="0" y="36" width="605" height="20" />
+              </frame>
+            </frame>
+            <frame id="1002:1668" name="Этап" x="0" y="208" width="655" height="104">
+              <text id="1002:1669" name="Номер" x="0" y="24" width="32" height="24" />
+              <frame id="1002:1670" name="Текст" x="50" y="24" width="605" height="56">
+                <text id="1002:1671" name="Название" x="0" y="0" width="130" height="29" />
+                <text id="1002:1672" name="Описание" x="0" y="36" width="605" height="20" />
+              </frame>
+            </frame>
+            <frame id="1002:1674" name="Этап" x="0" y="312" width="655" height="104">
+              <text id="1002:1675" name="Номер" x="0" y="24" width="32" height="24" />
+              <frame id="1002:1676" name="Текст" x="50" y="24" width="569" height="56">
+                <text id="1002:1677" name="Название" x="0" y="0" width="91" height="29" />
+                <text id="1002:1678" name="Описание" x="0" y="36" width="569" height="20" />
+              </frame>
+              <frame id="1002:1778" name="check-circle" x="637" y="24" width="18" height="18" />
+            </frame>
+          </frame>
+        </frame>
+      </frame>
+      <frame id="1002:1680" name="Вопросы и ответы" x="0" y="4377" width="1559" height="812">
+        <frame id="1007:991" name="Info Block" x="213.5" y="104" width="360" height="180">
+          <text id="1007:993" name="Heading" x="0" y="0" width="360" height="88" />
+          <text id="1007:994" name="Description" x="0" y="108" width="360" height="72" />
+        </frame>
+        <frame id="1007:995" name="QA List" x="605.5" y="104" width="740" height="604">
+          <instance id="1007:949" name="FAQ part" x="0" y="0" width="740" height="170" />
+          <instance id="1007:960" name="FAQ part" x="0" y="182" width="740" height="170" />
+          <instance id="1007:971" name="FAQ part" x="0" y="364" width="740" height="72" />
+          <instance id="1007:977" name="FAQ part" x="0" y="448" width="740" height="72" />
+          <instance id="1007:983" name="FAQ part" x="0" y="532" width="740" height="72" />
+        </frame>
+      </frame>
+      <frame id="1002:1712" name="Финальный призыв" x="0" y="5189" width="1559" height="520">
+        <rounded-rectangle id="1002:1713" name="Фон" x="0" y="0" width="1559" height="520" />
+        <rounded-rectangle id="1002:1714" name="Затемнение" x="0" y="0" width="1559" height="520" />
+        <frame id="1002:1716" name="Контент" x="84" y="335" width="1391" height="128">
+          <text id="1002:1717" name="Заголовок" x="0" y="0" width="840" height="128" />
+        </frame>
+      </frame>
+      <frame id="1002:2027" name="Footer" x="0" y="5709" width="1559" height="500">
+        <frame id="1002:2028" name="Container:margin" x="0" y="0" width="1559" height="337">
+          <frame id="1002:2029" name="Container" x="179.5" y="0" width="1200" height="337.5">
+            <frame id="1002:2030" name="Container" x="84" y="56" width="1032" height="159">
+              <frame id="1002:2031" name="Container" x="0" y="0" width="301.70001220703125" height="147.5">
+                <frame id="1002:2032" name="Container" x="0" y="0" width="301.70001220703125" height="28">
+                  <frame id="1002:2033" name="Container" x="0" y="0" width="28" height="28" />
+                  <frame id="1002:2034" name="Text" x="36" y="3.5" width="103" height="21">
+                    <text id="1002:2035" name="Природа Света" x="0" y="0" width="103" height="21" />
+                  </frame>
+                </frame>
+                <frame id="1002:2036" name="Paragraph:margin" x="0" y="28" width="200" height="95">
+                  <text id="1002:2037" name="Производство светопрозрачных конструкций с 2009 года. Москва и Подмосковье." x="0" y="14" width="200" height="63" />
+                </frame>
+                <frame id="1002:2038" name="Container" x="0" y="123" width="301.70001220703125" height="24.5">
+                  <text id="1002:2039" name="+7 (495) 123-45-67" x="0" y="2" width="130" height="21" />
+                </frame>
+              </frame>
+              <frame id="1002:2040" name="Container" x="325.70001220703125" y="0" width="188.5800018310547" height="132">
+                <frame id="1002:2041" name="Container" x="0" y="0" width="188.5800018310547" height="14">
+                  <instance id="1002:2042" name="футер продукция" x="0" y="0" width="66" height="14" />
+                </frame>
+                <frame id="1002:2044" name="Button" x="0" y="11" width="85" height="30">
+                  <instance id="1002:2045" name="футер козырьки" x="0" y="2" width="64" height="36" />
+                </frame>
+                <instance id="1002:2047" name="футер зимние сады" x="0" y="38" width="85" height="30" />
+                <instance id="1002:2049" name="футер навесы" x="0" y="65" width="49" height="30" />
+                <instance id="1002:2051" name="футер весь каталог" x="0" y="92" width="82" height="40" />
+                <instance id="1059:1485" name="футер весь каталог" x="-0.19921875" y="122" width="85" height="40" />
+              </frame>
+              <frame id="1002:2053" name="Container" x="538.280029296875" y="0" width="188.55999755859375" height="147.5">
+                <frame id="1002:2054" name="Container" x="0" y="0" width="188.55999755859375" height="14">
+                  <instance id="1002:2055" name="футер компания" x="0" y="0" width="59" height="14" />
+                </frame>
+                <instance id="1002:2059" name="футер портфолио" x="0" y="14" width="73" height="30" />
+                <instance id="1002:2061" name="футер услуги" x="0" y="44" width="43" height="30" />
+                <instance id="1002:2063" name="футер контакты" x="0" y="74" width="61" height="40" />
+              </frame>
+              <frame id="1002:2065" name="Container" x="750.8400268554688" y="0" width="188.5800018310547" height="147.5">
+                <frame id="1002:2066" name="Container" x="0" y="0" width="188.5800018310547" height="146">
+                  <instance id="1002:2067" name="футер партнерам" x="0" y="0" width="59" height="14" />
+                  <instance id="1002:2069" name="футер дилерская программа" x="0" y="13" width="143" height="36" />
+                  <instance id="1002:2071" name="футер прайс для дилеров" x="0" y="48" width="123" height="30" />
+                  <instance id="1002:2073" name="футер условия" x="0" y="77" width="53" height="30" />
+                  <instance id="1002:2075" name="футер материалы" x="0" y="106" width="74" height="40" />
+                </frame>
+              </frame>
+              <frame id="1002:2077" name="Container" x="963.4200439453125" y="0" width="188.5800018310547" height="147.5">
+                <frame id="1002:2078" name="Container" x="0" y="0" width="188.5800018310547" height="14">
+                  <instance id="1002:2079" name="футер соцсети" x="0" y="0" width="65" height="14" />
+                </frame>
+                <instance id="1002:2081" name="футер телега" x="0" y="14" width="55" height="36" />
+                <frame id="1002:2083" name="Button" x="0" y="50" width="64" height="30">
+                  <instance id="1002:2084" name="футер вотцап" x="0" y="10" width="64" height="20" />
+                </frame>
+              </frame>
+            </frame>
+            <frame id="1002:2086" name="Container:margin" x="84" y="215" width="1032" height="74.5">
+              <frame id="1002:2087" name="Container" x="0" y="48" width="1032" height="38">
+                <frame id="1002:2088" name="Text" x="0" y="21" width="287" height="17">
+                  <text id="1002:2089" name="© 2026 ООО «Природа Света». Все права защищены." x="0" y="0" width="287" height="17" />
+                </frame>
+                <frame id="1002:2090" name="Container" x="779" y="21" width="253" height="17">
+                  <frame id="1002:2091" name="Text" x="0" y="0" width="174" height="17">
+                    <text id="1002:2092" name="Политика конфиденциальности" x="0" y="0" width="174" height="17" />
+                  </frame>
+                  <frame id="1002:2093" name="Text" x="194" y="0" width="59" height="17">
+                    <text id="1002:2094" name="Реквизиты" x="0" y="0" width="59" height="17" />
+                  </frame>
+                </frame>
+              </frame>
+            </frame>
+            <instance id="1059:1514" name="Мой козырек" x="622.5" y="166" width="85" height="20" />
+          </frame>
+        </frame>
+        <frame id="1002:2095" name="Container" x="0" y="337" width="1559" height="163">
+          <frame id="1002:2096" name="Container" x="0" y="1" width="1559" height="162">
+            <text id="1002:2097" name="ПРИРОДА СВЕТА" x="20" y="0" width="1488" height="162" />
+          </frame>
+        </frame>
+      </frame>
     </frame>
-    <text id="910:2015" name="федь это же не кретично для тебя?" x="909" y="833" width="229" height="20" />
   </section>
-  <section id="313:3569" name="на это не смотри" x="29788" y="-4270" width="5051" height="2428">
+  <rounded-rectangle id="977:2034" name="image 13" x="13219" y="-3413" width="178" height="148" />
+  <section id="313:3569" name="на это не смотри" x="33119" y="-9282" width="5051" height="2428">
     <frame id="108:3423" name="для дилеровecture" x="305" y="229" width="1559" height="1951">
       <frame id="108:3427" name="Body" x="0" y="0" width="1559" height="1951">
         <frame id="108:3428" name="App" x="0" y="0" width="1559" height="1951">
@@ -2441,7 +2776,7 @@
     </frame>
   </section>
   <text id="350:6114" name="DM Sans" x="33063" y="-4378" width="56" height="21" />
-  <section id="154:284" name="UA-Kit" x="9236" y="1350" width="10012" height="5957">
+  <section id="154:284" name="UA-Kit" x="9222" y="3422" width="10012" height="5957">
     <frame id="503:2624" name="ФОТО фобилка" x="5968" y="2574" width="244" height="500">
       <symbol id="503:2625" name="Property 1=Default" x="20" y="20" width="182" height="220" />
       <symbol id="503:2627" name="Property 1=Variant2" x="20" y="260" width="182" height="230" />
@@ -2674,11 +3009,21 @@
           <symbol id="271:638" name="Property 1=Variant2" x="20" y="122" width="284" height="82" />
         </frame>
       </section>
-      <section id="742:4924" name="основные кнопки" x="1895" y="100" width="1525" height="656">
+      <section id="742:4924" name="основные кнопки" x="1895" y="100" width="1601" height="656">
         <frame id="271:438" name="Button" x="338" y="100" width="143" height="201">
           <symbol id="271:437" name="Property 1=Default" x="20" y="14" width="103" height="38" />
           <symbol id="271:439" name="Property 1=Variant2" x="20" y="75" width="103" height="38" />
           <symbol id="271:441" name="Property 1=Variant3" x="20" y="136" width="103" height="38" />
+        </frame>
+        <frame id="1075:1707" name="кнопка для доп страницы 2" x="1358" y="93" width="220" height="201">
+          <symbol id="1075:1708" name="Property 1=Default" x="20" y="14" width="190" height="38" />
+          <symbol id="1075:1710" name="Property 1=Variant2" x="20" y="75" width="190" height="38" />
+          <symbol id="1075:1712" name="Property 1=Variant3" x="20" y="136" width="190" height="38" />
+        </frame>
+        <frame id="1075:1687" name="кнопка для доп страницы" x="1035" y="93" width="293" height="201">
+          <symbol id="1075:1688" name="Property 1=Default" x="20" y="14" width="253" height="38" />
+          <symbol id="1075:1690" name="Property 1=Variant2" x="20" y="75" width="253" height="38" />
+          <symbol id="1075:1692" name="Property 1=Variant3" x="20" y="136" width="253" height="38" />
         </frame>
         <frame id="271:444" name="Button" x="503" y="100" width="165" height="194">
           <symbol id="271:443" name="Property 1=Default" x="20" y="20" width="125" height="38" />
@@ -2753,7 +3098,7 @@
           <symbol id="284:1094" name="Property 1=Variant3" x="20" y="190" width="536" height="65" />
         </frame>
       </section>
-      <section id="613:5191" name="футер мобилка" x="2786" y="3160" width="1360" height="536">
+      <section id="613:5191" name="футер мобилка" x="2786" y="3160" width="1434" height="536">
         <frame id="288:1203" name="Button" x="813" y="332" width="64" height="30" />
         <frame id="288:1134" name="футер козырьки" x="100" y="100" width="104" height="132">
           <symbol id="288:1133" name="Property 1=Default" x="20" y="20" width="64" height="36" />
@@ -2771,19 +3116,15 @@
           <symbol id="288:1147" name="Property 1=Default" x="20" y="20" width="82" height="40" />
           <symbol id="288:1149" name="Property 1=Variant2" x="20" y="80" width="82" height="40" />
         </frame>
-        <frame id="288:1161" name="футер о нас" x="604" y="103" width="76" height="132">
-          <symbol id="288:1160" name="Property 1=Default" x="20" y="20" width="36" height="36" />
-          <symbol id="288:1162" name="Property 1=Variant2" x="20" y="76" width="36" height="36" />
-        </frame>
-        <frame id="288:1165" name="футер портфолио" x="696" y="103" width="113" height="120">
+        <frame id="288:1165" name="футер портфолио" x="761" y="103" width="113" height="120">
           <symbol id="288:1164" name="Property 1=Default" x="20" y="20" width="73" height="30" />
           <symbol id="288:1166" name="Property 1=Variant2" x="20" y="70" width="73" height="30" />
         </frame>
-        <frame id="288:1169" name="футер услуги" x="825" y="103" width="83" height="120">
+        <frame id="288:1169" name="футер услуги" x="890" y="103" width="83" height="120">
           <symbol id="288:1168" name="Property 1=Default" x="20" y="20" width="43" height="30" />
           <symbol id="288:1170" name="Property 1=Variant2" x="20" y="70" width="43" height="30" />
         </frame>
-        <frame id="288:1173" name="футер контакты" x="924" y="103" width="101" height="140">
+        <frame id="288:1173" name="футер контакты" x="989" y="103" width="101" height="140">
           <symbol id="288:1172" name="Property 1=Default" x="20" y="20" width="61" height="40" />
           <symbol id="288:1174" name="Property 1=Variant2" x="20" y="80" width="61" height="40" />
         </frame>
@@ -2819,13 +3160,17 @@
           <symbol id="293:1823" name="Property 1=Default" x="20" y="20" width="59" height="14" />
           <symbol id="293:1825" name="Property 1=Variant2" x="20" y="54" width="59" height="14" />
         </frame>
-        <frame id="293:1828" name="футер партнерам" x="1041" y="103" width="99" height="88">
+        <frame id="293:1828" name="футер партнерам" x="1106" y="103" width="99" height="88">
           <symbol id="293:1827" name="Property 1=Default" x="20" y="20" width="59" height="14" />
           <symbol id="293:1829" name="Property 1=Variant2" x="20" y="54" width="59" height="14" />
         </frame>
-        <frame id="293:1832" name="футер соцсети" x="1155" y="103" width="105" height="88">
+        <frame id="293:1832" name="футер соцсети" x="1220" y="103" width="105" height="88">
           <symbol id="293:1831" name="Property 1=Default" x="20" y="20" width="65" height="14" />
           <symbol id="293:1833" name="Property 1=Variant2" x="20" y="54" width="65" height="14" />
+        </frame>
+        <frame id="1059:1489" name="Мой козырек" x="604" y="103" width="125" height="100">
+          <symbol id="1059:1488" name="Property 1=Default" x="20" y="20" width="85" height="20" />
+          <symbol id="1059:1490" name="Property 1=Variant2" x="20" y="60" width="85" height="20" />
         </frame>
       </section>
       <frame id="302:3212" name="Text field" x="2283" y="1990" width="430" height="470">
@@ -2871,27 +3216,27 @@
       </frame>
     </section>
     <symbol id="487:1603" name="ФУТЕР МОБИЛКИ" x="6560" y="1842" width="402" height="438" />
-    <frame id="859:958" name="кнопка   партфолио" x="4713" y="510" width="86" height="101">
+    <frame id="859:958" name="кнопка   партфолио" x="4713" y="633" width="86" height="101">
       <symbol id="859:959" name="Property 1=Default" x="20" y="20" width="58" height="20" />
       <symbol id="859:961" name="Property 1=Variant2" x="20" y="49" width="58" height="20" />
       <symbol id="859:963" name="Property 1=Variant3" x="20" y="74" width="58" height="20" />
     </frame>
-    <frame id="859:965" name="кнопка  партфолио" x="4816" y="510" width="89" height="99">
+    <frame id="859:965" name="кнопка  партфолио" x="4816" y="633" width="89" height="99">
       <symbol id="859:966" name="Property 1=Default" x="20" y="20" width="58" height="20" />
       <symbol id="859:968" name="Property 1=Variant2" x="20" y="45" width="58" height="20" />
       <symbol id="859:970" name="Property 1=Variant3" x="20" y="70" width="58" height="20" />
     </frame>
-    <frame id="859:972" name="кнопка  партфолио" x="4926" y="510" width="101" height="103">
+    <frame id="859:972" name="кнопка  партфолио" x="4926" y="633" width="101" height="103">
       <symbol id="859:973" name="Property 1=Default" x="20" y="20" width="66" height="20" />
       <symbol id="859:975" name="Property 1=Variant2" x="20" y="46" width="66" height="20" />
       <symbol id="859:977" name="Property 1=Variant3" x="20" y="74" width="66" height="20" />
     </frame>
-    <frame id="859:979" name="кнопка  партфолио" x="5044" y="510" width="117" height="109">
+    <frame id="859:979" name="кнопка  партфолио" x="5044" y="633" width="117" height="109">
       <symbol id="859:980" name="Property 1=Default" x="20" y="20" width="87" height="20" />
       <symbol id="859:982" name="Property 1=Variant2" x="20" y="48" width="87" height="20" />
       <symbol id="859:984" name="Property 1=Variant3" x="20" y="79" width="87" height="20" />
     </frame>
-    <frame id="859:986" name="кнопка  партфолио" x="5178" y="510" width="144" height="109">
+    <frame id="859:986" name="кнопка  партфолио" x="5178" y="633" width="144" height="109">
       <symbol id="859:987" name="Property 1=Default" x="20" y="20" width="104" height="20" />
       <symbol id="859:989" name="Property 1=Variant2" x="20" y="50" width="104" height="20" />
       <symbol id="859:991" name="Property 1=Variant3" x="20" y="77" width="104" height="20" />
@@ -2904,7 +3249,7 @@
       <symbol id="549:1114" name="Property 1=Variant2" x="2" y="64.5" width="396.816392757979" height="211.47656143815766" />
     </frame>
   </frame>
-  <section id="390:7122" name="МОБИЛКА" x="8348" y="-4526" width="3974" height="5650">
+  <section id="390:7122" name="МОБИЛКА" x="8348" y="-4526" width="4529" height="7265">
     <frame id="325:930" name="iPhone 17 - 1" x="247" y="343" width="402" height="5212">
       <frame id="325:5444" name="Group 6" x="0" y="0" width="402" height="633">
         <boolean-operation id="325:5445" name="Subtract" x="0" y="0" width="402" height="633" />
@@ -3478,6 +3823,7 @@
         <instance id="535:4191" name="МОБИЛКА4" x="146" y="-1" width="66" height="22" />
       </frame>
       <instance id="788:6493" name="Menu" x="16" y="56" width="371" height="46.34556198120117" />
+      <instance id="1059:1552" name="Мой козырек" x="311" y="2021" width="72" height="20" />
     </frame>
     <frame id="399:8092" name="iPhone 17 - 3" x="1198" y="343" width="402" height="1102">
       <instance id="415:8312" name="Image («Классик» ×3 для ЖК)" x="20" y="141" width="195" height="275" />
@@ -3581,6 +3927,7 @@
         </frame>
       </frame>
       <instance id="487:1804" name="ФУТЕР МОБИЛКИ" x="0" y="664" width="402" height="438" />
+      <instance id="1059:1571" name="Мой козырек" x="311" y="791" width="72" height="20" />
       <instance id="569:1294" name="Menu" x="16" y="56" width="371" height="46.34556198120117" />
     </frame>
     <frame id="415:8653" name="iPhone 17 - 4" x="1657" y="343" width="402" height="1883">
@@ -3751,7 +4098,8 @@
       <instance id="859:1008" name="кнопка  партфолио" x="135" y="182" width="66" height="20" />
       <instance id="859:1009" name="кнопка  партфолио" x="205" y="182" width="87" height="20" />
       <instance id="859:1010" name="кнопка  партфолио" x="12" y="207" width="104" height="20" />
-      <instance id="569:1299" name="Menu" x="16" y="53" width="371" height="46.34556198120117" />
+      <instance id="1059:1554" name="Мой козырек" x="311" y="1573" width="72" height="19" />
+      <instance id="1059:1653" name="Menu" x="16" y="55" width="371" height="46.34556198120117" />
     </frame>
     <frame id="421:10337" name="iPhone 17 - 6" x="2622" y="343" width="402" height="1147">
       <frame id="421:10575" name="Frame 2121454817" x="22" y="146" width="118" height="20">
@@ -3821,6 +4169,7 @@
       </frame>
       <instance id="487:1987" name="ФУТЕР МОБИЛКИ" x="0" y="710" width="402" height="438" />
       <instance id="569:1309" name="Menu" x="16" y="59" width="371" height="46.34556198120117" />
+      <instance id="1059:1558" name="Мой козырек" x="311" y="841" width="72" height="19" />
     </frame>
     <frame id="438:1277" name="iPhone 17 - 7" x="3126" y="343" width="402" height="1075" />
     <text id="438:1012" name="Нажимая кнопку, вы соглашаетесь с политикой конфид" x="2825" y="796" width="202" height="33" />
@@ -4023,10 +4372,211 @@
           <text id="791:7388" name="Бессрочная поддержка" x="16" y="4" width="117" height="16" />
         </frame>
       </frame>
+      <instance id="1059:1556" name="Мой козырек" x="311" y="1612" width="72" height="19" />
       <instance id="791:7389" name="Menu" x="16" y="56" width="371" height="46.34556198120117" />
     </frame>
-    <rounded-rectangle id="890:1610" name="card-image" x="2571" y="3732" width="160" height="110" />
-    <rounded-rectangle id="890:1612" name="card-image" x="2365" y="4151" width="160" height="110" />
-    <rounded-rectangle id="890:1614" name="card-image" x="2850" y="3882" width="552" height="379.5" />
+    <frame id="1048:942" name="iPhone 17 - 19" x="3731" y="343" width="402" height="6913">
+      <instance id="1048:964" name="Component 8" x="24" y="14" width="368" height="33" />
+      <instance id="1048:976" name="ФУТЕР МОБИЛКИ" x="0" y="6475" width="402" height="438" />
+      <instance id="1048:977" name="Menu" x="493.12872314453125" y="60" width="61" height="46.34556198120117" />
+      <frame id="1059:1577" name="Frame 2121454987" x="9" y="144" width="385" height="381">
+        <frame id="1059:1576" name="Frame 2121454986" x="10" y="10" width="365" height="361">
+          <frame id="1048:1118" name="Галерея" x="10" y="10" width="345" height="341">
+            <frame id="1048:1119" name="Миниатюры" x="0" y="0" width="120" height="684">
+              <rounded-rectangle id="1048:1120" name="Миниатюра" x="0" y="0" width="120" height="104" />
+              <rounded-rectangle id="1048:1121" name="Миниатюра" x="0" y="116" width="120" height="104" />
+              <rounded-rectangle id="1048:1122" name="Миниатюра" x="0" y="232" width="120" height="104" />
+              <rounded-rectangle id="1048:1123" name="Миниатюра" x="0" y="348" width="120" height="104" />
+              <rounded-rectangle id="1048:1124" name="Миниатюра" x="0" y="464" width="120" height="104" />
+              <rounded-rectangle id="1048:1125" name="Миниатюра" x="0" y="580" width="120" height="104" />
+            </frame>
+            <frame id="1048:1126" name="Главное фото" x="136" y="0" width="209" height="341" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="1048:1135" name="Покупательский блок" x="29" y="522" width="345" height="548">
+        <text id="1048:1136" name="Название" x="38" y="38" width="269" height="53" />
+        <text id="1048:1137" name="Описание" x="38" y="115" width="269" height="57" />
+        <frame id="1048:1138" name="Цена" x="38" y="196" width="144" height="52">
+          <text id="1048:1139" name="Подпись" x="0" y="0" width="129" height="15" />
+          <text id="1048:1140" name="Значение" x="0" y="20" width="144" height="32" />
+        </frame>
+        <frame id="1048:1141" name="Параметры" x="38" y="272" width="260" height="126">
+          <frame id="1048:1142" name="Параметр" x="0" y="0" width="260" height="42">
+            <text id="1048:1143" name="Название" x="0" y="13" width="54" height="16" />
+            <text id="1048:1144" name="Значение" x="122" y="13" width="98" height="13" />
+          </frame>
+          <frame id="1048:1145" name="Параметр" x="0" y="42" width="260" height="42">
+            <text id="1048:1146" name="Название" x="0" y="13" width="41" height="16" />
+            <text id="1048:1147" name="Значение" x="121" y="13" width="118" height="13" />
+          </frame>
+          <frame id="1048:1148" name="Параметр" x="0" y="84" width="260" height="42">
+            <text id="1048:1149" name="Название" x="0" y="13" width="43" height="16" />
+            <text id="1048:1150" name="Значение" x="123" y="13" width="101" height="13" />
+          </frame>
+        </frame>
+        <instance id="1075:1703" name="кнопка для доп страницы" x="38" y="422" width="253" height="38" />
+        <text id="1048:1152" name="Название" x="38" y="484" width="170" height="26" />
+      </frame>
+      <frame id="1048:1155" name="Преимущества" x="0" y="1111" width="402" height="282">
+        <text id="1048:1156" name="Заголовок" x="41" y="26" width="320" height="78" />
+        <frame id="1048:1157" name="Карточки" x="46" y="120" width="310" height="139">
+          <frame id="1048:1466" name="Frame 2121454985" x="0" y="0" width="302" height="139">
+            <frame id="1048:1184" name="Frame 2121454983" x="0" y="0" width="1038.75" height="139">
+              <frame id="1048:1183" name="Frame 2121454982" x="0" y="0" width="686.5" height="139">
+                <frame id="1048:1179" name="Frame 2121454978" x="0" y="0" width="334.25" height="139">
+                  <frame id="1048:1158" name="Преимущество" x="0" y="0" width="334.25" height="139">
+                    <frame id="1048:1159" name="sun" x="0" y="24" width="28" height="28" />
+                    <text id="1048:1161" name="Название" x="0" y="68" width="128" height="19" />
+                    <text id="1048:1162" name="Описание" x="0" y="103" width="310.25" height="36" />
+                  </frame>
+                </frame>
+                <frame id="1048:1180" name="Frame 2121454979" x="352.25" y="0" width="334.25" height="139">
+                  <frame id="1048:1163" name="Преимущество" x="0" y="0" width="334.25" height="139">
+                    <frame id="1048:1164" name="file-braces" x="0" y="24" width="28" height="28" />
+                    <text id="1048:1166" name="Название" x="0" y="68" width="175" height="19" />
+                    <text id="1048:1167" name="Описание" x="0" y="103" width="310.25" height="36" />
+                  </frame>
+                </frame>
+              </frame>
+              <frame id="1048:1181" name="Frame 2121454980" x="704.5" y="0" width="334.25" height="139">
+                <frame id="1048:1168" name="Преимущество" x="0" y="0" width="334.25" height="139">
+                  <frame id="1048:1169" name="wrench" x="0" y="24" width="28" height="28" />
+                  <text id="1048:1171" name="Название" x="0" y="68" width="125" height="19" />
+                  <text id="1048:1172" name="Описание" x="0" y="103" width="310.25" height="36" />
+                </frame>
+              </frame>
+            </frame>
+          </frame>
+        </frame>
+      </frame>
+      <rounded-rectangle id="1048:1186" name="Интерьер" x="29" y="1434" width="345" height="600" />
+      <frame id="1048:1187" name="Текст" x="29" y="2053" width="258" height="201">
+        <frame id="1048:1188" name="Заголовок секции" x="0" y="0" width="239" height="143">
+          <text id="1048:1189" name="Заголовок" x="0" y="0" width="258" height="68" />
+          <text id="1048:1190" name="Описание" x="0" y="83" width="234" height="60" />
+        </frame>
+        <text id="1048:1191" name="Цитата" x="0" y="163" width="233" height="38" />
+      </frame>
+      <rounded-rectangle id="1048:1194" name="Узел конструкции" x="29" y="2346" width="345" height="540" />
+      <frame id="1048:1195" name="Текст" x="29" y="2911" width="555" height="241">
+        <frame id="1048:1196" name="Заголовок секции" x="0" y="0" width="555" height="166">
+          <text id="1048:1197" name="Заголовок" x="0" y="0" width="264" height="70" />
+          <text id="1048:1198" name="Описание" x="0" y="90" width="332" height="76" />
+        </frame>
+        <frame id="1048:1199" name="Факты" x="0" y="194" width="285" height="47">
+          <frame id="1048:1200" name="Факт" x="0" y="0" width="113" height="47">
+            <text id="1048:1201" name="Значение" x="0" y="0" width="72" height="27" />
+            <text id="1048:1202" name="Подпись" x="0" y="31" width="113" height="16" />
+          </frame>
+          <frame id="1048:1203" name="Факт" x="155" y="0" width="130" height="47">
+            <text id="1048:1204" name="Значение" x="0" y="0" width="73" height="27" />
+            <text id="1048:1205" name="Подпись" x="0" y="31" width="130" height="16" />
+          </frame>
+        </frame>
+      </frame>
+      <frame id="1048:1206" name="Вводная" x="29" y="3213" width="520" height="597">
+        <frame id="1048:1207" name="Заголовок секции" x="0" y="0" width="359" height="112">
+          <text id="1048:1208" name="Заголовок" x="0" y="0" width="359" height="52" />
+          <text id="1048:1209" name="Описание" x="0" y="72" width="333" height="40" />
+        </frame>
+        <rounded-rectangle id="1048:1210" name="Образцы" x="0" y="144" width="345" height="280" />
+        <frame id="1048:1211" name="Галерея превью" x="0" y="456" width="345" height="141">
+          <instance id="1048:1212" name="Button" x="0" y="0" width="181" height="137" />
+          <instance id="1048:1213" name="Button" x="193" y="0" width="185" height="141" />
+        </frame>
+      </frame>
+      <frame id="1048:1241" name="Таблица" x="29" y="3852" width="344" height="455">
+        <frame id="1048:1242" name="Строка" x="0" y="0" width="344" height="55">
+          <text id="1048:1243" name="Параметр" x="0" y="21" width="230" height="13" />
+          <text id="1048:1244" name="Значение" x="106" y="21" width="238" height="13" />
+        </frame>
+        <frame id="1048:1245" name="Строка" x="0" y="55" width="344" height="55">
+          <text id="1048:1246" name="Параметр" x="0" y="21" width="230" height="13" />
+          <text id="1048:1247" name="Значение" x="106" y="21" width="176" height="13" />
+        </frame>
+        <frame id="1048:1248" name="Строка" x="0" y="110" width="344" height="55">
+          <text id="1048:1249" name="Параметр" x="0" y="21" width="230" height="13" />
+          <text id="1048:1250" name="Значение" x="106" y="21" width="295" height="13" />
+        </frame>
+        <frame id="1048:1251" name="Строка" x="0" y="165" width="344" height="55">
+          <text id="1048:1252" name="Параметр" x="0" y="21" width="230" height="13" />
+          <text id="1048:1253" name="Значение" x="106" y="21" width="242" height="13" />
+        </frame>
+        <frame id="1048:1254" name="Строка" x="0" y="220" width="344" height="55">
+          <text id="1048:1255" name="Параметр" x="0" y="21" width="230" height="13" />
+          <text id="1048:1256" name="Значение" x="106" y="21" width="301" height="13" />
+        </frame>
+        <frame id="1048:1257" name="Строка" x="0" y="275" width="344" height="55">
+          <text id="1048:1258" name="Параметр" x="0" y="21" width="230" height="13" />
+          <text id="1048:1259" name="Значение" x="106" y="21" width="310" height="13" />
+        </frame>
+        <frame id="1048:1260" name="Строка" x="0" y="330" width="344" height="70">
+          <text id="1048:1261" name="Параметр" x="0" y="21" width="230" height="13" />
+          <text id="1048:1262" name="Значение" x="106" y="21" width="312" height="13" />
+        </frame>
+        <frame id="1048:1263" name="Строка" x="0" y="400" width="344" height="55">
+          <text id="1048:1264" name="Параметр" x="0" y="21" width="230" height="13" />
+          <text id="1048:1265" name="Значение" x="106" y="21" width="316" height="13" />
+        </frame>
+      </frame>
+      <text id="1048:1266" name="Заголовок" x="31" y="4342" width="286" height="68" />
+      <rounded-rectangle id="1048:1267" name="Монтаж" x="29" y="4447" width="345" height="470" />
+      <frame id="1048:1268" name="Список" x="29" y="4956" width="345" height="360">
+        <frame id="1048:1269" name="Этап" x="0" y="0" width="345" height="90">
+          <text id="1048:1270" name="Номер" x="0" y="24" width="32" height="24" />
+          <frame id="1048:1271" name="Текст" x="50" y="24" width="295" height="42">
+            <text id="1048:1272" name="Название" x="0" y="0" width="126" height="20" />
+            <text id="1048:1273" name="Описание" x="0" y="27" width="295" height="15" />
+          </frame>
+        </frame>
+        <frame id="1048:1274" name="Этап" x="0" y="90" width="345" height="90">
+          <text id="1048:1275" name="Номер" x="0" y="24" width="32" height="24" />
+          <frame id="1048:1276" name="Текст" x="50" y="24" width="295" height="42">
+            <text id="1048:1277" name="Название" x="0" y="0" width="122" height="20" />
+            <text id="1048:1278" name="Описание" x="0" y="27" width="295" height="15" />
+          </frame>
+        </frame>
+        <frame id="1048:1279" name="Этап" x="0" y="180" width="345" height="90">
+          <text id="1048:1280" name="Номер" x="0" y="24" width="32" height="24" />
+          <frame id="1048:1281" name="Текст" x="50" y="24" width="295" height="42">
+            <text id="1048:1282" name="Название" x="0" y="0" width="89" height="20" />
+            <text id="1048:1283" name="Описание" x="0" y="27" width="295" height="15" />
+          </frame>
+        </frame>
+        <frame id="1048:1284" name="Этап" x="0" y="270" width="345" height="90">
+          <text id="1048:1285" name="Номер" x="0" y="24" width="32" height="24" />
+          <frame id="1048:1286" name="Текст" x="50" y="24" width="259" height="42">
+            <text id="1048:1287" name="Название" x="0" y="0" width="62" height="20" />
+            <text id="1048:1288" name="Описание" x="0" y="27" width="259" height="15" />
+          </frame>
+          <frame id="1048:1289" name="check-circle" x="327" y="24" width="18" height="18" />
+        </frame>
+      </frame>
+      <frame id="1048:1290" name="Info Block" x="25" y="5337" width="360" height="121">
+        <text id="1048:1291" name="Heading" x="0" y="0" width="360" height="29" />
+        <text id="1048:1292" name="Description" x="0" y="49" width="360" height="72" />
+      </frame>
+      <frame id="1048:1293" name="QA" x="18" y="5485" width="373" height="872">
+        <instance id="1048:1294" name="FAQ part" x="0" y="0" width="373" height="280" />
+        <instance id="1048:1295" name="FAQ part" x="0" y="292" width="373" height="280" />
+        <instance id="1048:1296" name="FAQ part" x="0" y="584" width="373" height="88" />
+        <instance id="1048:1297" name="FAQ part" x="0" y="684" width="373" height="88" />
+        <instance id="1048:1298" name="FAQ part" x="0" y="784" width="373" height="88" />
+      </frame>
+      <instance id="1059:1562" name="Мой козырек" x="311" y="6604" width="72" height="19" />
+      <frame id="1059:1633" name="Frame 2121454949" x="22" y="65" width="348.2242736816406" height="40">
+        <frame id="1059:1634" name="Container" x="0" y="0" width="154" height="40">
+          <frame id="1059:1635" name="Container" x="0" y="0" width="40" height="40" />
+          <frame id="1059:1636" name="Text" x="48" y="9.5" width="103" height="21">
+            <text id="1059:1637" name="Природа Света" x="0" y="0" width="103" height="21" />
+          </frame>
+        </frame>
+      </frame>
+      <instance id="1059:1648" name="Menu" x="16" y="62" width="371" height="46.34556198120117" />
+      <instance id="1075:1723" name="кнопка для доп страницы 3" x="29" y="2277" width="190" height="38" />
+    </frame>
+    <instance id="1059:1547" name="Мой козырек" x="557" y="5244" width="72" height="20" />
   </section>
 </canvas>
+IMPORTANT: After you call this tool, you MUST call get_design_context if trying to implement the design, since this tool only returns metadata. If you do not call get_design_context, the agent will not be able to implement the design.

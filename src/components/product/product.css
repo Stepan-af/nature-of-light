@@ -1,0 +1,29 @@
+/*
+ * Shared bits of the product page (src/pages/catalog/[category]/[product].astro).
+ * The Figma product page uses a 1391px content width (84px side padding on a
+ * 1559px frame) — wider than the site-wide 1200px `.container`.
+ */
+.pd-container {
+  width: 100%;
+  max-width: calc(1392px + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Section heading: Playfair 42/52, -1px (Figma «Заголовок секции»). */
+.pd-title {
+  font-size: clamp(28px, 2.9vw, 42px);
+  line-height: 1.24;
+  letter-spacing: -1px;
+  color: #1a1a1a;
+}
+
+.pd-text {
+  font-size: 15px;
+  line-height: 1.55;
+  color: #717770;
+}
+
+.pd-section {
+  padding-block: clamp(56px, 7vw, 104px);
+}

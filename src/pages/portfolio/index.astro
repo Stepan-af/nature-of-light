@@ -17,6 +17,36 @@ const pills = [{ id: '', label: 'Все работы' }, ...categories.map((c) =
   description="Реализованные проекты «Природа Света»: зимние сады, стеклянные козырьки, навесы и террасы в Москве и Подмосковье. Фото, цены и сроки монтажа."
   tone="light"
 >
+  {/*
+    Pre-filter before first paint: when opened with ?category= / ?type=, hide
+    non-matching cards (and highlight the right pill) with a temporary style
+    element, so the full grid doesn't flash. The module script below removes it
+    once it has applied the real filter state.
+  */}
+  <script is:inline slot="head">
+    (function () {
+      try {
+        var p = new URLSearchParams(location.search);
+        var ok = /^[a-z0-9-]+$/;
+        var c = p.get('category');
+        var t = p.get('type');
+        var rules = [];
+        if (c && ok.test(c)) {
+          rules.push('[data-project]:not([data-category="' + c + '"]){display:none!important}');
+          rules.push('[data-filter-category=""]{background:rgb(0 0 0/.06)!important;color:#555!important}');
+          rules.push('[data-filter-category="' + c + '"]{background:rgb(13 13 12/.2)!important;color:#4a4a48!important}');
+        }
+        if (t && ok.test(t)) rules.push('[data-project]:not([data-segment="' + t + '"]){display:none!important}');
+        if (rules.length) {
+          var s = document.createElement('style');
+          s.id = 'portfolio-prefilter';
+          s.textContent = rules.join('');
+          document.head.appendChild(s);
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   <div class="portfolio container" data-portfolio data-segments={JSON.stringify(segmentLabels)}>
     <Breadcrumbs items={[{ label: 'Главная', href: '/' }, { label: 'Портфолио' }]} />
     <h1 class="portfolio__title">Наши работы</h1>
@@ -132,6 +162,7 @@ const pills = [{ id: '', label: 'Все работы' }, ...categories.map((c) =
     });
 
     apply(new URLSearchParams(location.search));
+    document.getElementById('portfolio-prefilter')?.remove();
   }
 </script>
 
@@ -140,9 +171,10 @@ const pills = [{ id: '', label: 'Все работы' }, ...categories.map((c) =
     padding-block: 32px 72px;
   }
 
+  /* Figma v2 (comment «нужно будет поменять шрифт»): Playfair Display Bold 52/57.2. */
   .portfolio__title {
     margin-top: 16px;
-    font-weight: 400;
+    font-weight: 700;
     font-size: 52px;
     line-height: 57.2px;
     letter-spacing: -1px;

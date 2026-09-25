@@ -5,7 +5,7 @@ import { availabilityLabel, productHref, type Product } from './catalog';
 
 export interface Props {
   product: Product;
-  /** Category title for the green chip on the photo. */
+  /** Category title for the grey chip on the photo. */
   categoryLabel?: string;
   headingLevel?: 'h2' | 'h3';
   /** Load eagerly (cards in the first row, which contain the LCP image). */
@@ -78,13 +78,19 @@ const { title, material, priceFrom, availability, image, imageAlt } = product.da
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 400ms var(--ease);
   }
 
-  .card:hover .card__img {
-    transform: scale(1.04);
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .card__img {
+      transition: transform 450ms var(--ease);
+    }
+
+    .card:hover .card__img {
+      transform: scale(1.05);
+    }
   }
 
+  /* Figma v2 (comment «тут я поменял цвет»): grey pill instead of green. */
   .card__chip {
     position: absolute;
     top: 10px;
@@ -92,10 +98,10 @@ const { title, material, priceFrom, availability, image, imageAlt } = product.da
     padding: 3px 10px;
     border: 1px solid #fff;
     border-radius: 20px;
-    background: var(--color-green);
+    background: var(--color-text-muted);
     color: #fff;
     font-family: var(--font-mono);
-    font-weight: 700;
+    font-weight: 600;
     font-size: 11px;
     line-height: 16.5px;
     letter-spacing: 0.66px;

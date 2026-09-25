@@ -3,7 +3,7 @@
   "tagline": "Козырьки · Навесы · Зимние сады",
   "description": "Производство светопрозрачных конструкций с 2009 года. Козырьки, навесы и зимние сады из стекла и поликарбоната в Москве и Подмосковье. Замер, проект, монтаж — под ключ.",
   "foundedYear": 2009,
-  "phone": "+7 (495) 123-45-67",
+  "phone": "+7 (985) 157-47-47",
   "email": "info@prirodasveta.ru",
   "address": {
     "street": "ул. Производственная, 15",
@@ -13,9 +13,8 @@
   "hours": "Пн–Пт 9:00–19:00, Сб 10:00–16:00",
   "hoursNote": "Ответим в течение рабочего дня",
   "social": {
-    "telegram": "https://t.me/",
-    "whatsapp": "https://wa.me/74951234567",
-    "vk": "https://vk.com/"
+    "whatsapp": "https://wa.me/79851574747",
+    "telegram": "https://t.me/prirodasvetamanager"
   },
   "stats": [
     {
@@ -47,5 +46,9 @@
     "bik": "",
     "account": "",
     "corrAccount": ""
+  },
+  "messengers": {
+    "whatsappPhone": "+7 (985) 157-47-47",
+    "telegramUsername": "@prirodasvetamanager"
   }
 }

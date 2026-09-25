@@ -1,0 +1,460 @@
+---
+/*
+ * Product gallery (Figma 1002:1541 «Галерея»): vertical thumbnail strip on the
+ * left, main photo with a category badge and a «1 / 6» counter. The main photo
+ * opens a full-screen <dialog> lightbox (keyboard ← →, Esc, swipe).
+ * Without JS the thumbnails and the main photo are plain links to the full images.
+ */
+import type { ImageMetadata } from 'astro';
+import { Image, getImage } from 'astro:assets';
+import CameraIcon from '@/assets/product/icons/camera.svg';
+
+export interface GalleryItem {
+  image: ImageMetadata;
+  alt: string;
+}
+
+export interface Props {
+  items: GalleryItem[];
+  /** Label in the top-left corner, e.g. the category name. */
+  badge?: string;
+}
+
+const { items, badge } = Astro.props;
+const total = items.length;
+
+const full = await Promise.all(
+  items.map(async ({ image, alt }) => {
+    const img = await getImage({ src: image, width: Math.min(image.width, 1920), format: 'webp' });
+    return { src: img.src, alt };
+  }),
+);
+---
+
+<div class="pgallery" data-pgallery data-full={JSON.stringify(full)}>
+  {
+    total > 1 && (
+      <ul class="pgallery__thumbs" role="list" aria-label="Все фото">
+        {items.map((item, i) => (
+          <li>
+            <a
+              class="pgallery__thumb"
+              href={full[i]?.src}
+              data-pgallery-thumb
+              aria-current={i === 0 ? 'true' : undefined}
+              aria-label={`Показать фото ${i + 1} из ${total}`}
+            >
+              <Image src={item.image} alt="" width={240} widths={[120, 240]} sizes="120px" loading="lazy" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
+  <div class="pgallery__main" data-pgallery-main>
+    {
+      items.map((item, i) => (
+        <a
+          class="pgallery__slide"
+          href={full[i]?.src}
+          data-pgallery-slide
+          data-pgallery-open
+          hidden={i !== 0}
+          aria-haspopup="dialog"
+        >
+          <Image
+            class="pgallery__img"
+            src={item.image}
+            alt={item.alt}
+            width={1528}
+            widths={[420, 640, 900, 1200, 1528]}
+            sizes="(max-width: 767.98px) 60vw, (max-width: 1199.98px) 58vw, 764px"
+            loading={i === 0 ? 'eager' : 'lazy'}
+            fetchpriority={i === 0 ? 'high' : 'auto'}
+          />
+          <span class="visually-hidden">Открыть фото в полном размере</span>
+        </a>
+      ))
+    }
+    {badge && <p class="pgallery__badge">{badge}</p>}
+    <p class="pgallery__counter" aria-live="polite">
+      <CameraIcon width={14} height={14} aria-hidden="true" />
+      <span class="visually-hidden">Фото</span>
+      <span data-pgallery-counter>1 / {total}</span>
+    </p>
+  </div>
+
+  <dialog class="plightbox" data-plightbox aria-label="Просмотр фото">
+    <div class="plightbox__frame" data-plightbox-frame>
+      <img class="plightbox__img" alt="" data-plightbox-img decoding="async" />
+    </div>
+    <p class="plightbox__counter" data-plightbox-counter>1 / {total}</p>
+    <button class="plightbox__btn plightbox__close" type="button" data-plightbox-close aria-label="Закрыть">×</button>
+    {
+      total > 1 && (
+        <>
+          <button class="plightbox__btn plightbox__prev" type="button" data-plightbox-prev aria-label="Предыдущее фото">
+            ←
+          </button>
+          <button class="plightbox__btn plightbox__next" type="button" data-plightbox-next aria-label="Следующее фото">
+            →
+          </button>
+        </>
+      )
+    }
+  </dialog>
+</div>
+
+<script>
+  interface FullImage {
+    src: string;
+    alt: string;
+  }
+
+  /** Calls `go(±1)` on a horizontal swipe over `el`. */
+  const onSwipe = (el: HTMLElement, go: (step: number) => void) => {
+    let startX: number | null = null;
+    el.addEventListener('touchstart', (e) => (startX = e.touches[0]?.clientX ?? null), { passive: true });
+    el.addEventListener(
+      'touchend',
+      (e) => {
+        const endX = e.changedTouches[0]?.clientX;
+        if (startX !== null && endX !== undefined && Math.abs(endX - startX) > 40) go(endX < startX ? 1 : -1);
+        startX = null;
+      },
+      { passive: true },
+    );
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-pgallery]').forEach((root) => {
+    const full = JSON.parse(root.dataset.full ?? '[]') as FullImage[];
+    const total = full.length;
+    if (!total) return;
+
+    const main = root.querySelector<HTMLElement>('[data-pgallery-main]');
+    const slides = [...root.querySelectorAll<HTMLAnchorElement>('[data-pgallery-slide]')];
+    const thumbs = [...root.querySelectorAll<HTMLAnchorElement>('[data-pgallery-thumb]')];
+    const strip = root.querySelector<HTMLElement>('.pgallery__thumbs');
+    const counter = root.querySelector<HTMLElement>('[data-pgallery-counter]');
+    const dialog = root.querySelector<HTMLDialogElement>('[data-plightbox]');
+    const lightboxImg = root.querySelector<HTMLImageElement>('[data-plightbox-img]');
+    const lightboxCounter = root.querySelector<HTMLElement>('[data-plightbox-counter]');
+    let index = 0;
+
+    const show = (next: number) => {
+      index = (next + total) % total;
+      slides.forEach((slide, i) => (slide.hidden = i !== index));
+      thumbs.forEach((thumb, i) => {
+        if (i === index) {
+          thumb.setAttribute('aria-current', 'true');
+          // Keep the active thumbnail visible inside the strip (without scrolling the page).
+          if (strip) {
+            const top = thumb.offsetTop; // strip is the offsetParent (position: relative)
+            if (top < strip.scrollTop) strip.scrollTop = top;
+            else if (top + thumb.offsetHeight > strip.scrollTop + strip.clientHeight)
+              strip.scrollTop = top + thumb.offsetHeight - strip.clientHeight;
+          }
+        } else thumb.removeAttribute('aria-current');
+      });
+      const label = `${index + 1} / ${total}`;
+      if (counter) counter.textContent = label;
+      if (lightboxCounter) lightboxCounter.textContent = label;
+      const item = full[index];
+      // Only fetch the full-size photo while the lightbox is open.
+      if (item && lightboxImg && dialog?.open) {
+        lightboxImg.src = item.src;
+        lightboxImg.alt = item.alt;
+      }
+    };
+
+    thumbs.forEach((thumb, i) => {
+      thumb.addEventListener('click', (event) => {
+        event.preventDefault();
+        show(i);
+      });
+      thumb.addEventListener('keydown', (event) => {
+        const keys: Record<string, number> = { ArrowUp: -1, ArrowLeft: -1, ArrowDown: 1, ArrowRight: 1 };
+        const step = keys[event.key];
+        if (!step) return;
+        event.preventDefault();
+        show(index + step);
+        thumbs[index]?.focus();
+      });
+    });
+
+    slides.forEach((slide) =>
+      slide.addEventListener('click', (event) => {
+        if (!dialog) return;
+        event.preventDefault();
+        dialog.showModal();
+        show(index);
+      }),
+    );
+
+    dialog?.querySelector('[data-plightbox-close]')?.addEventListener('click', () => dialog.close());
+    dialog?.querySelector('[data-plightbox-prev]')?.addEventListener('click', () => show(index - 1));
+    dialog?.querySelector('[data-plightbox-next]')?.addEventListener('click', () => show(index + 1));
+    dialog?.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      if (target === dialog || target.hasAttribute('data-plightbox-frame')) dialog.close();
+    });
+    dialog?.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') show(index - 1);
+      if (event.key === 'ArrowRight') show(index + 1);
+    });
+    dialog?.addEventListener('close', () => slides[index]?.focus());
+
+    if (total > 1) {
+      if (main) onSwipe(main, (step) => show(index + step));
+      if (dialog) onSwipe(dialog, (step) => show(index + step));
+    }
+  });
+</script>
+
+<style is:global>
+  html:has(dialog.plightbox[open]) {
+    overflow: hidden;
+  }
+</style>
+
+<style>
+  .pgallery {
+    position: relative;
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .pgallery:not(:has(.pgallery__thumbs)) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* The strip never defines the height — it scrolls inside the main photo's height. */
+  .pgallery__thumbs {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 100%;
+    overflow-y: auto;
+    scrollbar-width: none;
+    contain: size;
+  }
+
+  .pgallery__thumbs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pgallery__thumb {
+    position: relative;
+    display: block;
+    aspect-ratio: 120 / 104;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    opacity: 0.75;
+    transition: opacity var(--duration) var(--ease);
+  }
+
+  .pgallery__thumb::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 2px solid transparent;
+    border-radius: inherit;
+    transition: border-color var(--duration) var(--ease);
+  }
+
+  .pgallery__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pgallery__thumb:hover,
+  .pgallery__thumb[aria-current='true'] {
+    opacity: 1;
+  }
+
+  .pgallery__thumb[aria-current='true']::after {
+    border-color: var(--color-green-bright);
+  }
+
+  .pgallery__thumb:focus-visible {
+    outline-offset: -2px;
+  }
+
+  .pgallery__main {
+    position: relative;
+    aspect-ratio: 764 / 684;
+    overflow: hidden;
+    border-radius: var(--radius-card);
+    background: #e4e6e2;
+  }
+
+  .pgallery__slide {
+    position: absolute;
+    inset: 0;
+    cursor: zoom-in;
+  }
+
+  .pgallery__slide:focus-visible {
+    outline-offset: -4px;
+  }
+
+  .pgallery__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pgallery__badge,
+  .pgallery__counter {
+    position: absolute;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    line-height: 1.2;
+    pointer-events: none;
+  }
+
+  .pgallery__badge {
+    top: 20px;
+    background: rgb(17 16 24 / 0.8);
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .pgallery__counter {
+    bottom: 20px;
+    background: rgb(255 255 255 / 0.87);
+    color: #000;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- Lightbox ---------- */
+  .plightbox {
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    padding: 0;
+    border: 0;
+    background: rgb(10 11 9 / 0.94);
+    color: #fff;
+  }
+
+  .plightbox::backdrop {
+    background: rgb(0 0 0 / 0.6);
+  }
+
+  .plightbox__frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 64px clamp(16px, 7vw, 96px);
+  }
+
+  .plightbox__img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: calc(100dvh - 128px);
+    object-fit: contain;
+    border-radius: var(--radius-md);
+  }
+
+  .plightbox__counter {
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: rgb(255 255 255 / 0.7);
+  }
+
+  .plightbox__btn {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgb(255 255 255 / 0.18);
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.08);
+    font-size: 22px;
+    line-height: 1;
+    color: #fff;
+    transition: background-color var(--duration) var(--ease);
+  }
+
+  .plightbox__btn:hover {
+    background: rgb(46 125 50 / 0.5);
+  }
+
+  .plightbox__close {
+    top: 12px;
+    right: 12px;
+    font-size: 28px;
+  }
+
+  .plightbox__prev,
+  .plightbox__next {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .plightbox__prev {
+    left: clamp(8px, 2vw, 32px);
+  }
+
+  .plightbox__next {
+    right: clamp(8px, 2vw, 32px);
+  }
+
+  @media (min-width: 768px) and (max-width: 1199.98px) {
+    .pgallery__main {
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .pgallery {
+      grid-template-columns: minmax(0, 120fr) minmax(0, 209fr);
+    }
+
+    .pgallery__main {
+      aspect-ratio: 209 / 340;
+    }
+
+    .pgallery__badge,
+    .pgallery__counter {
+      left: 16px;
+    }
+
+    .pgallery__badge {
+      top: 16px;
+    }
+
+    .pgallery__counter {
+      bottom: 16px;
+    }
+
+    .plightbox__prev,
+    .plightbox__next {
+      top: auto;
+      bottom: 8px;
+      transform: none;
+    }
+  }
+</style>

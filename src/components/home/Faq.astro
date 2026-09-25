@@ -1,9 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import JsonLd from '@/components/seo/JsonLd.astro';
+import MessengerLinks from '@/components/ui/MessengerLinks.astro';
 import ArrowDown from '@/assets/home/icons/arrow-down.svg';
 import ArrowUp from '@/assets/home/icons/arrow-up.svg';
-import { renderMarkdown } from './markdown';
+import { renderMarkdown } from '@/lib/markdown';
 
 import source from '@/content/data/faq.json';
 
@@ -48,40 +49,15 @@ const schema = {
 
       <div class="ask">
         <h3 class="ask__title">Остались вопросы?</h3>
-        <p class="ask__text">Оставьте свою почту и мы обязательно с вами свяжемся. Гарантируем скидку 10% на всю продукцию 😀</p>
+        <p class="ask__text">Напишите нам в мессенджер — ответим на любой вопрос. Гарантируем скидку 10% на всю продукцию 😀</p>
 
-        <form class="ask__form" data-lead-form action="/api/send.php" method="post" novalidate>
-          <input type="hidden" name="source" value="home-faq" />
-          <div class="field">
-            <label class="field__box" for="home-faq-email">
-              <span class="field__label">Ваш e-mail</span>
-              <input
-                class="field__input"
-                id="home-faq-email"
-                name="email"
-                type="email"
-                inputmode="email"
-                autocomplete="email"
-                placeholder="mail@mail.ru"
-                required
-              />
-            </label>
-            <p class="field__error" id="home-faq-email-error" data-error-for="email"></p>
-          </div>
-          <input name="website" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true" />
-          <button class="ask__submit" type="submit">Отправить</button>
-          <p class="ask__status" data-form-status role="status" aria-live="polite"></p>
-        </form>
+        <MessengerLinks class="ask__links" message="Здравствуйте! У меня вопрос по конструкции." stack />
       </div>
     </div>
   </div>
 </section>
 
 {faq.length > 0 && <JsonLd data={schema} />}
-
-<script>
-  import '@/scripts/lead-form';
-</script>
 
 <style>
   .faq {
@@ -237,128 +213,8 @@ const schema = {
     color: #666666;
   }
 
-  .ask__form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  .ask__links {
     margin-top: 16px;
-  }
-
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .field__box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 62px;
-    padding: 10px 16px;
-    border: 1px solid var(--color-green);
-    border-radius: var(--radius-md);
-    cursor: text;
-    transition: background-color var(--duration) var(--ease);
-  }
-
-  .field__box:hover {
-    background: var(--color-surface-hover);
-  }
-
-  .field__box:focus-within {
-    background: transparent;
-    box-shadow: 0 0 0 1px var(--color-green);
-  }
-
-  .field__label {
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 18px;
-    color: var(--color-green);
-  }
-
-  .field__input {
-    width: 100%;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 20px;
-    color: #1e1e1e;
-    caret-color: var(--color-green);
-  }
-
-  .field__input::placeholder {
-    color: #9a9a9a;
-  }
-
-  .field__input:focus {
-    outline: none;
-  }
-
-  .field:has([aria-invalid='true']) .field__box {
-    border-color: var(--color-danger);
-    box-shadow: none;
-  }
-
-  .field:has([aria-invalid='true']) .field__label {
-    color: var(--color-danger);
-  }
-
-  .field__error {
-    padding-inline: 16px;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 18px;
-    color: var(--color-danger);
-  }
-
-  .field__error:empty {
-    display: none;
-  }
-
-  .ask__submit {
-    min-height: 52px;
-    padding: 8px 20px;
-    border-radius: var(--radius-sm);
-    font-size: 14px;
-    line-height: 20px;
-    color: var(--color-green);
-    transition: background-color var(--duration) var(--ease);
-  }
-
-  .ask__submit:hover {
-    background: var(--color-green-tint-8);
-  }
-
-  .ask__submit:active {
-    color: var(--color-green-pressed);
-  }
-
-  .ask__form[data-state='submitting'] .ask__submit {
-    opacity: 0.6;
-    pointer-events: none;
-  }
-
-  .ask__status {
-    font-size: 14px;
-    line-height: 18px;
-    text-align: center;
-    color: var(--color-text-muted);
-  }
-
-  .ask__status:empty {
-    display: none;
-  }
-
-  .ask__form[data-state='success'] .ask__status {
-    color: var(--color-green);
-  }
-
-  .ask__form[data-state='error'] .ask__status {
-    color: var(--color-danger);
   }
 
   @media (max-width: 1199.98px) {

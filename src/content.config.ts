@@ -39,6 +39,12 @@ const categories = defineCollection({
     }),
 });
 
+const specRow = z.object({ label: z.string(), value: z.string() });
+
+/*
+ * Product page sections below `seo` are all optional (decided by the client):
+ * a missing/empty section is simply not rendered. See src/components/product/.
+ */
 const products = defineCollection({
   loader: bundle('products'),
   schema: ({ image }) =>
@@ -52,10 +58,82 @@ const products = defineCollection({
       image: image(),
       imageAlt: z.string(),
       gallery: z.array(z.object({ image: image(), alt: z.string() })).default([]),
-      specs: z.array(z.object({ label: z.string(), value: z.string() })).default([]),
+      specs: z.array(specRow).default([]),
       order: z.number().default(0),
       draft: z.boolean().default(false),
       seo,
+
+      /** Short text under the title (falls back to the Markdown body). */
+      lead: z.string().optional(),
+      /** Caption above the price; the page uses «Стоимость проекта» when empty. */
+      priceLabel: z.string().optional(),
+      /** Rows in the purchase block; falls back to material + `specs`. */
+      keySpecs: z.array(specRow).optional(),
+      /** Small text under the CTA button. */
+      note: z.string().optional(),
+      /** Dark band with 3–4 icon cards. */
+      advantages: z
+        .object({
+          title: z.string(),
+          items: z.array(
+            z.object({
+              icon: z.enum(['sun', 'project', 'wrench', 'shield']),
+              title: z.string(),
+              text: z.string(),
+            }),
+          ),
+        })
+        .optional(),
+      /** Photo + text blocks, alternating image left / right. */
+      story: z
+        .array(
+          z.object({
+            image: image(),
+            imageAlt: z.string(),
+            title: z.string(),
+            text: z.string(),
+            quote: z.string().optional(),
+            link: z.object({ label: z.string(), href: z.string() }).optional(),
+            stats: z.array(z.object({ value: z.string(), label: z.string() })).optional(),
+          }),
+        )
+        .default([]),
+      /** «Продумано до каждой детали»: intro + photos on the left, spec table on the right. */
+      details: z
+        .object({
+          title: z.string(),
+          text: z.string().optional(),
+          image: image().optional(),
+          imageAlt: z.string().optional(),
+          photos: z.array(z.object({ image: image(), alt: z.string() })).optional(),
+          rows: z.array(specRow),
+        })
+        .optional(),
+      /** «От эскиза до готового пространства»: photo + numbered steps. */
+      process: z
+        .object({
+          title: z.string(),
+          image: image().optional(),
+          imageAlt: z.string().optional(),
+          steps: z.array(z.object({ title: z.string(), text: z.string() })),
+        })
+        .optional(),
+      /** Product FAQ (answers in Markdown); emits FAQPage JSON-LD. */
+      faq: z
+        .object({
+          title: z.string(),
+          intro: z.string().optional(),
+          items: z.array(z.object({ question: z.string(), answer: z.string() })),
+        })
+        .optional(),
+      /** Closing banner: full-width photo with a large title. */
+      finale: z
+        .object({
+          title: z.string(),
+          image: image(),
+          imageAlt: z.string(),
+        })
+        .optional(),
     }),
 });
 

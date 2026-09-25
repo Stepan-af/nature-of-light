@@ -94,7 +94,7 @@ export function parseOpeningHours(hours: string): JsonLdNode[] {
 
 /** Profile links only (placeholder links like "https://t.me/" without a path are skipped). */
 function sameAs(): string[] {
-  return [settings.social.telegram, settings.social.vk]
+  return [settings.social.telegram]
     .filter((href): href is string => typeof href === 'string' && href.length > 0)
     .filter((href) => {
       try {

@@ -4,7 +4,14 @@ import { getImage } from 'astro:assets';
 import { getEntry, render } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import JsonLd from '@/components/seo/JsonLd.astro';
-import DetailView from '@/components/portfolio/DetailView.astro';
+import ProductHero from '@/components/product/ProductHero.astro';
+import ProductAdvantages from '@/components/product/ProductAdvantages.astro';
+import ProductStory from '@/components/product/ProductStory.astro';
+import ProductDetails from '@/components/product/ProductDetails.astro';
+import ProductProcess from '@/components/product/ProductProcess.astro';
+import ProductFaq from '@/components/product/ProductFaq.astro';
+import ProductFinale from '@/components/product/ProductFinale.astro';
+import '@/components/product/product.css';
 import {
   availabilityLabel,
   availabilitySchema,
@@ -17,36 +24,55 @@ import { formatPriceFrom, settings } from '@/lib/site';
 
 export const getStaticPaths = (async () => {
   const products = await getProducts();
-  return products.map((product) => {
-    // Prev/next within the same category.
-    const siblings = products.filter((p) => p.data.category.id === product.data.category.id);
-    const i = siblings.indexOf(product);
-    const many = siblings.length > 1;
-    return {
-      params: { category: product.data.category.id, product: product.id },
-      props: {
-        product,
-        prev: many ? siblings[(i - 1 + siblings.length) % siblings.length] : undefined,
-        next: many ? siblings[(i + 1) % siblings.length] : undefined,
-      },
-    };
-  });
+  return products.map((product) => ({
+    params: { category: product.data.category.id, product: product.id },
+    props: { product },
+  }));
 }) satisfies GetStaticPaths;
 
 interface Props {
   product: Product;
-  prev?: Product;
-  next?: Product;
 }
 
-const { product, prev, next } = Astro.props;
-const { title, material, priceFrom, availability, image, imageAlt, gallery, specs, seo } = product.data;
+const { product } = Astro.props;
+const {
+  title,
+  material,
+  priceFrom,
+  availability,
+  image,
+  imageAlt,
+  gallery,
+  specs,
+  seo,
+  lead,
+  priceLabel,
+  keySpecs,
+  note,
+  advantages,
+  story,
+  details,
+  process,
+  faq,
+  finale,
+} = product.data;
 const category = await getEntry(product.data.category);
 if (!category) throw new Error(`Unknown category for product ${product.id}`);
 
 const { Content } = await render(product);
 const plain = (product.body ?? '').replace(/\s+/g, ' ').trim();
+const summary = lead ?? plain;
 const items = gallery.length > 0 ? gallery : [{ image, alt: imageAlt }];
+
+// Purchase-card rows: explicit keySpecs, else material + availability + specs.
+const rows =
+  keySpecs && keySpecs.length > 0
+    ? keySpecs
+    : [
+        { label: 'Материал', value: material },
+        { label: 'Наличие', value: availabilityLabel[availability] },
+        ...specs,
+      ];
 
 const ogImage = await getImage({ src: image, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
 const schemaImages = await Promise.all(
@@ -56,19 +82,21 @@ const schemaImages = await Promise.all(
 const pageUrl = new URL(productHref(product), Astro.site).href;
 const description =
   seo?.description ??
-  `${title} — ${material.toLowerCase()}, ${formatPriceFrom(priceFrom)}. ${plain ? `${plain.slice(0, 100).replace(/\s\S*$/, '')}…` : ''}`.trim();
+  `${title} — ${material.toLowerCase()}, ${formatPriceFrom(priceFrom)}. ${summary ? `${summary.slice(0, 100).replace(/\s\S*$/, '')}…` : ''}`.trim();
+
+const properties = details && details.rows.length > 0 ? details.rows : [...(keySpecs ?? []), ...specs];
 
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'Product',
   name: title,
-  description: plain || description,
+  description: summary || description,
   image: [...new Set(schemaImages)].map((src) => new URL(src, Astro.site).href),
   category: category.data.title,
   material,
   url: pageUrl,
   brand: { '@type': 'Brand', name: settings.siteName },
-  additionalProperty: specs.map((s) => ({ '@type': 'PropertyValue', name: s.label, value: s.value })),
+  additionalProperty: properties.map((s) => ({ '@type': 'PropertyValue', name: s.label, value: s.value })),
   offers: {
     '@type': 'AggregateOffer',
     lowPrice: priceFrom,
@@ -83,29 +111,30 @@ const schema = {
 
 <BaseLayout title={seo?.title ?? `${title} — купить ${formatPriceFrom(priceFrom)}`} {description} image={ogImage.src} tone="light">
   <JsonLd slot="head" data={schema} />
-  <DetailView
+
+  <ProductHero
     crumbs={[
+      { label: 'Главная', href: '/' },
       { label: 'Каталог', href: '/catalog/' },
       { label: category.data.title, href: categoryHref(category) },
-      { label: title },
     ]}
     badge={category.data.title}
-    title={title}
+    {title}
     gallery={items}
-    paramsLabel="Параметры"
-    params={[
-      { label: 'Стоимость', value: formatPriceFrom(priceFrom) },
-      { label: 'Материал', value: material },
-      { label: 'Наличие', value: availabilityLabel[availability] },
-      ...specs,
-    ]}
-    aboutLabel="Описание"
-    ctaHref={`/kontakty/?product=${product.id}`}
-    prev={prev && { href: productHref(prev), title: prev.data.title }}
-    next={next && { href: productHref(next), title: next.data.title }}
-    pagerLabel="Другие товары категории"
-    showAbout={Boolean(plain)}
+    priceLabel={priceLabel ?? 'Стоимость проекта'}
+    price={formatPriceFrom(priceFrom)}
+    {rows}
+    {note}
+    hasLead={Boolean(summary)}
+    message={`Здравствуйте! Хочу рассчитать стоимость: ${title} ${pageUrl}`}
   >
-    <Content />
-  </DetailView>
+    {lead ? <p>{lead}</p> : <Content />}
+  </ProductHero>
+
+  {advantages && advantages.items.length > 0 && <ProductAdvantages data={advantages} />}
+  {story.length > 0 && <ProductStory blocks={story} />}
+  {details && (details.rows.length > 0 || details.image) && <ProductDetails data={details} />}
+  {process && process.steps.length > 0 && <ProductProcess data={process} />}
+  {faq && faq.items.length > 0 && <ProductFaq data={faq} />}
+  {finale && <ProductFinale data={finale} />}
 </BaseLayout>

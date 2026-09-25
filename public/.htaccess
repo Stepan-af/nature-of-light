@@ -104,11 +104,6 @@ DirectorySlash On
     Header set Cache-Control "public, max-age=604800"
   </FilesMatch>
 
-  # API responses are never cached.
-  <If "%{REQUEST_URI} =~ m#^/api/#">
-    Header set Cache-Control "no-store"
-  </If>
-
   # Admin panel: keep it out of search engines and always fresh (config.yml changes).
   <If "%{REQUEST_URI} =~ m#^/admin(/|$)#">
     Header set X-Robots-Tag "noindex, nofollow"

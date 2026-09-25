@@ -2,12 +2,12 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import JsonLd from '@/components/seo/JsonLd.astro';
-import RequestForm from '@/components/contacts/RequestForm.astro';
+import MessengerLinks from '@/components/ui/MessengerLinks.astro';
 import ContactStrip from '@/components/contacts/ContactStrip.astro';
 import { settings } from '@/lib/site';
 
-const title = 'Контакты и заявка на расчёт';
-const description = `Оставьте заявку — менеджер перезвонит в течение 30 минут и запишет на бесплатный замер. Телефон ${settings.phone}, ${settings.address.city}, ${settings.address.street}.`;
+const title = 'Контакты';
+const description = `Напишите нам в WhatsApp или Telegram — подберём решение под ваш бюджет и запишем на бесплатный замер. Телефон ${settings.phone}, ${settings.address.city}, ${settings.address.street}.`;
 
 const schema = {
   '@context': 'https://schema.org',
@@ -24,14 +24,17 @@ const schema = {
     <div class="contacts__hero">
       <div class="contacts__intro">
         <Breadcrumbs tone="dark" items={[{ label: 'Главная', href: '/' }, { label: 'Контакты' }]} />
-        <h1 class="contacts__title">Оставьте заявку и мы подберём решение под ваш бюджет</h1>
+        <h1 class="contacts__title">Напишите нам — подберём решение под ваш бюджет</h1>
         <p class="contacts__lead">
-          После отправки формы наш менеджер перезвонит в течение 30 минут, уточнит детали и запишет на бесплатный
-          замер.
+          Менеджер ответит в мессенджере, уточнит детали и запишет на бесплатный замер. Можно сразу прислать фото
+          объекта и примерные размеры.
         </p>
       </div>
 
-      <RequestForm class="contacts__form" source="contacts" />
+      <div class="contacts__reach">
+        <p class="contacts__caption">Выберите удобный мессенджер</p>
+        <MessengerLinks tone="dark" details stack />
+      </div>
     </div>
 
     <ContactStrip />
@@ -67,6 +70,28 @@ const schema = {
     letter-spacing: -2px;
     color: #fff;
     text-wrap: pretty;
+  }
+
+  .contacts__reach {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 420px;
+  }
+
+  .contacts__caption {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1.5;
+    letter-spacing: 1.26px;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.55);
+  }
+
+  .contacts__reach :global(.messenger) {
+    min-height: 72px;
+    padding-inline: 24px;
+    font-size: 16px;
   }
 
   .contacts__lead {

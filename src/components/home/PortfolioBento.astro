@@ -56,9 +56,13 @@ const [lead, ...rest] = projects;
                   sizes="(max-width: 767.98px) calc(50vw - 23px), (max-width: 1281px) 29vw, 346px"
                   fit="cover"
                 />
-                <span class="tile__hover">
+                <span class="tile__badge">{project.data.badge}</span>
+                <span class="tile__caption">
                   <span class="tile__name">{project.data.title}</span>
-                  <span class="tile__location">{project.data.location}</span>
+                  <span class="tile__meta">
+                    <span class="tile__location">{project.data.location}</span>
+                    <span class="tile__price">{formatPrice(project.data.price)}</span>
+                  </span>
                 </span>
               </a>
             </li>
@@ -183,14 +187,24 @@ const [lead, ...rest] = projects;
     display: block;
     height: 100%;
     overflow: hidden;
+    border: 1px solid rgb(255 255 255 / 0.1);
     border-radius: var(--radius-xl);
     background: rgb(255 255 255 / 0.08);
     isolation: isolate;
+    /* Caption sizes follow the tile, not the viewport (small tiles get a compact plate). */
+    container-type: inline-size;
+    transition:
+      border-color 400ms var(--ease),
+      box-shadow 400ms var(--ease);
   }
 
   .tile--lead {
-    border: 1px solid rgb(255 255 255 / 0.14);
+    border-color: rgb(255 255 255 / 0.14);
     box-shadow: var(--shadow-deep);
+  }
+
+  .tile:is(:hover, :focus-visible) {
+    border-color: rgb(255 255 255 / 0.28);
   }
 
   .tile__image {
@@ -203,24 +217,31 @@ const [lead, ...rest] = projects;
     transition: transform 500ms var(--ease);
   }
 
-  .tile:hover .tile__image {
-    transform: scale(1.04);
+  .tile:is(:hover, :focus-visible) .tile__image {
+    transform: scale(1.05);
   }
 
   .tile__badge {
     position: absolute;
     top: 14px;
     left: 14px;
+    max-width: calc(100% - 28px);
+    overflow: hidden;
     padding: 4px 12px;
     border: 1px solid #fff;
     border-radius: var(--radius-pill);
-    background: rgb(255 255 255 / 0.08);
+    /* Darker glass than Figma's 8% white so the label reads on bright skies too. */
+    background: rgb(20 20 20 / 0.32);
+    backdrop-filter: blur(8px);
     font-weight: 700;
     font-size: 11px;
     line-height: 15px;
     color: #fff;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
+  /* Frosted caption plate (Figma: dark → light glass gradient + blur). */
   .tile__caption {
     position: absolute;
     inset: auto 0 0;
@@ -249,7 +270,7 @@ const [lead, ...rest] = projects;
   .tile__location {
     font-size: 12px;
     line-height: 15px;
-    color: rgb(255 255 255 / 0.45);
+    color: rgb(255 255 255 / 0.6);
   }
 
   .tile__price {
@@ -260,21 +281,50 @@ const [lead, ...rest] = projects;
     color: #fff;
   }
 
-  /* Plain tiles reveal the project name on hover/focus. */
-  .tile__hover {
-    position: absolute;
-    inset: auto 0 0;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding: 40px 16px 14px;
-    background: linear-gradient(transparent, rgb(0 0 0 / 0.65));
-    opacity: 0;
-    transition: opacity var(--duration) var(--ease);
+  /* Small tiles: the same plate, scaled down. */
+  @container (max-width: 420px) {
+    .tile__badge {
+      top: 12px;
+      left: 12px;
+      padding: 3px 10px;
+    }
+
+    .tile__caption {
+      padding: 12px 14px;
+    }
+
+    .tile__name {
+      font-size: 13px;
+      line-height: 18px;
+    }
+
+    .tile__price {
+      font-size: 18px;
+      line-height: 20px;
+    }
   }
 
-  .tile:is(:hover, :focus-visible) .tile__hover {
-    opacity: 1;
+  /* Narrow tiles (phones): stack location and price. */
+  @container (max-width: 240px) {
+    .tile__caption {
+      padding: 10px 12px;
+    }
+
+    .tile__meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+
+    .tile__price {
+      font-size: 16px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tile:is(:hover, :focus-visible) .tile__image {
+      transform: none;
+    }
   }
 
   @media (max-width: 1199.98px) {
@@ -282,8 +332,10 @@ const [lead, ...rest] = projects;
       font-size: clamp(32px, 4.4vw, 48px);
     }
 
+    /* Captions are always visible: keep the small tiles tall enough to show the photo. */
     .bento__grid {
       gap: 24px;
+      min-height: 600px;
     }
   }
 
@@ -334,36 +386,6 @@ const [lead, ...rest] = projects;
 
     .bento__grid[data-count='1'] .bento__item--lead {
       grid-column: 1 / -1;
-    }
-
-    .tile__caption {
-      padding: 12px;
-    }
-
-    .tile__name {
-      font-size: 13px;
-    }
-
-    .tile__meta {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 4px;
-    }
-
-    .tile__location {
-      font-size: 11px;
-    }
-
-    .tile__price {
-      font-size: 16px;
-    }
-
-    .tile__hover {
-      padding: 32px 12px 12px;
-    }
-
-    .tile__hover .tile__name {
-      font-size: 12px;
     }
   }
 </style>

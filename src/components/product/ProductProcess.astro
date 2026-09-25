@@ -1,0 +1,150 @@
+---
+/*
+ * «От эскиза до готового пространства» (Figma 1002:1649 «Комплектация»):
+ * photo + numbered steps.
+ */
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+
+type Process = NonNullable<CollectionEntry<'products'>['data']['process']>;
+
+export interface Props {
+  data: Process;
+}
+
+const { data } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<section class="pproc pd-section" aria-labelledby="pproc-title">
+  <div class="pd-container">
+    <h2 class="pd-title" id="pproc-title">{data.title}</h2>
+    <div class:list={['pproc__grid', { 'pproc__grid--solo': !data.image }]}>
+      {
+        data.image && (
+          <Image
+            class="pproc__img"
+            src={data.image}
+            alt={data.imageAlt ?? ''}
+            width={1440}
+            widths={[400, 720, 1080, 1440]}
+            sizes="(max-width: 767.98px) calc(100vw - 32px), (max-width: 1199.98px) 50vw, 720px"
+            loading="lazy"
+          />
+        )
+      }
+      <ol class="pproc__steps" role="list">
+        {
+          data.steps.map((step, i) => (
+            <li class="pproc__step">
+              <span class="pproc__num" aria-hidden="true">
+                {pad(i + 1)}
+              </span>
+              <div class="pproc__body">
+                <h3 class="pproc__name">{step.title}</h3>
+                <p class="pproc__text">{step.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pproc {
+    background: var(--color-surface);
+  }
+
+  .pproc__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 720fr) minmax(0, 655fr);
+    align-items: start;
+    gap: 16px;
+    margin-top: clamp(32px, 3.6vw, 52px);
+  }
+
+  .pproc__grid--solo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pproc__img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 720 / 470;
+    object-fit: cover;
+    border-radius: var(--radius-card);
+  }
+
+  .pproc__step {
+    display: flex;
+    gap: 18px;
+    padding-block: 24px;
+    border-top: 1px solid #d8ddd7;
+  }
+
+  .pproc__step:last-child {
+    border-bottom: 1px solid #d8ddd7;
+  }
+
+  .pproc__num {
+    flex: none;
+    width: 32px;
+    padding-top: 3px;
+    font-family: var(--font-display);
+    font-size: 18px;
+    line-height: 1.3;
+    color: var(--color-green);
+  }
+
+  .pproc__body {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .pproc__name {
+    font-size: 22px;
+    line-height: 1.3;
+    color: #000;
+  }
+
+  .pproc__text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #717770;
+  }
+
+  @media (max-width: 767.98px) {
+    .pproc {
+      background: #f6f6f4;
+    }
+
+    .pproc__grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 40px;
+    }
+
+    .pproc__img {
+      aspect-ratio: 345 / 470;
+    }
+
+    .pproc__step {
+      gap: 16px;
+      padding-block: 28px;
+    }
+
+    .pproc__num {
+      width: 34px;
+    }
+
+    .pproc__name {
+      font-size: 18px;
+    }
+
+    .pproc__text {
+      font-size: 13px;
+    }
+  }
+</style>

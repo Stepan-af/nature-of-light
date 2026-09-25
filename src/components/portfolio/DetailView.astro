@@ -1,6 +1,6 @@
 ---
 import Breadcrumbs, { type Crumb } from '@/components/ui/Breadcrumbs.astro';
-import Button from '@/components/ui/Button.astro';
+import MessengerLinks from '@/components/ui/MessengerLinks.astro';
 import Gallery, { type GalleryItem } from './Gallery.astro';
 
 export interface DetailLink {
@@ -16,7 +16,8 @@ export interface Props {
   paramsLabel: string;
   params: { label: string; value: string }[];
   aboutLabel: string;
-  ctaHref: string;
+  /** Prefilled WhatsApp message for the «Хотите похожую конструкцию?» card. */
+  ctaMessage: string;
   prev?: DetailLink;
   next?: DetailLink;
   /** aria-label for the prev/next navigation. */
@@ -25,7 +26,7 @@ export interface Props {
   showAbout?: boolean;
 }
 
-const { crumbs, badge, title, gallery, paramsLabel, params, aboutLabel, ctaHref, prev, next, pagerLabel, showAbout = true } =
+const { crumbs, badge, title, gallery, paramsLabel, params, aboutLabel, ctaMessage, prev, next, pagerLabel, showAbout = true } =
   Astro.props;
 const hasAbout = showAbout && Astro.slots.has('default');
 ---
@@ -75,8 +76,8 @@ const hasAbout = showAbout && Astro.slots.has('default');
 
       <section class="cta" aria-labelledby="detail-cta">
         <h2 class="cta__title" id="detail-cta">Хотите похожую конструкцию?</h2>
-        <p class="cta__text">Рассчитаем стоимость и сроки — бесплатно</p>
-        <Button class="cta__btn" variant="light" href={ctaHref} block>Оставить заявку</Button>
+        <p class="cta__text">Напишите нам — рассчитаем стоимость и сроки бесплатно</p>
+        <MessengerLinks class="cta__links" tone="green" message={ctaMessage} stack />
       </section>
 
       {
@@ -259,9 +260,8 @@ const hasAbout = showAbout && Astro.slots.has('default');
     color: #fff;
   }
 
-  .cta :global(.cta__btn) {
+  .cta :global(.cta__links) {
     margin-top: 16px;
-    min-height: 45px;
   }
 
   /* ---------- Prev / next ---------- */

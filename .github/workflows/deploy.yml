@@ -76,20 +76,30 @@ jobs:
         run: |
           set -euo pipefail
           install -m 700 -d ~/.ssh
-          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          # Strip CR from keys pasted on Windows / via some editors.
+          printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
+          # Prints only the public fingerprint — compare with `ssh-keygen -lf <key>.pub` locally.
+          if ! ssh-keygen -y -f ~/.ssh/deploy_key > ~/.ssh/deploy_key.pub; then
+            echo "::error::SSH_PRIVATE_KEY is not a valid private key (paste the whole file incl. BEGIN/END lines, no passphrase)"
+            exit 1
+          fi
+          echo "Deploy key: $(ssh-keygen -lf ~/.ssh/deploy_key.pub)"
           if [ -n "$SSH_KNOWN_HOSTS" ]; then
             printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
           else
             ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" > ~/.ssh/known_hosts 2>/dev/null
           fi
+          if ! ssh -i ~/.ssh/deploy_key -p "$SSH_PORT" -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o BatchMode=yes \
+            "$SSH_USER@$SSH_HOST" "test -d '$DEPLOY_PATH'"; then
+            echo "::error::SSH login failed or DEPLOY_PATH does not exist. Check that the public key above is in ~/.ssh/authorized_keys of SSH_USER on SSH_HOST."
+            exit 1
+          fi
           # --checksum: CI checkouts have fresh mtimes, so compare content instead.
-          # api/config.php (form secrets) lives only on the server and is never touched.
           rsync -rlz --checksum --delete --stats \
             --chmod=D755,F644 \
-            --exclude='/api/config.php' \
             --exclude='/.ftp-deploy-sync-state.json' \
-            -e "ssh -i ~/.ssh/deploy_key -p $SSH_PORT -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
+            -e "ssh -i ~/.ssh/deploy_key -p $SSH_PORT -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o BatchMode=yes" \
             dist/ "$SSH_USER@$SSH_HOST:$DEPLOY_PATH"
 
       - name: Upload to hosting (FTP)
@@ -106,11 +116,9 @@ jobs:
           # e.g. /public_html/ or /www/prirodasveta.ru/ — must end with a slash
           server-dir: ${{ secrets.FTP_SERVER_DIR }}
           # Files matching these globs are neither uploaded nor deleted on the server.
-          # api/config.php holds the real e-mail/Telegram secrets and is uploaded once by hand.
           exclude: |
             **/.git*
             **/.git*/**
             **/node_modules/**
-            api/config.php
           log-level: standard
           timeout: 120000

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Stars from '@/assets/home/icons/stars-5.svg';
+import Arrow from '@/assets/home/icons/arrow-down.svg';
 
 import source from '@/content/data/reviews.json';
 
@@ -16,8 +17,18 @@ const reviews = (await getCollection('reviews')).sort((a, b) => order.indexOf(a.
         <h2 class="reviews__title" id="reviews-title">
           Почему нас выбирают?
         </h2>
+        <div class="reviews__nav" data-reviews-nav hidden>
+          <button class="reviews__arrow reviews__arrow--prev" type="button" aria-controls="reviews-track" data-dir="-1">
+            <Arrow width={24} height={24} aria-hidden="true" />
+            <span class="visually-hidden">Предыдущий отзыв</span>
+          </button>
+          <button class="reviews__arrow reviews__arrow--next" type="button" aria-controls="reviews-track" data-dir="1">
+            <Arrow width={24} height={24} aria-hidden="true" />
+            <span class="visually-hidden">Следующий отзыв</span>
+          </button>
+        </div>
       </div>
-      <ul class="reviews__track" role="list" tabindex="0" aria-label="Отзывы клиентов">
+      <ul class="reviews__track" id="reviews-track" role="list" tabindex="0" aria-label="Отзывы клиентов">
         {reviews.map(({ data }) => (
           <li class="review">
             <div class="review__profile">
@@ -45,8 +56,60 @@ const reviews = (await getCollection('reviews')).sort((a, b) => order.indexOf(a.
   }
 
   .reviews__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
     padding-inline: var(--edge);
     padding-left: calc(var(--edge) + 11px);
+  }
+
+  .reviews__nav {
+    display: flex;
+    flex-shrink: 0;
+    gap: 12px;
+  }
+
+  .reviews__nav[hidden] {
+    display: none;
+  }
+
+  .reviews__arrow {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    background: var(--color-surface);
+    cursor: pointer;
+    transition:
+      border-color var(--duration) var(--ease),
+      box-shadow var(--duration) var(--ease),
+      opacity var(--duration) var(--ease);
+  }
+
+  .reviews__arrow--prev :global(svg) {
+    transform: rotate(90deg);
+  }
+
+  .reviews__arrow--next :global(svg) {
+    transform: rotate(-90deg);
+  }
+
+  .reviews__arrow:hover:not(:disabled) {
+    border-color: var(--color-green);
+    box-shadow: var(--shadow-card);
+  }
+
+  .reviews__arrow:focus-visible {
+    outline: 2px solid var(--color-green);
+    outline-offset: 2px;
+  }
+
+  .reviews__arrow:disabled {
+    opacity: 0.35;
+    cursor: default;
   }
 
   .reviews__title {
@@ -151,6 +214,11 @@ const reviews = (await getCollection('reviews')).sort((a, b) => order.indexOf(a.
       padding-block: 48px 56px;
     }
 
+    /* Phones swipe; the arrows would only crowd the heading. */
+    .reviews__nav:not([hidden]) {
+      display: none;
+    }
+
     .reviews__head {
       padding-left: var(--edge);
     }
@@ -207,3 +275,39 @@ const reviews = (await getCollection('reviews')).sort((a, b) => order.indexOf(a.
     }
   }
 </style>
+
+<script>
+  const nav = document.querySelector<HTMLElement>('[data-reviews-nav]');
+  const track = document.getElementById('reviews-track');
+
+  if (nav && track) {
+    const [prev, next] = nav.querySelectorAll<HTMLButtonElement>('button');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    const step = () => {
+      const card = track.querySelector<HTMLElement>('li');
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return card ? card.offsetWidth + gap : track.clientWidth;
+    };
+
+    const update = () => {
+      const max = track.scrollWidth - track.clientWidth;
+      nav.hidden = max <= 1;
+      prev.disabled = track.scrollLeft <= 1;
+      next.disabled = track.scrollLeft >= max - 1;
+    };
+
+    nav.addEventListener('click', (event) => {
+      const button = (event.target as Element).closest<HTMLButtonElement>('button[data-dir]');
+      if (!button) return;
+      track.scrollBy({
+        left: Number(button.dataset.dir) * step(),
+        behavior: reduceMotion.matches ? 'auto' : 'smooth',
+      });
+    });
+
+    track.addEventListener('scroll', update, { passive: true });
+    new ResizeObserver(update).observe(track);
+    update();
+  }
+</script>

@@ -1,0 +1,122 @@
+---
+/*
+ * Dark advantages band (Figma 1002:1575 «Преимущества»).
+ * Desktop: 4 columns. Mobile: horizontal scroll-snap row (works without JS).
+ */
+import type { CollectionEntry } from 'astro:content';
+import SunIcon from '@/assets/product/icons/sun.svg';
+import ProjectIcon from '@/assets/product/icons/file-braces.svg';
+import WrenchIcon from '@/assets/product/icons/wrench.svg';
+import ShieldIcon from '@/assets/product/icons/shield-check.svg';
+
+type Advantages = NonNullable<CollectionEntry<'products'>['data']['advantages']>;
+
+export interface Props {
+  data: Advantages;
+}
+
+const { data } = Astro.props;
+const icons = { sun: SunIcon, project: ProjectIcon, wrench: WrenchIcon, shield: ShieldIcon };
+---
+
+<section class="padv" aria-labelledby="padv-title">
+  <div class="pd-container">
+    <h2 class="padv__title" id="padv-title">{data.title}</h2>
+    <ul class="padv__list" role="list">
+      {
+        data.items.map((item) => {
+          const Icon = icons[item.icon];
+          return (
+            <li class="padv__item">
+              <Icon class="padv__icon" width={28} height={28} aria-hidden="true" />
+              <h3 class="padv__name">{item.title}</h3>
+              <p class="padv__text">{item.text}</p>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .padv {
+    padding-block: clamp(56px, 6vw, 82px);
+    background: #111018;
+    color: #fff;
+  }
+
+  .padv__title {
+    font-size: clamp(28px, 2.9vw, 42px);
+    line-height: 1.24;
+    letter-spacing: -1px;
+    text-align: center;
+  }
+
+  .padv__list {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+    gap: 18px;
+    margin-top: 44px;
+  }
+
+  .padv__item {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px 24px 0 0;
+    border-top: 1px solid rgb(255 255 255 / 0.15);
+  }
+
+  .padv__icon {
+    flex: none;
+  }
+
+  .padv__name {
+    font-size: 22px;
+    line-height: 1.3;
+  }
+
+  .padv__text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgb(255 255 255 / 0.6);
+  }
+
+  @media (max-width: 1199.98px) {
+    .padv__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-auto-flow: row;
+      row-gap: 32px;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .padv__title {
+      text-align: left;
+    }
+
+    .padv__list {
+      display: flex;
+      gap: 16px;
+      margin-top: 32px;
+      margin-inline: calc(var(--gutter) * -1);
+      padding-inline: var(--gutter);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: var(--gutter);
+      scrollbar-width: none;
+    }
+
+    .padv__list::-webkit-scrollbar {
+      display: none;
+    }
+
+    .padv__item {
+      flex: 0 0 82%;
+      scroll-snap-align: start;
+      padding-right: 8px;
+    }
+  }
+</style>

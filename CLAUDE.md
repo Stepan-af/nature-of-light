@@ -6,7 +6,7 @@ Static marketing site for a manufacturer of glass canopies (козырьки), c
 - **Astro 7** (static output, `trailingSlash: 'always'`, `build.format: 'directory'`), TypeScript strict.
 - Plain CSS: global tokens in `src/styles/tokens.css`, component styles in scoped `<style>` blocks. No Tailwind, no UI frameworks, no client-side frameworks.
 - Content: Astro content collections (`src/content.config.ts`) backed by files in `src/content/`. Edited by **Sveltia CMS** at `/admin/` (`public/admin/config.yml` must mirror the schemas).
-- Forms: `public/api/send.php` (email + Telegram), enhanced by `src/scripts/lead-form.ts`.
+- **No forms, no server code.** The company doesn't want to hold personal data: visitors reach it only via WhatsApp / Telegram links (`<MessengerLinks>`). Don't add forms, lead capture, or anything that stores visitor data.
 - Fonts via the Astro Fonts API (`astro.config.mjs`): `--font-display` Playfair Display, `--font-body` Inter (replaces DM Sans from Figma — no Cyrillic), `--font-mono` JetBrains Mono. Never use DM Sans / Poppins / Instrument Serif; map them to Inter / Inter / Playfair Display.
 - Analytics: intentionally **off**. Don't add counters.
 
@@ -29,7 +29,7 @@ Static marketing site for a manufacturer of glass canopies (козырьки), c
 - Use tokens from `tokens.css` (`var(--color-green)`, `var(--radius-lg)`, …). If a one-off value from Figma isn't a token, hard-code it in the component's scoped style — don't add tokens without need.
 - Images: always `<Image>`/`<Picture>` from `astro:assets` with explicit `widths`/`sizes` for anything larger than an icon; `loading="eager"` + `fetchpriority="high"` only for the LCP image (home hero, page hero). Every content image needs meaningful `alt` in Russian.
 - Semantic HTML: one `<h1>` per page, sections with headings, lists as `<ul role="list">`. Astro 7's compiler rejects invalid HTML nesting and strips whitespace between tags JSX-style — add `{' '}` where inline elements need a space.
-- JS: only where needed (`<script>` in the component, TypeScript, no libraries). Everything must work without JS except form submission feedback and carousels.
+- JS: only where needed (`<script>` in the component, TypeScript, no libraries). Everything must work without JS except carousels and the gallery lightbox.
 - URLs are Latin transliterated slugs; content ids = folder names.
 - Prices: `formatPrice` / `formatPriceFrom` from `src/lib/site.ts`. Phone links: `phoneHref()`. Contacts, stats, social links: `settings` from `src/lib/site.ts` (`src/content/data/settings.json`).
 - Page SEO: every page passes `title` and `description` to `BaseLayout`. Breadcrumbs via `<Breadcrumbs>` (emits BreadcrumbList JSON-LD). Other JSON-LD via `<JsonLd data={...} />`.
@@ -58,26 +58,13 @@ Static marketing site for a manufacturer of glass canopies (козырьки), c
 | `/404` | `src/pages/404.astro` |
 | `/admin/` | `public/admin/` (Sveltia CMS, noindex) |
 
-## Forms contract
-Every lead form on the site follows this markup so one script and one PHP handler serve all of them:
-```html
-<form data-lead-form action="/api/send.php" method="post" novalidate>
-  <input type="hidden" name="source" value="home-faq" />   <!-- where the form is: home-faq | contacts | project:<id> | product:<id> -->
-  <input name="name" autocomplete="name" />                <!-- optional per form -->
-  <input name="phone" type="tel" autocomplete="tel" />      <!-- required when present -->
-  <input name="email" type="email" autocomplete="email" />  <!-- required when present -->
-  <textarea name="comment"></textarea>                     <!-- optional -->
-  <input name="website" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true" /> <!-- honeypot, must stay empty -->
-  <button type="submit">…</button>
-  <p data-form-status role="status" aria-live="polite"></p>
-</form>
-<script>import '@/scripts/lead-form';</script>
-```
-Fields that must be filled carry `required`. Error text for a field goes into an element `[data-error-for="<name>"]`. The script toggles `data-state="submitting|success|error"` on the form; components style those states. The PHP handler answers JSON `{ ok: boolean, message: string, errors?: Record<string, string> }`.
+## Contacts
+- `src/components/ui/MessengerLinks.astro` — WhatsApp + Telegram buttons. Props: `message` (prefilled WhatsApp text, e.g. the product/project name + URL), `tone: 'light' | 'dark' | 'green'`, `details` (show number/username), `stack`.
+- Links come from `settings.social.whatsapp` / `settings.social.telegram`; display values from `settings.messengers` (`src/content/data/settings.json`, editable in the CMS).
 
 ## File ownership (parallel agents)
 Agents work in the same tree at the same time. **Only edit files you own.** If you need a change in a shared file, describe it in your final report instead of editing it.
 - **Home:** `src/pages/index.astro`, `src/components/home/**`, `src/assets/home/**`, `src/content/data/{reviews,faq,advantages}.json`
 - **Catalog & Portfolio:** `src/pages/catalog/**`, `src/pages/portfolio/**`, `src/components/catalog/**`, `src/components/portfolio/**`, `src/assets/catalog/**`, `src/assets/portfolio/**`, `src/content/products/**`, `src/content/projects/**`
 - **Services, Contacts, legal:** `src/pages/{uslugi,kontakty,politika-konfidencialnosti,rekvizity,404}.astro`, `src/components/services/**`, `src/components/contacts/**`, `src/assets/services/**`, `src/assets/contacts/**`, `src/content/data/{service-steps,extra-services}.json`
-- **Infrastructure:** `public/admin/**`, `public/api/**`, `public/robots.txt`, `public/.htaccess`, `public/og-default.jpg`, favicons in `public/`, `src/scripts/lead-form.ts`, `src/components/seo/SiteSchema.astro`, `src/lib/schema.ts`, `.github/**`, `docs/**`
+- **Infrastructure:** `public/admin/**`, `src/pages/robots.txt.ts`, `public/.htaccess`, `public/og-default.jpg`, favicons in `public/`, `src/components/seo/SiteSchema.astro`, `src/lib/schema.ts`, `.github/**`, `docs/**`

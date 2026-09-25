@@ -210,6 +210,17 @@ const full = await Promise.all(
     object-fit: cover;
   }
 
+  /* Subtle zoom on hover (Figma comment «эффект зума»); pointer devices only. */
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .gallery__img {
+      transition: transform 450ms var(--ease);
+    }
+
+    .gallery__main:hover .gallery__img {
+      transform: scale(1.05);
+    }
+  }
+
   .gallery__counter {
     position: absolute;
     left: 14px;

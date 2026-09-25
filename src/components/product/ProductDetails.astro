@@ -1,0 +1,173 @@
+---
+/*
+ * «Продумано до каждой детали» (Figma 1002:1617 «Характеристики»):
+ * intro + photos on the left, spec table on the right.
+ */
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+
+type Details = NonNullable<CollectionEntry<'products'>['data']['details']>;
+
+export interface Props {
+  data: Details;
+}
+
+const { data } = Astro.props;
+const photos = data.photos ?? [];
+---
+
+<section class="pdet pd-section" aria-labelledby="pdet-title">
+  <div class="pd-container pdet__grid">
+    <div class="pdet__intro">
+      <h2 class="pd-title" id="pdet-title">{data.title}</h2>
+      {data.text && <p class="pd-text">{data.text}</p>}
+      {
+        data.image && (
+          <Image
+            class="pdet__img"
+            src={data.image}
+            alt={data.imageAlt ?? ''}
+            width={1040}
+            widths={[400, 700, 1040]}
+            sizes="(max-width: 767.98px) calc(100vw - 32px), (max-width: 1199.98px) 45vw, 520px"
+            loading="lazy"
+          />
+        )
+      }
+      {
+        photos.length > 0 && (
+          <ul class="pdet__photos" role="list">
+            {photos.map((photo) => (
+              <li>
+                <Image
+                  class="pdet__photo"
+                  src={photo.image}
+                  alt={photo.alt}
+                  width={370}
+                  widths={[185, 370]}
+                  sizes="185px"
+                  loading="lazy"
+                />
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+
+    {
+      data.rows.length > 0 && (
+        <dl class="pdet__table">
+          {data.rows.map((row) => (
+            <div class="pdet__row">
+              <dt>{row.label}</dt>
+              <dd>{row.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .pdet {
+    background: #eceeeb;
+  }
+
+  .pdet__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 520px) minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(40px, 5.5vw, 80px);
+  }
+
+  .pdet__intro {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+  }
+
+  .pdet__img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 520 / 280;
+    margin-top: 12px;
+    object-fit: cover;
+    border-radius: var(--radius-card);
+  }
+
+  .pdet__photos {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .pdet__photo {
+    width: 185px;
+    height: auto;
+    aspect-ratio: 185 / 141;
+    object-fit: cover;
+    border-radius: 20px;
+  }
+
+  .pdet__table {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .pdet__row {
+    display: grid;
+    grid-template-columns: minmax(0, 230fr) minmax(0, 470fr);
+    gap: 16px;
+    padding-block: 21px;
+    border-top: 1px solid #d8ddd7;
+  }
+
+  .pdet__row dt {
+    color: #717770;
+  }
+
+  .pdet__row dd {
+    font-weight: 600;
+    color: #111018;
+  }
+
+  @media (max-width: 1199.98px) {
+    .pdet__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .pdet__grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 40px;
+    }
+
+    .pdet__photos {
+      margin-inline: calc(var(--gutter) * -1);
+      padding-inline: var(--gutter);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .pdet__photos::-webkit-scrollbar {
+      display: none;
+    }
+
+    .pdet__photos li {
+      flex: none;
+    }
+
+    .pdet__table {
+      font-size: 13px;
+    }
+
+    .pdet__row {
+      grid-template-columns: 90px minmax(0, 1fr);
+      padding-block: 18px;
+    }
+  }
+</style>

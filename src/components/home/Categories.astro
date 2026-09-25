@@ -13,14 +13,16 @@ const categories = (await getCollection('categories')).sort((a, b) => a.data.ord
         categories.map((category) => (
           <li>
             <article class="card">
-              <Image
-                class="card__image"
-                src={category.data.image}
-                alt={category.data.imageAlt}
-                widths={[360, 560, 760, 1024]}
-                sizes="(max-width: 767.98px) calc(50vw - 21px), (max-width: 1199.98px) calc((100vw - 80px) / 3), 373px"
-                fit="cover"
-              />
+              <div class="card__media">
+                <Image
+                  class="card__image"
+                  src={category.data.image}
+                  alt={category.data.imageAlt}
+                  widths={[360, 560, 760, 1024]}
+                  sizes="(max-width: 767.98px) calc(50vw - 21px), (max-width: 1199.98px) calc((100vw - 80px) / 3), 373px"
+                  fit="cover"
+                />
+              </div>
               <div class="card__body">
                 <h3 class="card__title">{category.data.title}</h3>
                 <p class="card__text">{category.data.summary}</p>
@@ -71,15 +73,21 @@ const categories = (await getCollection('categories')).sort((a, b) => a.data.ord
   }
 
   .card__image {
+    display: block;
     width: 100%;
     height: 220px;
     object-fit: cover;
     object-position: 50% 100%;
-    transition: transform 400ms var(--ease);
+    transition: transform 450ms var(--ease);
   }
 
-  .card:hover .card__image {
-    transform: scale(1.04);
+  /* Clip the zoomed photo to its own box so it never spills over the text. */
+  .card__media {
+    overflow: hidden;
+  }
+
+  .card:is(:hover, :focus-within) .card__image {
+    transform: scale(1.05);
   }
 
   .card__body {
@@ -127,6 +135,13 @@ const categories = (await getCollection('categories')).sort((a, b) => a.data.ord
 
   .card:hover .card__arrow {
     transform: translateX(3px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card:is(:hover, :focus-within) .card__image,
+    .card:hover .card__arrow {
+      transform: none;
+    }
   }
 
   .card:has(.card__link:focus-visible) {

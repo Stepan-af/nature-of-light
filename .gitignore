@@ -12,11 +12,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# environment variables & server secrets
+# environment variables
 .env
 .env.*
 !.env.example
-public/api/config.php
 
 # local tooling
 .claude/settings.local.json
