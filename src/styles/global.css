@@ -122,7 +122,7 @@ p {
   text-transform: uppercase;
 }
 
-/* Section heading on light backgrounds ("Что мы строим", "Наши преимущества"). */
+/* Section heading on light backgrounds ("Что мы предлагаем", "Услуги"). */
 .section-title {
   font-family: var(--font-display);
   font-weight: 700;

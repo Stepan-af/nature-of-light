@@ -1,37 +1,22 @@
 ---
 /*
  * First screen of the product page (Figma 1002:1538 «Первый экран»):
- * breadcrumbs, gallery and the white purchase card.
- *
- * The CTA is not a form (the site doesn't collect personal data): it opens
- * WhatsApp with a prefilled message; Telegram is offered as a small secondary link.
+ * breadcrumbs, gallery and the white card with the title and key specs.
  */
 import Breadcrumbs, { type Crumb } from '@/components/ui/Breadcrumbs.astro';
-import TelegramIcon from '@/assets/icons/telegram.svg';
 import ProductGallery, { type GalleryItem } from './ProductGallery.astro';
-import PillLink from './PillLink.astro';
-import { telegramHref, whatsappHref } from '@/lib/site';
 
 export interface Props {
   crumbs: Crumb[];
   badge: string;
   title: string;
   gallery: GalleryItem[];
-  priceLabel: string;
-  price: string;
   rows: { label: string; value: string }[];
-  note?: string;
-  /** Prefilled WhatsApp message. */
-  message: string;
   /** Render the default slot (short description) under the title. */
   hasLead?: boolean;
 }
 
-const { crumbs, badge, title, gallery, priceLabel, price, rows, note, message, hasLead = false } = Astro.props;
-const wa = whatsappHref(message);
-const tg = telegramHref();
-const ctaHref = wa ?? tg ?? '/kontakty/';
-const external = Boolean(wa ?? tg);
+const { crumbs, badge, title, gallery, rows, hasLead = false } = Astro.props;
 ---
 
 <section class="phero" aria-labelledby="product-title">
@@ -45,11 +30,6 @@ const external = Boolean(wa ?? tg);
         <h1 class="buy__title" id="product-title">{title}</h1>
         {hasLead && <div class="buy__lead"><slot /></div>}
 
-        <p class="buy__price">
-          <span class="buy__price-label">{priceLabel}</span>
-          <span class="buy__price-value">{price}</span>
-        </p>
-
         {
           rows.length > 0 && (
             <dl class="buy__rows">
@@ -62,28 +42,6 @@ const external = Boolean(wa ?? tg);
             </dl>
           )
         }
-
-        <div class="buy__actions">
-          <PillLink
-            class="buy__cta"
-            href={ctaHref}
-            target={external ? '_blank' : undefined}
-            rel={external ? 'noopener noreferrer' : undefined}
-          >
-            Оставить заявку и рассчитать стоимость
-            {wa && <span class="visually-hidden">{' '}в WhatsApp</span>}
-          </PillLink>
-          {
-            wa && tg && (
-              <a class="buy__alt" href={tg} target="_blank" rel="noopener noreferrer">
-                <TelegramIcon width={14} height={14} fill="currentColor" aria-hidden="true" />
-                или написать в Telegram
-              </a>
-            )
-          }
-        </div>
-
-        {note && <p class="buy__note">{note}</p>}
       </div>
     </div>
   </div>
@@ -144,29 +102,6 @@ const external = Boolean(wa ?? tg);
     margin-top: 8px;
   }
 
-  .buy__price {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .buy__price-label {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    line-height: 1.3;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: #717770;
-  }
-
-  .buy__price-value {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: clamp(30px, 2.5vw, 38px);
-    line-height: 1.2;
-    color: #111018;
-  }
-
   .buy__rows {
     font-size: 13px;
     line-height: 1.35;
@@ -190,34 +125,6 @@ const external = Boolean(wa ?? tg);
     color: #111018;
   }
 
-  .buy__actions {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .buy__alt {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding-inline: 4px;
-    font-size: 12px;
-    color: #717770;
-    transition: color var(--duration) var(--ease);
-  }
-
-  .buy__alt:hover {
-    color: #166aa5;
-  }
-
-  .buy__note {
-    margin-top: -8px;
-    font-size: 12px;
-    line-height: 1.45;
-    color: #717770;
-  }
-
   @media (max-width: 1199.98px) {
     .phero__grid {
       grid-template-columns: minmax(0, 1fr);
@@ -239,18 +146,6 @@ const external = Boolean(wa ?? tg);
 
     .buy__title {
       font-size: 28px;
-    }
-
-    .buy__cta {
-      width: 100%;
-    }
-
-    .buy__actions {
-      align-items: stretch;
-    }
-
-    .buy__alt {
-      align-self: center;
     }
   }
 </style>

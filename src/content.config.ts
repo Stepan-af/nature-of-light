@@ -65,12 +65,8 @@ const products = defineCollection({
 
       /** Short text under the title (falls back to the Markdown body). */
       lead: z.string().optional(),
-      /** Caption above the price; the page uses «Стоимость проекта» when empty. */
-      priceLabel: z.string().optional(),
       /** Rows in the purchase block; falls back to material + `specs`. */
       keySpecs: z.array(specRow).optional(),
-      /** Small text under the CTA button. */
-      note: z.string().optional(),
       /** Dark band with 3–4 icon cards. */
       advantages: z
         .object({
@@ -115,7 +111,7 @@ const products = defineCollection({
           title: z.string(),
           image: image().optional(),
           imageAlt: z.string().optional(),
-          steps: z.array(z.object({ title: z.string(), text: z.string() })),
+          steps: z.array(z.object({ title: z.string(), text: z.string().optional() })),
         })
         .optional(),
       /** Product FAQ (answers in Markdown); emits FAQPage JSON-LD. */
@@ -191,7 +187,6 @@ const serviceSteps = defineCollection({
     id: z.string(),
     title: z.string(),
     description: z.string(),
-    duration: z.string(),
   }),
 });
 

@@ -7,7 +7,6 @@ import ProductionIcon from '@/assets/services/step-production.svg';
 import DeliveryIcon from '@/assets/services/step-delivery.svg';
 import InstallIcon from '@/assets/services/step-install.svg';
 import WarrantyIcon from '@/assets/services/step-warranty.svg';
-import ArrowIcon from '@/assets/services/arrow-up-right.svg';
 
 export interface Props {
   steps: CollectionEntry<'serviceSteps'>[];
@@ -36,11 +35,6 @@ const icons = [PlusIcon, MeasureIcon, DocIcon, ProductionIcon, DeliveryIcon, Ins
             </h3>
             <p class="step__text">{step.data.description}</p>
           </div>
-          <p class="step__duration">
-            <ArrowIcon width={12} height={12} aria-hidden="true" />
-            <span class="visually-hidden">Срок:{' '}</span>
-            {step.data.duration}
-          </p>
         </li>
       );
     })
@@ -99,22 +93,6 @@ const icons = [PlusIcon, MeasureIcon, DocIcon, ProductionIcon, DeliveryIcon, Ins
     font-size: 14px;
     line-height: 22.75px;
     color: var(--color-text-soft);
-  }
-
-  .step__duration {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-top: auto;
-    padding-top: 4px;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 16px;
-    color: var(--color-green-deep);
-  }
-
-  .step__duration :global(svg) {
-    flex: none;
   }
 
   @media (max-width: 767.98px) {

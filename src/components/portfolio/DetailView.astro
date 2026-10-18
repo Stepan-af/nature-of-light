@@ -3,31 +3,19 @@ import Breadcrumbs, { type Crumb } from '@/components/ui/Breadcrumbs.astro';
 import MessengerLinks from '@/components/ui/MessengerLinks.astro';
 import Gallery, { type GalleryItem } from './Gallery.astro';
 
-export interface DetailLink {
-  href: string;
-  title: string;
-}
-
 export interface Props {
   crumbs: Crumb[];
   badge: string;
   title: string;
   gallery: GalleryItem[];
-  paramsLabel: string;
-  params: { label: string; value: string }[];
   aboutLabel: string;
   /** Prefilled WhatsApp message for the «Хотите похожую конструкцию?» card. */
   ctaMessage: string;
-  prev?: DetailLink;
-  next?: DetailLink;
-  /** aria-label for the prev/next navigation. */
-  pagerLabel: string;
   /** Render the description block (default slot). */
   showAbout?: boolean;
 }
 
-const { crumbs, badge, title, gallery, paramsLabel, params, aboutLabel, ctaMessage, prev, next, pagerLabel, showAbout = true } =
-  Astro.props;
+const { crumbs, badge, title, gallery, aboutLabel, ctaMessage, showAbout = true } = Astro.props;
 const hasAbout = showAbout && Astro.slots.has('default');
 ---
 
@@ -60,44 +48,11 @@ const hasAbout = showAbout && Astro.slots.has('default');
         <h1 class="detail__title">{title}</h1>
       </header>
 
-      <section class="params" aria-labelledby="detail-params">
-        <h2 class="params__label" id="detail-params">{paramsLabel}</h2>
-        <dl class="params__list">
-          {
-            params.map((row) => (
-              <div class="params__row">
-                <dt>{row.label}</dt>
-                <dd>{row.value}</dd>
-              </div>
-            ))
-          }
-        </dl>
-      </section>
-
       <section class="cta" aria-labelledby="detail-cta">
         <h2 class="cta__title" id="detail-cta">Хотите похожую конструкцию?</h2>
         <p class="cta__text">Напишите нам — рассчитаем стоимость и сроки бесплатно</p>
         <MessengerLinks class="cta__links" tone="green" message={ctaMessage} stack />
       </section>
-
-      {
-        (prev || next) && (
-          <nav class="pager" aria-label={pagerLabel}>
-            {prev && (
-              <a class="pager__card" href={prev.href} rel="prev">
-                <span class="pager__label">Пред.</span>
-                <span class="pager__title">{prev.title}</span>
-              </a>
-            )}
-            {next && (
-              <a class="pager__card pager__card--next" href={next.href} rel="next">
-                <span class="pager__label">След.</span>
-                <span class="pager__title">{next.title}</span>
-              </a>
-            )}
-          </nav>
-        )
-      }
     </div>
   </div>
 </div>
@@ -187,58 +142,6 @@ const hasAbout = showAbout && Astro.slots.has('default');
     color: var(--color-text);
   }
 
-  /* ---------- Params ---------- */
-  .params {
-    padding: 20px;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-card);
-  }
-
-  .params__label {
-    font-family: var(--font-mono);
-    font-weight: 400;
-    font-size: 10px;
-    line-height: 13.5px;
-    letter-spacing: 1.08px;
-    text-transform: uppercase;
-    color: var(--color-text-muted);
-  }
-
-  .params__list {
-    padding-top: 14px;
-  }
-
-  .params__row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    min-height: 43.5px;
-    padding-block: 8px;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .params__row:last-child {
-    border-bottom: 0;
-    padding-bottom: 0;
-  }
-
-  .params__row dt {
-    font-size: 13px;
-    line-height: 18px;
-    color: var(--color-text-muted);
-  }
-
-  .params__row dd {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 15px;
-    line-height: 22.5px;
-    color: var(--color-text);
-    text-align: right;
-  }
-
   /* ---------- CTA ---------- */
   .cta {
     padding: 22px 20px;
@@ -264,57 +167,13 @@ const hasAbout = showAbout && Astro.slots.has('default');
     margin-top: 16px;
   }
 
-  /* ---------- Prev / next ---------- */
-  .pager {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-    padding-top: 4px;
-  }
-
-  .pager__card {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    padding: 10px 12px;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
-    transition: border-color var(--duration) var(--ease);
-  }
-
-  .pager__card:hover {
-    border-color: rgb(46 125 50 / 0.4);
-  }
-
-  .pager__card--next {
-    grid-column: 2;
-    align-items: flex-end;
-    text-align: right;
-  }
-
-  .pager__label {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    line-height: 13.5px;
-    letter-spacing: 0.72px;
-    text-transform: uppercase;
-    color: var(--color-text-muted);
-  }
-
-  .pager__title {
-    font-weight: 600;
-    font-size: 13px;
-    line-height: 16.5px;
-    color: var(--color-text);
-  }
 
   @media (max-width: 767.98px) {
     .detail {
       padding-block: 16px 48px;
     }
 
-    /* Single column: title → gallery → params → CTA → about → prev/next. */
+    /* Single column: title → gallery → CTA → about. */
     .detail__grid {
       display: flex;
       flex-direction: column;
@@ -337,21 +196,13 @@ const hasAbout = showAbout && Astro.slots.has('default');
       order: 2;
     }
 
-    .params {
+    .cta {
       order: 3;
     }
 
-    .cta {
-      order: 4;
-    }
-
     .detail__about {
-      order: 5;
+      order: 4;
       padding-top: 8px;
-    }
-
-    .pager {
-      order: 6;
     }
 
     .detail__title {

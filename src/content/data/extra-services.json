@@ -1,12 +1,12 @@
 {
   "items": [
-    { "id": "montazh-videosten", "title": "Монтаж видеостен и подсветки" },
-    { "id": "protivopozharnaya-obrabotka", "title": "Противопожарная обработка" },
-    { "id": "fasadnoe-osteklenie", "title": "Фасадное остекление без сварки" },
-    { "id": "demontazh", "title": "Демонтаж старых конструкций" },
-    { "id": "remont-germetizaciya", "title": "Ремонт и герметизация покрытий" },
-    { "id": "pokraska-stekol", "title": "Покраска стёкол плёнкой" },
-    { "id": "tehobsluzhivanie", "title": "Техническое обслуживание" },
-    { "id": "podgonka-zimoj", "title": "Подгонка конструкций зимой" }
+    { "id": "tonirovka-stekol", "title": "Тонировка стёкол" },
+    { "id": "moskitnye-setki", "title": "Установка москитных сеток" },
+    { "id": "regulirovka-okon", "title": "Регулировка окон" },
+    { "id": "zamena-uplotniteley", "title": "Замена резиновых уплотнителей" },
+    { "id": "ustranenie-protechek", "title": "Устранение протечек" },
+    { "id": "zamena-steklopaketov", "title": "Замена стеклопакетов" },
+    { "id": "uteplenie", "title": "Утепление" },
+    { "id": "vyezd-specialista", "title": "Выезд специалиста для консультации" }
   ]
 }

@@ -190,9 +190,8 @@ collections:
           - { name: value, label: Значение, widget: string, hint: 'Например: Закалённое 8 мм' }
       # ── Product page sections: all optional, an empty section is not shown ──
       - { name: lead, label: Краткое описание, widget: text, required: false, hint: 'Текст под названием товара (2–3 предложения). Если пусто — выводится основной текст «Описание».' }
-      - { name: priceLabel, label: Подпись над ценой, widget: string, required: false, hint: 'По умолчанию «Стоимость проекта».' }
       - name: keySpecs
-        label: Параметры в блоке с ценой
+        label: Параметры под названием
         label_singular: параметр
         widget: list
         required: false
@@ -201,7 +200,6 @@ collections:
         fields:
           - { name: label, label: Параметр, widget: string }
           - { name: value, label: Значение, widget: string }
-      - { name: note, label: Примечание под кнопкой, widget: string, required: false, hint: 'Например: Замер и визуализация. Гарантия на конструкцию — 5 лет.' }
       - name: advantages
         label: 'Блок «Преимущества»'
         widget: object
@@ -304,7 +302,7 @@ collections:
             summary: '{{title}}'
             fields:
               - { name: title, label: Название, widget: string }
-              - { name: text, label: Описание, widget: text }
+              - { name: text, label: Описание, widget: text, required: false }
       - name: faq
         label: 'Блок «Вопросы и ответы»'
         widget: object
@@ -451,12 +449,11 @@ collections:
             label: Этапы
             label_singular: этап
             widget: list
-            summary: '{{title}} ({{duration}})'
+            summary: '{{title}}'
             fields:
               - *id_field
               - { name: title, label: Название этапа, widget: string }
               - { name: description, label: Описание, widget: text }
-              - { name: duration, label: Срок, widget: string, hint: 'Например: 1 день' }
 
       - name: extraServices
         label: Дополнительные услуги

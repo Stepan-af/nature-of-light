@@ -46,9 +46,7 @@ const {
   specs,
   seo,
   lead,
-  priceLabel,
   keySpecs,
-  note,
   advantages,
   story,
   details,
@@ -121,12 +119,8 @@ const schema = {
     badge={category.data.title}
     {title}
     gallery={items}
-    priceLabel={priceLabel ?? 'Стоимость проекта'}
-    price={formatPriceFrom(priceFrom)}
     {rows}
-    {note}
     hasLead={Boolean(summary)}
-    message={`Здравствуйте! Хочу рассчитать стоимость: ${title} ${pageUrl}`}
   >
     {lead ? <p>{lead}</p> : <Content />}
   </ProductHero>

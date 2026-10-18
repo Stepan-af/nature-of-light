@@ -7,7 +7,7 @@ const categories = (await getCollection('categories')).sort((a, b) => a.data.ord
 
 <section class="categories" aria-labelledby="categories-title">
   <div class="container">
-    <h2 class="section-title categories__title" id="categories-title">Что мы строим</h2>
+    <h2 class="section-title categories__title" id="categories-title">Что мы предлагаем</h2>
     <ul class="categories__grid" role="list">
       {
         categories.map((category) => (

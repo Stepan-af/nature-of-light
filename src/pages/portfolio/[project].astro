@@ -9,28 +9,18 @@ import { formatPrice } from '@/lib/site';
 
 export const getStaticPaths = (async () => {
   const projects = await getProjects();
-  return projects.map((project, i) => {
-    const prev = projects[(i - 1 + projects.length) % projects.length];
-    const next = projects[(i + 1) % projects.length];
-    return {
-      params: { project: project.id },
-      props: {
-        project,
-        prev: projects.length > 1 ? prev : undefined,
-        next: projects.length > 1 ? next : undefined,
-      },
-    };
-  });
+  return projects.map((project) => ({
+    params: { project: project.id },
+    props: { project },
+  }));
 }) satisfies GetStaticPaths;
 
 interface Props {
   project: Project;
-  prev?: Project;
-  next?: Project;
 }
 
-const { project, prev, next } = Astro.props;
-const { title, badge, price, area, city, year, installDuration, cover, coverAlt, gallery, location, seo } = project.data;
+const { project } = Astro.props;
+const { title, badge, price, city, installDuration, cover, coverAlt, gallery, location, seo } = project.data;
 const { Content } = await render(project);
 
 const items = gallery.length > 0 ? gallery : [{ image: cover, alt: coverAlt }];
@@ -48,19 +38,8 @@ const description =
     badge={badge}
     title={title}
     gallery={items}
-    paramsLabel="Параметры проекта"
-    params={[
-      { label: 'Стоимость', value: formatPrice(price) },
-      { label: 'Площадь', value: area },
-      { label: 'Город', value: city },
-      { label: 'Год', value: String(year) },
-      { label: 'Срок монтажа', value: installDuration },
-    ]}
     aboutLabel="О проекте"
     ctaMessage={`Здравствуйте! Хочу похожую конструкцию, как в проекте «${title}»\n${new URL(projectHref(project), Astro.site).href}`}
-    prev={prev && { href: projectHref(prev), title: prev.data.title }}
-    next={next && { href: projectHref(next), title: next.data.title }}
-    pagerLabel="Другие проекты"
     showAbout={Boolean(plain)}
   >
     <Content />
