@@ -28,8 +28,10 @@ export interface Settings {
     director?: string;
     bank?: string;
     bik?: string;
+    bankInn?: string;
     account?: string;
     corrAccount?: string;
+    bankAddress?: string;
   };
 }
 

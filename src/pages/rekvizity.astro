@@ -3,10 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import LegalArticle from '@/components/contacts/LegalArticle.astro';
 import { settings, phoneHref } from '@/lib/site';
 
-/*
- * settings.legal currently has company / inn / ogrn. The other keys are read
- * optionally so they show up as soon as they are added to settings.json (and the CMS).
- */
+/* Every settings.legal key is optional in the CMS: empty values render as «—». */
 const legal = settings.legal as Record<string, string | undefined>;
 const val = (key: string) => legal[key]?.trim() || '';
 const address = [settings.address.city, settings.address.street].filter(Boolean).join(', ');
@@ -37,7 +34,9 @@ const groups: { title: string; rows: Row[] }[] = [
       { label: 'Расчётный счёт', value: val('account'), mono: true },
       { label: 'Банк', value: val('bank') },
       { label: 'БИК', value: val('bik'), mono: true },
+      { label: 'ИНН банка', value: val('bankInn'), mono: true },
       { label: 'Корреспондентский счёт', value: val('corrAccount'), mono: true },
+      { label: 'Юридический адрес банка', value: val('bankAddress') },
     ],
   },
   {

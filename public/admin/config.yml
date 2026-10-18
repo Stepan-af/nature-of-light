@@ -565,5 +565,7 @@ collections:
               - { name: director, label: Генеральный директор, widget: string, required: false, hint: 'Например: Иванов Иван Иванович' }
               - { name: bank, label: Банк, widget: string, required: false }
               - { name: bik, label: БИК, widget: string, required: false, pattern: ['^\d{9}$', 'БИК — 9 цифр'] }
+              - { name: bankInn, label: ИНН банка, widget: string, required: false, pattern: ['^\d{10}$', 'ИНН банка — 10 цифр'] }
               - { name: account, label: Расчётный счёт, widget: string, required: false, pattern: ['^\d{20}$', 'Расчётный счёт — 20 цифр'] }
               - { name: corrAccount, label: Корреспондентский счёт, widget: string, required: false, pattern: ['^\d{20}$', 'Корр. счёт — 20 цифр'] }
+              - { name: bankAddress, label: Юридический адрес банка, widget: text, required: false }
