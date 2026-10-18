@@ -2,8 +2,7 @@
 title: "test"
 category: "navesy"
 material: "test"
-priceFrom: 12300
-availability: "stock"
+availability: order
 image: "img_9291.webp"
 imageAlt: "teststst"
 order: 0

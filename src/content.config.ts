@@ -52,8 +52,8 @@ const products = defineCollection({
       title: z.string(),
       category: reference('categories'),
       material: z.string(),
-      /** Starting price in rubles ("от 45 000 ₽"). */
-      priceFrom: z.number().int().nonnegative(),
+      /** Starting price in rubles ("от 30 000 ₽"); empty → «Цена по согласованию». */
+      priceFrom: z.number().int().nonnegative().optional(),
       availability: z.enum(['order', 'stock']).default('order'),
       image: image(),
       imageAlt: z.string(),
@@ -142,7 +142,6 @@ const projects = defineCollection({
       /** Label shown on cards, e.g. «Зимний сад», «Козырёк», «Терраса». */
       badge: z.string(),
       location: z.string(),
-      price: z.number().int().nonnegative(),
       area: z.string(),
       city: z.string(),
       year: z.number().int(),

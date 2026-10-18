@@ -2,8 +2,8 @@
 title: "Козырёк «Веер» консольный"
 category: kozyrki
 material: "Дерево / Металл + поликарбонат"
-priceFrom: 62000
-availability: order
+priceFrom: 30000
+availability: stock
 image: ./cover.jpg
 imageAlt: "Консольный козырёк «Веер» над входом в здание"
 gallery:

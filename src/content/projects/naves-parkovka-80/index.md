@@ -3,7 +3,6 @@ title: "Навес над парковкой 80 м²"
 category: navesy
 badge: "Козырёк"
 location: "Балашиха, ТЦ «Арена»"
-price: 260000
 area: "8×10 м"
 city: "Балашиха"
 year: 2024

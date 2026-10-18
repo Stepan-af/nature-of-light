@@ -3,7 +3,6 @@ title: "«Лофт» в таунхаусе"
 category: zimnie-sady
 badge: "Зимний сад"
 location: "Химки, ЖК «Лесной»"
-price: 220000
 area: "4×6 м"
 city: "Химки"
 year: 2024

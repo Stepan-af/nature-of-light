@@ -3,7 +3,6 @@ title: "Атмосфера 42 м²"
 category: zimnie-sady
 badge: "Зимний сад"
 location: "Красногорск, КП «Гринфилд»"
-price: 580000
 area: "6×7 м"
 city: "Красногорск"
 year: 2024

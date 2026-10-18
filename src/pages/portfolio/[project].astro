@@ -5,7 +5,6 @@ import { render } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import DetailView from '@/components/portfolio/DetailView.astro';
 import { getProjects, projectHref, type Project } from '@/components/portfolio/portfolio';
-import { formatPrice } from '@/lib/site';
 
 export const getStaticPaths = (async () => {
   const projects = await getProjects();
@@ -20,7 +19,7 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const { title, badge, price, city, installDuration, cover, coverAlt, gallery, location, seo } = project.data;
+const { title, badge, city, installDuration, cover, coverAlt, gallery, location, seo } = project.data;
 const { Content } = await render(project);
 
 const items = gallery.length > 0 ? gallery : [{ image: cover, alt: coverAlt }];
@@ -29,7 +28,7 @@ const ogImage = await getImage({ src: cover, width: 1200, height: 630, fit: 'cov
 const plain = (project.body ?? '').replace(/\s+/g, ' ').trim();
 const description =
   seo?.description ??
-  `${title} — ${location}. ${plain ? `${plain.slice(0, 110).replace(/\s\S*$/, '')}… ` : ''}Стоимость ${formatPrice(price)}, монтаж ${installDuration}.`;
+  `${title} — ${location}. ${plain ? `${plain.slice(0, 110).replace(/\s\S*$/, '')}… ` : ''}Срок монтажа — ${installDuration}.`;
 ---
 
 <BaseLayout title={seo?.title ?? `${title} — ${badge.toLowerCase()} в г. ${city}`} {description} image={ogImage.src} type="article" tone="light">

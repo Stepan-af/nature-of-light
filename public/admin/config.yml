@@ -158,7 +158,7 @@ collections:
         display_fields: [title]
         search_fields: [title]
       - { name: material, label: Материал, widget: string, hint: 'Например: Закалённое стекло 8 мм.' }
-      - { name: priceFrom, label: Цена «от», widget: number, value_type: int, min: 0, step: 1000, after_input: ₽, hint: 'Целое число в рублях, без пробелов. На сайте будет «от 45 000 ₽».' }
+      - { name: priceFrom, label: Цена «от», widget: number, value_type: int, min: 0, step: 1000, after_input: ₽, required: false, hint: 'Целое число в рублях, без пробелов. На сайте будет «от 30 000 ₽». Оставьте пустым — будет «Цена по согласованию».' }
       - name: availability
         label: Наличие
         widget: select
@@ -366,7 +366,7 @@ collections:
     summary: "{{title}} · {{city}}, {{year}}{{draft | ternary(' — черновик', '')}}"
     thumbnail: cover
     sortable_fields:
-      fields: [order, title, year, price]
+      fields: [order, title, year]
       default: { field: order, direction: ascending }
     view_groups:
       - { name: category, label: Категория, field: category }
@@ -376,7 +376,6 @@ collections:
       - *category_field
       - { name: badge, label: Метка на карточке, widget: string, hint: 'Например: «Зимний сад», «Козырёк», «Терраса».' }
       - { name: location, label: Адрес / объект, widget: string, hint: 'Например: Красногорск, КП «Гринфилд».' }
-      - { name: price, label: Стоимость, widget: number, value_type: int, min: 0, step: 1000, after_input: ₽, hint: 'Целое число в рублях, без пробелов.' }
       - { name: area, label: Площадь / размеры, widget: string, hint: 'Например: 6×7 м' }
       - { name: city, label: Город, widget: string }
       - { name: year, label: Год, widget: number, value_type: int, min: 2000, max: 2100 }

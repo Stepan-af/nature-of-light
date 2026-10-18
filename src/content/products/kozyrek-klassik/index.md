@@ -2,8 +2,8 @@
 title: "Козырёк стеклянный «Классик»"
 category: kozyrki
 material: "Закалённое стекло 8 мм"
-priceFrom: 45000
-availability: order
+priceFrom: 30000
+availability: stock
 image: ./cover.jpg
 imageAlt: "Стеклянный козырёк «Классик» на фасаде дома"
 gallery:

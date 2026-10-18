@@ -17,6 +17,9 @@ export const getProducts = async (categoryId?: string) =>
 export const productHref = (product: Product) => `/catalog/${product.data.category.id}/${product.id}/`;
 export const categoryHref = (category: Category) => `/catalog/${category.id}/`;
 
+/** Shown instead of the price when a product has no `priceFrom`. */
+export const priceOnRequest = 'Цена по согласованию';
+
 export const availabilityLabel: Record<Product['data']['availability'], string> = {
   order: 'Под заказ',
   stock: 'В наличии',

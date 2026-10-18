@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import { formatPrice } from '@/lib/site';
 
 const MAX_ITEMS = 5;
 
@@ -38,10 +37,7 @@ const [lead, ...rest] = projects;
               <span class="tile__badge">{lead.data.badge}</span>
               <span class="tile__caption">
                 <span class="tile__name">{lead.data.title}</span>
-                <span class="tile__meta">
-                  <span class="tile__location">{lead.data.location}</span>
-                  <span class="tile__price">{formatPrice(lead.data.price)}</span>
-                </span>
+                <span class="tile__location">{lead.data.location}</span>
               </span>
             </a>
           </li>
@@ -59,10 +55,7 @@ const [lead, ...rest] = projects;
                 <span class="tile__badge">{project.data.badge}</span>
                 <span class="tile__caption">
                   <span class="tile__name">{project.data.title}</span>
-                  <span class="tile__meta">
-                    <span class="tile__location">{project.data.location}</span>
-                    <span class="tile__price">{formatPrice(project.data.price)}</span>
-                  </span>
+                  <span class="tile__location">{project.data.location}</span>
                 </span>
               </a>
             </li>
@@ -259,26 +252,11 @@ const [lead, ...rest] = projects;
     color: var(--color-warm-white);
   }
 
-  .tile__meta {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 12px;
-    padding-top: 4px;
-  }
-
   .tile__location {
+    padding-top: 4px;
     font-size: 12px;
     line-height: 15px;
     color: rgb(255 255 255 / 0.6);
-  }
-
-  .tile__price {
-    flex-shrink: 0;
-    font-family: var(--font-display);
-    font-size: 24px;
-    line-height: 24px;
-    color: #fff;
   }
 
   /* Small tiles: the same plate, scaled down. */
@@ -297,27 +275,12 @@ const [lead, ...rest] = projects;
       font-size: 13px;
       line-height: 18px;
     }
-
-    .tile__price {
-      font-size: 18px;
-      line-height: 20px;
-    }
   }
 
-  /* Narrow tiles (phones): stack location and price. */
+  /* Narrow tiles (phones). */
   @container (max-width: 240px) {
     .tile__caption {
       padding: 10px 12px;
-    }
-
-    .tile__meta {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 4px;
-    }
-
-    .tile__price {
-      font-size: 16px;
     }
   }
 

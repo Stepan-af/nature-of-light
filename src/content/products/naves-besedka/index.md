@@ -2,7 +2,6 @@
 title: "Навес-беседка комбинированный"
 category: navesy
 material: "Дерево / Металл + поликарбонат"
-priceFrom: 180000
 availability: order
 image: ./cover.jpg
 imageAlt: "Навес-беседка с кованым каркасом у кирпичного дома"

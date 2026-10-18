@@ -11,12 +11,14 @@ export interface Props {
   badge: string;
   title: string;
   gallery: GalleryItem[];
+  /** Formatted «от …» price; omitted for products priced on request. */
+  price?: string;
   rows: { label: string; value: string }[];
   /** Render the default slot (short description) under the title. */
   hasLead?: boolean;
 }
 
-const { crumbs, badge, title, gallery, rows, hasLead = false } = Astro.props;
+const { crumbs, badge, title, gallery, price, rows, hasLead = false } = Astro.props;
 ---
 
 <section class="phero" aria-labelledby="product-title">
@@ -29,6 +31,15 @@ const { crumbs, badge, title, gallery, rows, hasLead = false } = Astro.props;
       <div class="buy">
         <h1 class="buy__title" id="product-title">{title}</h1>
         {hasLead && <div class="buy__lead"><slot /></div>}
+
+        {
+          price && (
+            <p class="buy__price">
+              <span class="buy__price-label">Цена</span>
+              <span class="buy__price-value">{price}</span>
+            </p>
+          )
+        }
 
         {
           rows.length > 0 && (
@@ -100,6 +111,29 @@ const { crumbs, badge, title, gallery, rows, hasLead = false } = Astro.props;
 
   .buy__lead :global(p + p) {
     margin-top: 8px;
+  }
+
+  .buy__price {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .buy__price-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.3;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #717770;
+  }
+
+  .buy__price-value {
+    font-weight: 700;
+    font-size: clamp(28px, 2.3vw, 34px);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    color: #111018;
   }
 
   .buy__rows {

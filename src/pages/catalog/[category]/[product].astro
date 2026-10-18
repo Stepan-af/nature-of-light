@@ -61,6 +61,7 @@ const { Content } = await render(product);
 const plain = (product.body ?? '').replace(/\s+/g, ' ').trim();
 const summary = lead ?? plain;
 const items = gallery.length > 0 ? gallery : [{ image, alt: imageAlt }];
+const price = priceFrom === undefined ? undefined : formatPriceFrom(priceFrom);
 
 // Purchase-card rows: explicit keySpecs, else material + availability + specs.
 const rows =
@@ -80,7 +81,7 @@ const schemaImages = await Promise.all(
 const pageUrl = new URL(productHref(product), Astro.site).href;
 const description =
   seo?.description ??
-  `${title} — ${material.toLowerCase()}, ${formatPriceFrom(priceFrom)}. ${summary ? `${summary.slice(0, 100).replace(/\s\S*$/, '')}…` : ''}`.trim();
+  `${title} — ${material.toLowerCase()}${price ? `, ${price}` : ''}. ${summary ? `${summary.slice(0, 100).replace(/\s\S*$/, '')}…` : ''}`.trim();
 
 const properties = details && details.rows.length > 0 ? details.rows : [...(keySpecs ?? []), ...specs];
 
@@ -95,19 +96,22 @@ const schema = {
   url: pageUrl,
   brand: { '@type': 'Brand', name: settings.siteName },
   additionalProperty: properties.map((s) => ({ '@type': 'PropertyValue', name: s.label, value: s.value })),
-  offers: {
-    '@type': 'AggregateOffer',
-    lowPrice: priceFrom,
-    priceCurrency: 'RUB',
-    offerCount: 1,
-    availability: availabilitySchema[availability],
-    url: pageUrl,
-    seller: { '@type': 'Organization', name: settings.siteName },
-  },
+  // Offers only for products with a published price: the rest are «по согласованию».
+  ...(priceFrom !== undefined && {
+    offers: {
+      '@type': 'AggregateOffer',
+      lowPrice: priceFrom,
+      priceCurrency: 'RUB',
+      offerCount: 1,
+      availability: availabilitySchema[availability],
+      url: pageUrl,
+      seller: { '@type': 'Organization', name: settings.siteName },
+    },
+  }),
 };
 ---
 
-<BaseLayout title={seo?.title ?? `${title} — купить ${formatPriceFrom(priceFrom)}`} {description} image={ogImage.src} tone="light">
+<BaseLayout title={seo?.title ?? (price ? `${title} — купить ${price}` : `${title} на заказ`)} {description} image={ogImage.src} tone="light">
   <JsonLd slot="head" data={schema} />
 
   <ProductHero
@@ -119,6 +123,7 @@ const schema = {
     badge={category.data.title}
     {title}
     gallery={items}
+    {price}
     {rows}
     hasLead={Boolean(summary)}
   >

@@ -2,8 +2,7 @@
 title: "Зимний сад «Лёгкий» пристройка"
 category: zimnie-sady
 material: "ПВХ профиль + стекло"
-priceFrom: 280000
-availability: stock
+availability: order
 image: ./cover.jpg
 imageAlt: "Лёгкая стеклянная пристройка с металлическим каркасом"
 gallery:

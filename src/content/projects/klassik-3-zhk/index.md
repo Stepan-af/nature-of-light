@@ -3,7 +3,6 @@ title: "«Классик» ×3 для ЖК"
 category: kozyrki
 badge: "Козырёк"
 location: "Москва, ЖК «Садовые кварталы»"
-price: 74700
 area: "3×4.5 м"
 city: "Москва"
 year: 2024

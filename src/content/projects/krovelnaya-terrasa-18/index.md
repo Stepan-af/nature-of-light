@@ -3,7 +3,6 @@ title: "Кровельная терраса 18 м²"
 category: navesy
 badge: "Терраса"
 location: "Истра, загородный дом"
-price: 195000
 area: "3×6 м"
 city: "Истра"
 year: 2022

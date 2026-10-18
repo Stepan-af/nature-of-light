@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { formatPriceFrom } from '@/lib/site';
-import { availabilityLabel, productHref, type Product } from './catalog';
+import { availabilityLabel, priceOnRequest, productHref, type Product } from './catalog';
 
 export interface Props {
   product: Product;
@@ -14,6 +14,7 @@ export interface Props {
 
 const { product, categoryLabel, headingLevel: Heading = 'h2', eager = false } = Astro.props;
 const { title, material, priceFrom, availability, image, imageAlt } = product.data;
+const price = priceFrom === undefined ? undefined : formatPriceFrom(priceFrom);
 ---
 
 <article class="card">
@@ -36,7 +37,7 @@ const { title, material, priceFrom, availability, image, imageAlt } = product.da
     <p class:list={['card__availability', `is-${availability}`]}>{availabilityLabel[availability]}</p>
     <p class="card__material">{material}</p>
     <div class="card__footer">
-      <p class="card__price">{formatPriceFrom(priceFrom)}</p>
+      <p class:list={['card__price', { 'card__price--request': !price }]}>{price ?? priceOnRequest}</p>
       <span class="card__more" aria-hidden="true">Подробнее →</span>
     </div>
   </div>
@@ -161,12 +162,20 @@ const { title, material, priceFrom, availability, image, imageAlt } = product.da
   }
 
   .card__price {
-    font-family: var(--font-display);
     font-weight: 700;
     font-size: 16px;
     line-height: 24px;
+    letter-spacing: -0.2px;
     color: var(--color-green);
     white-space: nowrap;
+  }
+
+  /* Same line height as a price, so priced and unpriced cards line up. */
+  .card__price--request {
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0;
+    color: var(--color-text-muted);
   }
 
   .card__more {
@@ -222,6 +231,10 @@ const { title, material, priceFrom, availability, image, imageAlt } = product.da
     .card__price {
       font-size: 15px;
       line-height: 22px;
+    }
+
+    .card__price--request {
+      font-size: 12px;
     }
 
     .card__more {

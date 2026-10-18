@@ -3,7 +3,6 @@ title: "Стеклянная терраса 22 м²"
 category: zimnie-sady
 badge: "Терраса"
 location: "Ступино, частный дом"
-price: 210000
 area: "4×5.5 м"
 city: "Ступино"
 year: 2023

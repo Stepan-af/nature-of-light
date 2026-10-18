@@ -3,7 +3,6 @@ title: "Козырёк над входом в офис"
 category: kozyrki
 badge: "Козырёк"
 location: "Москва, Нагорная"
-price: 48000
 area: "1.5×2.5 м"
 city: "Москва"
 year: 2024

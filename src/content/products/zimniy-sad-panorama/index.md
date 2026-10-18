@@ -2,7 +2,6 @@
 title: "Зимний сад «Панорама»"
 category: zimnie-sady
 material: "Алюминий + стекло"
-priceFrom: 470000
 availability: order
 image: ./cover.jpg
 imageAlt: "Зимний сад с панорамным остеклением и стеклянной кровлей у кирпичного дома"

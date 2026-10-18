@@ -3,7 +3,6 @@ title: "Оранжерея «Тропик» 30 м²"
 category: zimnie-sady
 badge: "Зимний сад"
 location: "Дмитров, коттеджный посёлок"
-price: 340000
 area: "5×6 м"
 city: "Дмитров"
 year: 2023

@@ -3,7 +3,6 @@ title: "«Престиж» входная группа"
 category: kozyrki
 badge: "Козырёк"
 location: "Москва, Хорошёво"
-price: 52000
 area: "2×3 м"
 city: "Москва"
 year: 2023

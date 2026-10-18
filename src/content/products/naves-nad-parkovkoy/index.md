@@ -2,7 +2,6 @@
 title: "Навес над парковкой"
 category: navesy
 material: "Поликарбонат / Профнастил"
-priceFrom: 95000
 availability: order
 image: ./cover.jpg
 imageAlt: "Остеклённая терраса с балюстрадой — пример навеса"

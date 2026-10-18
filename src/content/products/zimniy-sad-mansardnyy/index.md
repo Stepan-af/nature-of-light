@@ -2,7 +2,6 @@
 title: "Зимний сад «Мансардный»"
 category: zimnie-sady
 material: "Алюминий + триплекс"
-priceFrom: 550000
 availability: order
 image: ./cover.jpg
 imageAlt: "Витражное остекление мансардного зимнего сада"

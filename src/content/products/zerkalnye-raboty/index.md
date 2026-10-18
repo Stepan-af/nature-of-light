@@ -2,8 +2,8 @@
 title: "Зеркальные работы"
 category: kozyrki
 material: "Поликарбонат 10 мм"
-priceFrom: 38000
-availability: order
+priceFrom: 30000
+availability: stock
 image: ./cover.jpg
 imageAlt: "Интерьер гостиной с зеркальными и стеклянными элементами"
 gallery:
