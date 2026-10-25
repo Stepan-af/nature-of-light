@@ -2,7 +2,6 @@
 title: "Зеркальные работы"
 category: navesy
 material: "Зеркало, закалённое стекло"
-priceFrom: 30000
 availability: stock
 image: ./cover.jpg
 imageAlt: "Ванная комната с зеркалом с подсветкой и мраморной отделкой"
