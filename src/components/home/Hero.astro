@@ -9,12 +9,13 @@ import { settings } from '@/lib/site';
  * Art-directed LCP photo. The card is up to 1559×644 on desktop, but on phones it
  * is a portrait crop, so a plain responsive <img> would download a landscape file
  * three times wider than what is visible. Phones get a server-side portrait crop.
- * The source (the original Figma fill) is 1280×960: larger widths would only be
- * upscaled bytes, so the srcset stops at the source width.
+ * Larger widths than the source would only be upscaled bytes, so both srcsets
+ * stop at what the photo actually has (the current one is only 1024×683).
  */
 const MOBILE_RATIO = 633 / 402;
-const desktopWidths = [640, 960, 1280];
-const mobileWidths = [402, 609];
+const fitWidths = (widths: number[], max: number) => [...new Set(widths.map((w) => Math.min(w, max)))];
+const desktopWidths = fitWidths([640, 960, 1280], heroPhoto.width);
+const mobileWidths = fitWidths([402, 609], Math.floor(heroPhoto.height / MOBILE_RATIO));
 
 const srcset = async (widths: number[], format: 'avif' | 'webp' | 'jpg', portrait = false) => {
   const images = await Promise.all(
@@ -38,7 +39,7 @@ const [mAvif, mWebp, dAvif, dWebp, dJpg] = await Promise.all([
   srcset(desktopWidths, 'webp'),
   srcset(desktopWidths, 'jpg'),
 ]);
-const fallback = await getImage({ src: heroPhoto, width: 1280, format: 'jpg', quality: 75 });
+const fallback = await getImage({ src: heroPhoto, width: desktopWidths.at(-1), format: 'jpg', quality: 75 });
 
 const mobileMedia = '(max-width: 767.98px)';
 const mobileSizes = '100vw';
@@ -59,7 +60,7 @@ const desktopSizes = '(max-width: 1606px) calc(100vw - 48px), 1559px';
           sizes={desktopSizes}
           width="1559"
           height="644"
-          alt="Зимний сад с раздвижной стеклянной крышей на террасе: бонсай, монстера и обеденная зона"
+          alt="Автосалон с панорамным витражным остеклением фасада"
           loading="eager"
           fetchpriority="high"
           decoding="async"
